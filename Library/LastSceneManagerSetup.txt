@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/Levels/Puzzle.unity
-  isLoaded: 1
-  isActive: 1
