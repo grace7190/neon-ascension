@@ -1,15 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AutomovePlatformBehavior : MonoBehaviour {
     
-    private Rigidbody rb;
     private bool goingUp;
     // Use this for initialization
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
         goingUp = true;
     }
 

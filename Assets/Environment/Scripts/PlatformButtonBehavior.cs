@@ -1,18 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlatformButtonBehavior : MonoBehaviour {
 
     public GameObject platform;
-    private Rigidbody rb;
 
-    // Use this for initialization
     void Start () {
-        rb = GetComponent<Rigidbody>();
     }
 	
-	// Update is called once per frame
 	void FixedUpdate () {
         //// y is between 5.74 and 8
         platform.transform.Translate(0, -0.05f, 0);
