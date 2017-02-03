@@ -14,6 +14,27 @@ public class HumanMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    void Update()
+    {
+        //Jump
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            //Raycast to check for ground contact
+            Debug.Log("jump!");
+            RaycastHit hit;
+            Ray ray = new Ray(transform.position, -Vector3.up);
+            if (Physics.Raycast(ray, out hit))
+            {
+                Debug.Log(hit.distance);
+                if (hit.distance <= 0.5f)
+                {
+                    rb.AddForce(new Vector3(0, 10.0f, 0), ForceMode.Impulse);
+                }
+
+            }
+        }
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -26,11 +47,8 @@ public class HumanMovement : MonoBehaviour
             Vector3 movement = new Vector3(moveVertical, 0.0f, -moveHorizontal);
 
             //rb.AddForce(movement * speed);
-            transform.position += movement * speed;
-        }
-        if (Input.GetKeyDown(KeyCode.Return) && rb.velocity.magnitude < 0.05)
-        {
-            rb.AddForce(new Vector3(0, 700.0f, 0), ForceMode.Impulse);
+            rb.MovePosition(transform.position + movement * speed);
+            //transform.position += movement * speed;
         }
     }
 }
