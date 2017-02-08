@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
 
     private bool _isMoving;
     private float _moveTimer;
-    private GameObject _grabbedBlock;
 
 
     void Start()
@@ -34,69 +33,48 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        var canMovePlayerInDirection = IsOpen(transform.position + direction);
+        transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
 
-        if (_grabbedBlock != null)
+
+        var canPlayerMoveInDirection = IsOpen(transform.position + direction);
+        var canPlayerJumpInDirection = IsOpen(transform.position + direction + Vector3.up);
+
+        if (canPlayerMoveInDirection)
         {
-            var canMoveGrabbedBlockInDirection = IsOpen(_grabbedBlock.transform.position + direction);
-            if (canMovePlayerInDirection && canMoveGrabbedBlockInDirection)
-            {
-                StartCoroutine(MoveCoroutine(new [] { transform, _grabbedBlock.transform }, direction));
-            }
+            StartCoroutine(MoveCoroutine(new[] { transform }, direction));
         }
-        else
+        else if (canPlayerJumpInDirection)
         {
-            transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
-
-            if (canMovePlayerInDirection)
-            {
-                StartCoroutine(MoveCoroutine(new [] {transform}, direction));
-            }
+            StartCoroutine(MoveCoroutine(new[] { transform }, direction + Vector3.up));
         }
     }
 
-    public void Jump()
+    public void TryPushBlock()
     {
-        if (_isMoving || _grabbedBlock != null)
+        if (!IsOpen(transform.position + transform.forward) && IsOpen(transform.position + transform.forward * 2))
         {
-            return;
-        }
-
-        if (!IsOpen(transform.position + transform.forward) &&
-            IsOpen(transform.position + transform.forward + Vector3.up))
-        {
-            StartCoroutine(MoveCoroutine(new[] {transform}, transform.forward + Vector3.up));
+            StartCoroutine(MoveCoroutine(new[] { GetBlockInFront().transform }, transform.forward));
         }
     }
 
-    public void GrabBlock()
+    public void TryPullBlock()
     {
-        var position = transform.position + transform.forward;
-        var colliders = Physics.OverlapSphere(position, CastRadius, CastMask);
-        if (colliders.Length == 1)
+        if (!IsOpen(transform.position + transform.forward))
         {
-            _grabbedBlock = colliders[0].gameObject;
+            StartCoroutine(MoveCoroutine(new[] {transform}, Vector3.up));
+            StartCoroutine(MoveCoroutine(new[] {GetBlockInFront().transform}, -transform.forward));
         }
-        else if (colliders.Length > 1)
-        {
-            Debug.LogError(string.Format("There are {0} blocks to grab at {1}.", colliders.Length, position));
-        }
-    }
-
-    public void UngrabBlock()
-    {
-        _grabbedBlock = null;
     }
 
     private bool IsOpen(Vector3 position)
     {
         var colliders = Physics.OverlapSphere(position, CastRadius, CastMask);
-        if (colliders.Length == 1 && colliders[0].gameObject == _grabbedBlock)
-        {
-            return true;
-        }
-
         return colliders.Length == 0;
+    }
+
+    private Collider GetBlockInFront()
+    {
+        return Physics.OverlapSphere(transform.position + transform.forward, CastRadius, CastMask)[0];
     }
 
     private IEnumerator MoveCoroutine(Transform[] movedTransforms, Vector3 direction)

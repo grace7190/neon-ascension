@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1969443819305820}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: -3}
+  m_LocalPosition: {x: 0, y: 0.25, z: -1}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4160628248022524}
@@ -182,8 +182,8 @@ MonoBehaviour:
   DownKey: 274
   LeftKey: 276
   RightKey: 275
-  JumpKey: 32
-  GrabKey: 304
+  PushKey: 46
+  PullKey: 47
 --- !u!114 &114622955586493316
 MonoBehaviour:
   m_ObjectHideFlags: 1

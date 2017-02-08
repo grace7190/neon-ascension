@@ -7,8 +7,8 @@ public class PlayerInputManager : MonoBehaviour
     public KeyCode LeftKey;
     public KeyCode RightKey;
 
-    public KeyCode JumpKey;
-    public KeyCode GrabKey;
+    public KeyCode PushKey;
+    public KeyCode PullKey;
 
     private PlayerController _controller;
 
@@ -35,19 +35,15 @@ public class PlayerInputManager : MonoBehaviour
         {
             _controller.Move(Vector3.back);
         }
+        
 
-	    if (Input.GetKeyDown(JumpKey))
+	    if (Input.GetKeyDown(PushKey))
 	    {
-	        _controller.Jump();
+	        _controller.TryPushBlock();
 	    }
-
-	    if (Input.GetKeyDown(GrabKey))
+	    else if (Input.GetKeyUp(PullKey))
 	    {
-	        _controller.GrabBlock();
-	    }
-	    else if (Input.GetKeyUp(GrabKey))
-	    {
-	        _controller.UngrabBlock();
+	        _controller.TryPullBlock();
 	    }
 	}
 }
