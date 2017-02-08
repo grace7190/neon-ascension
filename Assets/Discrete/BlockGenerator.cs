@@ -5,12 +5,13 @@ using UnityEngine;
 public class BlockGenerator : MonoBehaviour
 {
     public GameObject BlockPrefab;
+    public Color BaseColor;
+
     public GameObject HolePrefab;
     public Vector3 Dimensions;
     public List<Vector3> Holes;
-    public Color BaseColor;
 
-	void Start ()
+    void Start ()
 	{
 	    while (transform.childCount > 0)
 	    {
@@ -33,17 +34,24 @@ public class BlockGenerator : MonoBehaviour
                     }
                     else
                     {
-                        var block = Instantiate(BlockPrefab);
+                        var block = MakeBlock();
                         block.transform.SetParent(transform);
                         block.transform.localPosition = v;
-                        var material = new Material(block.GetComponent<MeshRenderer>().sharedMaterial);
-                        var color = BaseColor * (Random.value / 4f + 0.5f);
-                        material.color = new Color(color.r, color.g, color.b, BaseColor.a);
-                        block.GetComponent<MeshRenderer>().sharedMaterial = material;
-                        
+
                     }
                 }
             }
         }
 	}
+
+    public GameObject MakeBlock()
+    {
+        var block = Instantiate(BlockPrefab);
+        var material = new Material(block.GetComponent<MeshRenderer>().sharedMaterial);
+        var color = BaseColor * (Random.value / 4f + 0.5f);
+        material.color = new Color(color.r, color.g, color.b, BaseColor.a);
+        block.GetComponent<MeshRenderer>().sharedMaterial = material;
+
+        return block;
+    }
 }

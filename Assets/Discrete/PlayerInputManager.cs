@@ -2,6 +2,8 @@
 
 public class PlayerInputManager : MonoBehaviour
 {
+    public bool Invert;
+
     public KeyCode UpKey;
     public KeyCode DownKey;
     public KeyCode LeftKey;
@@ -15,6 +17,15 @@ public class PlayerInputManager : MonoBehaviour
 	void Start ()
 	{
 	    _controller = GetComponent<PlayerController>();
+	    if (Invert)
+	    {
+	        var temp = UpKey;
+	        UpKey = DownKey;
+	        DownKey = temp;
+	        temp = LeftKey;
+	        LeftKey = RightKey;
+	        RightKey = temp;
+	    }
 	}
 	
 	void Update ()
