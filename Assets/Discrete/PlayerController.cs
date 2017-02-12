@@ -53,7 +53,11 @@ public class PlayerController : MonoBehaviour
     {
         if (!IsOpen(transform.position + transform.forward) && IsOpen(transform.position + transform.forward * 2))
         {
-            StartCoroutine(MoveCoroutine(new[] { GetBlockInFront().transform }, transform.forward));
+            var block = GetBlockInFront();
+            var moveable = block.gameObject.GetComponent<PlayerMoveable>();
+            var direction = transform.forward;
+            moveable.finalDestination = block.transform.position + direction;
+            StartCoroutine(MoveCoroutine(new[] { block.transform }, direction));
         }
     }
 
@@ -61,8 +65,13 @@ public class PlayerController : MonoBehaviour
     {
         if (!IsOpen(transform.position + transform.forward))
         {
+            var block = GetBlockInFront();
+            var moveable = block.gameObject.GetComponent<PlayerMoveable>();
+            var direction = -transform.forward;
+
+            moveable.finalDestination = block.transform.position + direction;
             StartCoroutine(MoveCoroutine(new[] {transform}, Vector3.up));
-            StartCoroutine(MoveCoroutine(new[] {GetBlockInFront().transform}, -transform.forward));
+            StartCoroutine(MoveCoroutine(new[] {block.transform}, direction));
         }
     }
 
@@ -74,7 +83,11 @@ public class PlayerController : MonoBehaviour
 
     private Collider GetBlockInFront()
     {
-        return Physics.OverlapSphere(transform.position + transform.forward, CastRadius, CastMask)[0];
+        return
+            Physics.OverlapSphere(transform.position + transform.forward,
+                                  CastRadius,
+                                  CastMask,
+                                  QueryTriggerInteraction.Ignore)[0];
     }
 
     private IEnumerator MoveCoroutine(Transform[] movedTransforms, Vector3 direction)
