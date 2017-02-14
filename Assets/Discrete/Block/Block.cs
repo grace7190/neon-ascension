@@ -41,7 +41,6 @@ public class Block : PlayerMoveable {
         float animationDuration = 0;
 
         // Lerp to red
-        Debug.Log("Lerping to red");
         while(animationDuration < LockedAnimationDuration) 
         {
             Color emissionColor = Color.Lerp(baseColor, LockedColor, animationDuration/LockedAnimationDuration);
@@ -57,7 +56,7 @@ public class Block : PlayerMoveable {
         yield return new WaitForSeconds(yieldDuration);       
 
         animationDuration = 0;
-        Debug.Log("Lerping to orig");
+
         // Lerp to original
         while(animationDuration < LockedAnimationDuration) 
         {
