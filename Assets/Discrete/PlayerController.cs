@@ -8,9 +8,19 @@ public class PlayerController : MonoBehaviour
     private const float CastRadius = 0.1f;
     private const float MoveDurationInSeconds = 0.25f;
 
+    // The time in seconds that a column stays locked after a block was pulled
+    // or pushed from it
+    private const float ColumnLockDurationInSeconds = MoveDurationInSeconds + 0.5f;
+
+    // The number of blocks in a column to lock from the bottom of the stack
+    private const float ColumnLockDistance = 20;
+
     private bool _isMoving;
     private float _moveTimer;
 
+    // Which position the column locking starts at. This value will probably change as the wall grows,
+    // and the camera moves up
+    public float columnLockStartY = -1;
 
     void Start()
     {
@@ -56,7 +66,12 @@ public class PlayerController : MonoBehaviour
             var block = GetBlockInFront();
             var moveable = block.gameObject.GetComponent<PlayerMoveable>();
             var direction = transform.forward;
+
+            if (moveable.isLocked)
+                return;
+
             moveable.finalDestination = block.transform.position + direction;
+            LockColumnFromPosition(block.transform.position);
             StartCoroutine(MoveCoroutine(new[] { block.transform }, direction));
         }
     }
@@ -69,7 +84,11 @@ public class PlayerController : MonoBehaviour
             var moveable = block.gameObject.GetComponent<PlayerMoveable>();
             var direction = -transform.forward;
 
+            if (moveable.isLocked)
+                return;
+
             moveable.finalDestination = block.transform.position + direction;
+            LockColumnFromPosition(block.transform.position);
             StartCoroutine(MoveCoroutine(new[] {transform}, Vector3.up));
             StartCoroutine(MoveCoroutine(new[] {block.transform}, direction));
         }
@@ -113,5 +132,32 @@ public class PlayerController : MonoBehaviour
         }
 
         _isMoving = false;
+    }
+
+    /*
+     * Given Vector3 position;
+     * Lock blocks located from (position.x, columnLockStartY, position.z) to (position.x, ColumnLockDistance, position.z)
+     * excluding the block at position.
+     */
+    private void LockColumnFromPosition(Vector3 position)
+    {
+        var positionAtBottom = new Vector3(position.x, columnLockStartY, position.z);
+        var hits =
+            Physics.RaycastAll(positionAtBottom,
+                               Vector3.up,
+                               ColumnLockDistance,
+                               CastMask,
+                               QueryTriggerInteraction.Ignore);
+
+        for (int i = 0; i < hits.Length; i++)
+        {
+            var hit = hits[i];
+            var gameObject = hit.rigidbody.gameObject;
+
+            if (gameObject.tag == "Block" && gameObject.transform.position != position)
+            {
+                gameObject.GetComponent<PlayerMoveable>().SetLockedForDuration(ColumnLockDurationInSeconds);
+            }
+        }
     }
 }

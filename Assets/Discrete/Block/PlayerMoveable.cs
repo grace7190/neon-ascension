@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMoveable : MonoBehaviour {
+public abstract class PlayerMoveable : MonoBehaviour {
     /*
      * Final Destination of this player moveable object when a 
      * a player is in the process of moving it.
@@ -11,7 +11,18 @@ public class PlayerMoveable : MonoBehaviour {
      */
     public Vector3 finalDestination;
 
-    void Start () {
+    // True when this object is locked, in effect
+    // Player's should not be able to move this object at this time
+    public bool isLocked {get; protected set;}
+
+    protected void Start ()
+    {
         finalDestination = transform.position;
+        isLocked = false;
+    }
+
+    public virtual void SetLockedForDuration(float duration)
+    {
+        Debug.Log("Need to implement: SetLockedForDuration");
     }
 }
