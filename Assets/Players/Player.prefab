@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 54861086765942710}
   - component: {fileID: 114622955586493316}
   - component: {fileID: 114048516413413216}
+  - component: {fileID: 136500412171248758}
   m_Layer: 29
   m_Name: Player
   m_TagString: Player
@@ -198,6 +199,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   columnLockStartY: -1
 --- !u!136 &136095006810907278
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1969443819305820}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &136500412171248758
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

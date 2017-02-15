@@ -36,6 +36,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+	void OnTriggerEnter(Collider other) {
+		GameObject collidingObject = other.gameObject;
+		if (collidingObject.tag == "Block") {
+			if (gameObject.transform.position.x - collidingObject.transform.position.x < 0.5
+				&& gameObject.transform.position.y < collidingObject.transform.position.y) {
+				Destroy (gameObject);
+				Debug.Log (gameObject + " is destroyed.");
+			}
+		}
+	}
+
     public void Move(Vector3 direction)
     {
         if (_isMoving)
