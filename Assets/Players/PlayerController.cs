@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // Multiplier used to add a Vector3.down force, to increase falling speed of the player
+    public float gravityMultiplier = 80.0f;
+
     private const int CastMask = 1 << Layers.Solid;
     private const float CastRadius = 0.1f;
     private const float MoveDurationInSeconds = 0.25f;
@@ -16,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private const float ColumnLockDistance = 20;
 
     private bool _isMoving;
+    private bool _isFalling;
     private float _moveTimer;
 
     // Which position the column locking starts at. This value will probably change as the wall grows,
@@ -36,6 +40,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void FixedUpdate () {
+        // Add faster falling speed to match jumping speed
+        if (!_isMoving)
+        {
+            GetComponent<Rigidbody>().AddForce(Vector3.down * gravityMultiplier * GetComponent<Rigidbody>().mass);
+        }
+    }
+
 	void OnTriggerEnter(Collider other) {
 		GameObject collidingObject = other.gameObject;
 		if (collidingObject.tag == "Block") {
@@ -46,21 +58,35 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+    void OnCollisionEnter(Collision collision) {
+        if (collision.transform.position.y < transform.position.y)
+        {
+            _isFalling = false;
+        }
+    }
+
     public void Move(Vector3 direction)
     {
-        if (_isMoving)
+        if (_isMoving || _isFalling)
         {
             return;
         }
 
         transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
 
-
         var canPlayerMoveInDirection = IsOpen(transform.position + direction);
         var canPlayerJumpInDirection = IsOpen(transform.position + direction + Vector3.up);
 
         if (canPlayerMoveInDirection)
         {
+            // Check if player is jumping down, check for the platform under direction
+            var isPlayerJumpingDownInDirection = IsOpen(transform.position + direction + Vector3.down);
+
+            if (isPlayerJumpingDownInDirection) {
+                // Lock movement till player has reached the bottom
+                _isFalling = true;
+            }
+
             StartCoroutine(MoveCoroutine(new[] { transform }, direction));
         }
         else if (canPlayerJumpInDirection)
@@ -71,7 +97,9 @@ public class PlayerController : MonoBehaviour
 
     public void TryPushBlock()
     {
-        if (!IsOpen(transform.position + transform.forward) && IsOpen(transform.position + transform.forward * 2))
+        if (!IsOpen(transform.position + transform.forward) &&
+            IsOpen(transform.position + transform.forward * 2) &&
+            !_isFalling)
         {
             var block = GetBlockInFront();
             var moveable = block.gameObject.GetComponent<PlayerMoveable>();
@@ -88,7 +116,7 @@ public class PlayerController : MonoBehaviour
 
     public void TryPullBlock()
     {
-        if (!IsOpen(transform.position + transform.forward))
+        if (!IsOpen(transform.position + transform.forward) && !_isFalling)
         {
             var block = GetBlockInFront();
             var moveable = block.gameObject.GetComponent<PlayerMoveable>();
