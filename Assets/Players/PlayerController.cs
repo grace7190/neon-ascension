@@ -48,15 +48,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-	void OnTriggerEnter(Collider other) {
-		GameObject collidingObject = other.gameObject;
-		if (collidingObject.tag == "Block") {
-			if (gameObject.transform.position.x - collidingObject.transform.position.x < 0.5
-				&& gameObject.transform.position.y < collidingObject.transform.position.y) {
-				Destroy (gameObject);
-			}
-		}
-	}
+    void OnTriggerEnter(Collider other) {
+        GameObject collidingObject = other.gameObject;
+        if (collidingObject.tag == "Block") {
+            if (gameObject.transform.position.x - collidingObject.transform.position.x < 0.5
+                && gameObject.transform.position.y < collidingObject.transform.position.y) {
+                Destroy (gameObject);
+            }
+        }
+    }
 
     void OnCollisionEnter(Collision collision) {
         if (collision.transform.position.y < transform.position.y)
