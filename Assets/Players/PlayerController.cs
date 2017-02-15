@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour
 			if (gameObject.transform.position.x - collidingObject.transform.position.x < 0.5
 				&& gameObject.transform.position.y < collidingObject.transform.position.y) {
 				Destroy (gameObject);
-				Debug.Log (gameObject + " is destroyed.");
 			}
 		}
 	}
