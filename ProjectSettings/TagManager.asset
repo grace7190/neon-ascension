@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Block
   - Hole
+  - CollisionBuffer
+  - GarbageCollider
+  - Wall
   layers:
   - Default
   - TransparentFX

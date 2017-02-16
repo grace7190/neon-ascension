@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 54073815606170736}
   - component: {fileID: 114360186450246046}
   - component: {fileID: 114859597687057040}
+  - component: {fileID: 114452952647810652}
   m_Layer: 31
   m_Name: LightCube
   m_TagString: Block
@@ -163,6 +164,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd00e71b0c074975832bd07c184a8fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114452952647810652
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1529988640023674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dda0d64395ddc4a81902e8e932dcdc1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114859597687057040
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -175,3 +187,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   finalDestination: {x: 0, y: 0, z: 0}
+  LockedColor: {r: 1, g: 0, b: 0, a: 1}

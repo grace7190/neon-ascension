@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     // Multiplier used to add a Vector3.down force, to increase falling speed of the player
     public float GravityMultiplier = 80.0f;
+    public GameObject Wall;
 
     private const int CastMask = 1 << Layers.Solid;
     private const float CastRadius = 0.1f;
@@ -21,10 +22,6 @@ public class PlayerController : MonoBehaviour
     private bool _isMoving;
     private bool _isFalling;
     private float _moveTimer;
-
-    // Which position the column locking starts at. This value will probably change as the wall grows,
-    // and the camera moves up
-    public float columnLockStartY = -1;
 
     void Start()
     {
@@ -102,15 +99,13 @@ public class PlayerController : MonoBehaviour
             !_isFalling)
         {
             var block = GetBlockInFront();
-            var moveable = block.gameObject.GetComponent<PlayerMoveable>();
             var direction = transform.forward;
 
+            var moveable = block.gameObject.GetComponent<PlayerMoveable>();
             if (moveable.isLocked)
                 return;
 
-            moveable.finalDestination = block.transform.position + direction;
-            LockColumnFromPosition(block.transform.position);
-            StartCoroutine(MoveCoroutine(new[] { block.transform }, direction));
+            MoveBlockInDirection(block, direction);
         }
     }
 
@@ -119,17 +114,44 @@ public class PlayerController : MonoBehaviour
         if (!IsOpen(transform.position + transform.forward) && !_isFalling)
         {
             var block = GetBlockInFront();
-            var moveable = block.gameObject.GetComponent<PlayerMoveable>();
             var direction = -transform.forward;
 
+            var moveable = block.gameObject.GetComponent<PlayerMoveable>();
             if (moveable.isLocked)
                 return;
 
-            moveable.finalDestination = block.transform.position + direction;
-            LockColumnFromPosition(block.transform.position);
+            MoveBlockInDirection(block, direction);
             StartCoroutine(MoveCoroutine(new[] {transform}, Vector3.up));
-            StartCoroutine(MoveCoroutine(new[] {block.transform}, direction));
+
         }
+    }
+
+    private void MoveBlockInDirection(Collider block, Vector3 direction)
+    {
+        var moveable = block.gameObject.GetComponent<PlayerMoveable>();
+        moveable.finalDestination = block.transform.position + direction;
+        LockColumnFromPosition(block.transform.position);
+
+        // Let the Wall know that a part of it needs to regenerate
+        // If the block is still in the initial middle row
+        if (block.transform.parent.gameObject.tag == Tags.Wall &&
+            block.transform.position.z == 0) {
+            RegenerateWallForBlock(block);
+        }
+
+        StartCoroutine(MoveCoroutine(new[] { block.transform }, direction));
+    }
+
+    /*
+     * Notifies the Wall that a block needs to be added for the block being removed
+     */
+    private void RegenerateWallForBlock(Collider block)
+    {
+        var generator = Wall.GetComponent<BlockGenerator>();
+        var blockPosition = block.transform.localPosition;
+        generator.AddBlockAtTop(
+            new Vector2(Mathf.RoundToInt(blockPosition.x),
+                        Mathf.RoundToInt(blockPosition.z)));
     }
 
     private bool IsOpen(Vector3 position)
@@ -174,12 +196,21 @@ public class PlayerController : MonoBehaviour
 
     /*
      * Given Vector3 position;
-     * Lock blocks located from (position.x, columnLockStartY, position.z) to (position.x, ColumnLockDistance, position.z)
+     * Lock blocks located from (position.x, bottom of the game, position.z) to (position.x, ColumnLockDistance, position.z)
      * excluding the block at position.
      */
     private void LockColumnFromPosition(Vector3 position)
     {
-        var positionAtBottom = new Vector3(position.x, columnLockStartY, position.z);
+        var bottomObjectTag = Tags.GarbageCollider;
+        var bottomObjects =  GameObject.FindGameObjectsWithTag(bottomObjectTag);
+
+        if (bottomObjects.Length == 0)
+        {
+            Debug.Log("Error at PlayerController.LockColumnFromPosition(): No object was found with tag " + bottomObjectTag);
+            return;
+        }
+
+        var positionAtBottom = new Vector3(position.x, bottomObjects[0].transform.position.y, position.z);
         var hits =
             Physics.RaycastAll(positionAtBottom,
                                Vector3.up,
