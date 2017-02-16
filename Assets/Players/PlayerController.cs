@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Multiplier used to add a Vector3.down force, to increase falling speed of the player
-    public float gravityMultiplier = 80.0f;
+    public float GravityMultiplier = 80.0f;
 
     private const int CastMask = 1 << Layers.Solid;
     private const float CastRadius = 0.1f;
@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
         // Add faster falling speed to match jumping speed
         if (!_isMoving)
         {
-            GetComponent<Rigidbody>().AddForce(Vector3.down * gravityMultiplier * GetComponent<Rigidbody>().mass);
+            GetComponent<Rigidbody>().AddForce(Vector3.down * GravityMultiplier * GetComponent<Rigidbody>().mass);
         }
     }
 
