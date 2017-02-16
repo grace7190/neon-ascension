@@ -56,27 +56,29 @@ public class BlockGenerator : MonoBehaviour
     }
 
     /*
-     * Adds a 1 block high row at the top
+     * Adds a 1 block at the top at position X, Z. This does not increase the height.
      */
-    public void AddRow()
+    public void AddBlockAtTop(Vector2 position)
+    {
+        var v = new Vector3(position.x, Dimensions.y - 1, position.y);
+        var block = MakeBlock();
+        block.transform.SetParent(transform);
+        block.transform.localPosition = v;
+    }
+
+    /*
+     * Adds a 1 block high row on top, resulting in a height increase of y
+     */
+    public void AddRowOnTop()
     {
         for (var x = 0; x < Dimensions.x; x++)
         {
             for (var z = 0; z < Dimensions.z; z++)
             {
                 var v = new Vector3(x, Dimensions.y, z);
-                if (Holes.Contains(v))
-                {
-                    var hole = Instantiate(HolePrefab);
-                    hole.transform.SetParent(transform);
-                    hole.transform.localPosition = v;
-                }
-                else
-                {
-                    var block = MakeBlock();
-                    block.transform.SetParent(transform);
-                    block.transform.localPosition = v;
-                }
+                var block = MakeBlock();
+                block.transform.SetParent(transform);
+                block.transform.localPosition = v;
             }
         }
         Dimensions.y ++;

@@ -28,7 +28,7 @@ public class CameraController : MonoBehaviour {
 
         if (ShouldGenerateBlocks && rowsToGenerate > 0) 
         {
-            Generator.AddRow();
+            Generator.AddRowOnTop();
             _distanceMovedSinceGenerating -= rowsToGenerate * BlockHeight;
         }
     }

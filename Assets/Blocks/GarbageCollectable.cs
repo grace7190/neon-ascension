@@ -9,7 +9,7 @@ public class GarbageCollectable : MonoBehaviour {
         if (other.tag != Tags.GarbageCollider)
             return;
 
-        Rigidbody rigidbody = GetComponent<Rigidbody>();
+        var rigidbody = GetComponent<Rigidbody>();
 
         // Stop object from moving
         // Specifically blocks that are relying on blocks to stay in position

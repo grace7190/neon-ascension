@@ -8,6 +8,7 @@ TagManager:
   - Hole
   - CollisionBuffer
   - GarbageCollider
+  - Wall
   layers:
   - Default
   - TransparentFX
