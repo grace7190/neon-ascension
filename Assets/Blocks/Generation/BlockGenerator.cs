@@ -54,4 +54,31 @@ public class BlockGenerator : MonoBehaviour
 
         return block;
     }
+
+    /*
+     * Adds a 1 block high row at the top
+     */
+    public void AddRow()
+    {
+        for (var x = 0; x < Dimensions.x; x++)
+        {
+            for (var z = 0; z < Dimensions.z; z++)
+            {
+                var v = new Vector3(x, Dimensions.y, z);
+                if (Holes.Contains(v))
+                {
+                    var hole = Instantiate(HolePrefab);
+                    hole.transform.SetParent(transform);
+                    hole.transform.localPosition = v;
+                }
+                else
+                {
+                    var block = MakeBlock();
+                    block.transform.SetParent(transform);
+                    block.transform.localPosition = v;
+                }
+            }
+        }
+        Dimensions.y ++;
+    }
 }
