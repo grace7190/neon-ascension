@@ -1,75 +1,67 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Block : PlayerMoveable {
+public class Block : MonoBehaviour {
+    
+    public const float ChangeColorDuration = 0.2f;
+    public static readonly Color BaseColor = new Color(0.132f, 6.0f, 5.272f);
+    public static readonly Color LockedColor = Color.red;
 
-    // Duration of the animation that changes from unlock state to lock state
-    // 2 * LockedAnimationDuration = the total duration from unlock to lock and back to unlock state
-    public const float LockedAnimationDuration = 0.3f;
-    public Color LockedColor = Color.red; 
+    public bool IsLocked;
 
-    new void Start () 
+    private Rigidbody _rigidbody;
+
+    void Start () 
     {
-        base.Start();
+        _rigidbody = GetComponent<Rigidbody>();
     }
-
-    void Update () {
-    }
-
-    public override void SetLockedForDuration(float duration) 
+    
+    public void MakeFall()
     {
-        if (!isLocked) 
-            StartCoroutine(PlayLockedAnimation(duration));
+        StartCoroutine(MakeFallCoroutine());
     }
 
-    IEnumerator PlayLockedAnimation(float duration) {
-
-        float yieldDuration = duration - (2 * LockedAnimationDuration);
-
-        if (yieldDuration < 0)
+    private IEnumerator MakeFallCoroutine()
+    {
+        if (_rigidbody == null)
         {
-            Debug.Log("Error at PlayLockedAnimation");
-            Debug.Log("Specified duration " + duration + " is too small to complete the animation requiring " + 2 * LockedAnimationDuration);
-
-            yield break;
+            _rigidbody = GetComponent<Rigidbody>();
         }
 
-        isLocked                = true;
-        var material            = GetComponent<Renderer>().material;
-        var baseColor           = material.GetColor("_EmissionColor"); 
-        float animationDuration = 0;
+        IsLocked = true;
+        StartCoroutine(ChangeColorCoroutine(LockedColor, ChangeColorDuration));
 
-        // Lerp to red
-        while(animationDuration < LockedAnimationDuration) 
+        yield return new WaitForSeconds(BlockColumnManager.SlideBlockDuration);
+        _rigidbody.isKinematic = false;
+        _rigidbody.velocity = Vector3.down * 0.05f;
+        yield return new WaitForFixedUpdate();
+        
+        while (_rigidbody.velocity.y < 0)
         {
-            Color emissionColor = Color.Lerp(baseColor, LockedColor, animationDuration/LockedAnimationDuration);
-            animationDuration += Time.deltaTime;
-            material.SetColor("_EmissionColor", emissionColor);
+            yield return new WaitForFixedUpdate();
+        }
+        _rigidbody.isKinematic = true;
+        transform.position = transform.position.RoundToInt();
+
+        StartCoroutine(ChangeColorCoroutine(BaseColor, ChangeColorDuration));
+        IsLocked = false;
+    }
+
+    private IEnumerator ChangeColorCoroutine(Color targetColor, float duration)
+    {
+        var material = new Material(GetComponent<Renderer>().sharedMaterial);
+        var oldColor = material.color;
+        GetComponent<Renderer>().sharedMaterial = material;
+
+        var t = 0f;
+        while (t <= duration)
+        {
+            var currColor = Color.Lerp(oldColor, targetColor, t / duration);
+            material.SetColor("_EmissionColor", currColor);
             yield return new WaitForEndOfFrame();
+            t += Time.deltaTime;
         }
 
-        // Set to red since while loop will have exited before it can complete the lerp
-        material.SetColor("_EmissionColor", LockedColor);
-
-        // Yield till ready to change back to original
-        yield return new WaitForSeconds(yieldDuration);       
-
-        animationDuration = 0;
-
-        // Lerp to original
-        while(animationDuration < LockedAnimationDuration) 
-        {
-            Color emissionColor = Color.Lerp(LockedColor, baseColor, animationDuration/LockedAnimationDuration);
-            animationDuration += Time.deltaTime;
-            material.SetColor("_EmissionColor", emissionColor);
-            yield return new WaitForEndOfFrame();
-        }
-
-        // Set to original color since while loop will have exited before it can complete the lerp
-        material.SetColor("_EmissionColor", baseColor);
-
-        isLocked = false;
-        yield break;
+        material.SetColor("_EmissionColor", targetColor);
     }
 }

@@ -2,6 +2,7 @@
 
 public class BlockRainerDowner : MonoBehaviour
 {
+    public GameObject BlockPrefab;
     public int Size;
     public Vector3 OffsetDirection;
     public float SpawnMinDelay;
@@ -9,11 +10,9 @@ public class BlockRainerDowner : MonoBehaviour
 
     private int _nextOffset;
     private float _spawnCooldown;
-    private BlockGenerator _blockGenerator;
 
     void Start()
     {
-        _blockGenerator = GetComponent<BlockGenerator>();
         SetupNextSpawn();
     }
 
@@ -22,7 +21,7 @@ public class BlockRainerDowner : MonoBehaviour
 	    _spawnCooldown -= Time.deltaTime;
 	    if (_spawnCooldown <= 0)
 	    {
-            var block = _blockGenerator.MakeBlock();
+	        var block = Instantiate(BlockPrefab);
 	        block.transform.position = transform.position + OffsetDirection * _nextOffset;
 	        SetupNextSpawn();
 	    }
