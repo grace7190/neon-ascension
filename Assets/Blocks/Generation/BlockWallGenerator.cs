@@ -13,7 +13,7 @@ public class BlockWallGenerator : MonoBehaviour
             var newTopBlock = Instantiate(topBlock);
             newTopBlock.transform.position = topBlock.transform.position + Vector3.up;
             GetComponent<BlockColumn>().Add(newTopBlock);
-            newTopBlock.GetComponent<Block>().MakeFallAfterSlideBlock();
+            newTopBlock.GetComponent<Block>().MakeFallAfterSlideBlockDelay();
         }
     }
 }
