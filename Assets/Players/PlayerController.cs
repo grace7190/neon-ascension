@@ -13,11 +13,7 @@ public class PlayerController : MonoBehaviour
     private bool _isMoving;
     private bool _isFalling;
     private float _moveTimer;
-
-    void Start()
-    {
-        Physics.IgnoreLayerCollision(Layers.Player, Layers.Hole);
-    }
+    
 
     void Update()
     {
