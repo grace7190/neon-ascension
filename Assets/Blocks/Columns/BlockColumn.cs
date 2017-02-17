@@ -7,16 +7,6 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class BlockColumn : MonoBehaviour
 {
-    public bool IsWall;
-
-    private const int WallHeight = 10;
-
-
-    void Update()
-    {
-        TryGuaranteeWallHeight();
-    }
-
     public GameObject Remove(Vector3 position)
     {
         GameObject removedBlock = null;
@@ -55,22 +45,7 @@ public class BlockColumn : MonoBehaviour
         block.transform.SetParent(transform);
         block.transform.SetSiblingIndex(GetSiblingIndex(position));
     }
-
-    private void TryGuaranteeWallHeight()
-    {
-        if (IsWall)
-        {
-            while (transform.childCount < WallHeight)
-            {
-                var topBlock = transform.GetChild(transform.childCount - 1).gameObject;
-                var newTopBlock = Instantiate(topBlock);
-                newTopBlock.transform.position = topBlock.transform.position + Vector3.up;
-                Add(newTopBlock);
-                newTopBlock.GetComponent<Block>().MakeFall();
-            }
-        }
-    }
-
+    
     private int GetSiblingIndex(Vector3 position)
     {
         for (var i = 0; i < transform.childCount; i++)

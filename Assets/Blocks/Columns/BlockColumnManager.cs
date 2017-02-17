@@ -47,10 +47,9 @@ public class BlockColumnManager : MonoBehaviour
                 blockColumnComponent.Add(block);
                 block.GetComponent<Block>().MakeFall();
 
-                if (z == WallIndex)
-                {
-                    blockColumnComponent.IsWall = true;
-                }
+                blockColumnComponent.gameObject.AddComponent(z == WallIndex
+                    ? typeof(BlockWallGenerator)
+                    : typeof(BlockRainGenerator));
             }
         }
     }
