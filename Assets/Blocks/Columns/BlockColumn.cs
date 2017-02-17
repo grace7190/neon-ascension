@@ -7,6 +7,26 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class BlockColumn : MonoBehaviour
 {
+    public Vector3 SupportPosition { get { return transform.position + _supportCollider.center; } }
+
+    private BoxCollider _supportCollider;
+
+
+    void Start()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        _supportCollider = GetComponent<BoxCollider>();
+    }
+
+    public void MoveSupportUp()
+    {
+        _supportCollider.center += Vector3.up;
+    }
+
     public GameObject Remove(Vector3 position)
     {
         GameObject removedBlock = null;
@@ -16,11 +36,15 @@ public class BlockColumn : MonoBehaviour
             if (removedBlock == null && child.position == position)
             {
                 removedBlock = child.gameObject;
-                removedBlock.GetComponent<Block>().MakeFall();
+                removedBlock.GetComponent<Block>().MakeFallAfterSlideBlockDelay();
             }
             else if (removedBlock != null)
             {
-                child.GetComponent<Block>().MakeFall();
+                var isRemovedBlockLowest = Mathf.Approximately(removedBlock.transform.position.y, SupportPosition.y + 1);
+                if (!isRemovedBlockLowest)
+                {
+                    child.GetComponent<Block>().MakeFallAfterSlideBlockDelay();
+                }
             }
         }
 
@@ -39,7 +63,7 @@ public class BlockColumn : MonoBehaviour
     {
         var position = block.transform.position;
         ValidateIsAlongColumn(position);
-        ValidateIsNotBelowLowestBlock(position);
+        ValidateIsNotBelowSupportBlock(position);
         ValidateIsOpen(position);
 
         block.transform.SetParent(transform);
@@ -70,31 +94,25 @@ public class BlockColumn : MonoBehaviour
         }
     }
 
-    private void ValidateIsNotBelowLowestBlock(Vector3 position)
+    private void ValidateIsNotBelowSupportBlock(Vector3 position)
     {
-        if (transform.childCount > 0)
+        var isBelowLowest = position.y < SupportPosition.y + 1;
+        if (isBelowLowest)
         {
-            var lowestBlockPosition = transform.GetChild(0).transform.position;
-            var isBelowLowest = position.y < lowestBlockPosition.y;
-            if (isBelowLowest)
-            {
-                throw new ArgumentException(string.Format("{0} is below the lowest block at {1}", position,
-                    lowestBlockPosition.y));
-            }
+            throw new ArgumentException(string.Format("{0} is below the support block at {1}", position,
+                SupportPosition.y));
         }
     }
 
     private void ValidateIsOpen(Vector3 position)
     {
-        var isOpen = transform.childCount == 0;
+        var isOpen = true;
         for (var i = 0; i < transform.childCount; i++)
         {
-            var currBlockIsBelow = transform.GetChild(i).position.y <= position.y - 1;
-            var currBlockIsLast = i == transform.childCount - 1;
-            var aboveCurrBlockIsOpen = currBlockIsLast || transform.GetChild(i + 1).position.y >= position.y + 1;
-            if (currBlockIsBelow && aboveCurrBlockIsOpen)
+            if (Mathf.Abs(transform.GetChild(i).position.y - position.y) < 1)
             {
-                isOpen = true;
+                isOpen = false;
+                break;
             }
         }
 

@@ -40,16 +40,25 @@ public class BlockColumnManager : MonoBehaviour
                 blockColumn.transform.SetParent(transform);
                 blockColumn.transform.localPosition = new Vector3(x, 0, z);
                 var blockColumnComponent = blockColumn.GetComponent<BlockColumn>();
+                blockColumnComponent.Initialize();
                 _blockColumns[x, z] = blockColumnComponent;
                     
                 var block = Instantiate(BlockPrefab);
                 block.transform.position = transform.position + new Vector3(x, 0, z);
                 blockColumnComponent.Add(block);
-                block.GetComponent<Block>().MakeFall();
+                var blockComponent = block.GetComponent<Block>();
+                blockComponent.Initialize();
+                blockComponent.MakeFallImmediately();
 
-                blockColumnComponent.gameObject.AddComponent(z == WallIndex
-                    ? typeof(BlockWallGenerator)
-                    : typeof(BlockRainGenerator));
+                if (z == WallIndex)
+                {
+                    blockColumnComponent.gameObject.AddComponent(typeof(BlockWallGenerator));
+                }
+                else
+                {
+                    blockColumnComponent.gameObject.AddComponent(typeof(BlockRainGenerator));
+                    blockColumnComponent.GetComponent<BlockRainGenerator>().BlockPrefab = BlockPrefab;
+                }
             }
         }
     }

@@ -9,19 +9,31 @@ public class Block : MonoBehaviour {
 
     public bool IsLocked;
 
+    private IEnumerator _colorChangeCoroutine;
     private Rigidbody _rigidbody;
 
-    void Start () 
+
+    void Start ()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
     {
         _rigidbody = GetComponent<Rigidbody>();
     }
-    
-    public void MakeFall()
+
+    public void MakeFallImmediately()
     {
-        StartCoroutine(MakeFallCoroutine());
+        StartCoroutine(MakeFallCoroutine(0));
     }
 
-    private IEnumerator MakeFallCoroutine()
+    public void MakeFallAfterSlideBlockDelay()
+    {
+        StartCoroutine(MakeFallCoroutine(BlockColumnManager.SlideBlockDuration));
+    }
+
+    private IEnumerator MakeFallCoroutine(float duration)
     {
         if (_rigidbody == null)
         {
@@ -29,9 +41,10 @@ public class Block : MonoBehaviour {
         }
 
         IsLocked = true;
-        StartCoroutine(ChangeColorCoroutine(LockedColor, ChangeColorDuration));
+        ChangeColor(LockedColor, ChangeColorDuration);
 
-        yield return new WaitForSeconds(BlockColumnManager.SlideBlockDuration);
+
+        yield return new WaitForSeconds(duration);
         _rigidbody.isKinematic = false;
         _rigidbody.velocity = Vector3.down * 0.05f;
         yield return new WaitForFixedUpdate();
@@ -43,8 +56,18 @@ public class Block : MonoBehaviour {
         _rigidbody.isKinematic = true;
         transform.position = transform.position.RoundToInt();
 
-        StartCoroutine(ChangeColorCoroutine(BaseColor, ChangeColorDuration));
+        ChangeColor(BaseColor, ChangeColorDuration);
         IsLocked = false;
+    }
+
+    private void ChangeColor(Color targetColor, float duration)
+    {
+        if (_colorChangeCoroutine != null)
+        {
+            StopCoroutine(_colorChangeCoroutine);
+        }
+        _colorChangeCoroutine = ChangeColorCoroutine(targetColor, duration);
+        StartCoroutine(_colorChangeCoroutine);
     }
 
     private IEnumerator ChangeColorCoroutine(Color targetColor, float duration)

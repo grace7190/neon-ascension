@@ -2,26 +2,30 @@
 
 public class BlockRainGenerator : MonoBehaviour
 {
+    public GameObject BlockPrefab;
+
     private const float SpawnMinDelay = 2f;
     private const float SpawnMaxDelay = 8f;
 
     private float _spawnCooldown;
+    private BlockColumn _blockColumn;
 
     void Start()
     {
+        _blockColumn = GetComponent<BlockColumn>();
+
         SetupNextSpawn();
     }
 
 	void Update ()
 	{
 	    _spawnCooldown -= Time.deltaTime;
-	    if (_spawnCooldown <= 0)
+	    if (_spawnCooldown <= 0 && transform.childCount < BlockWallGenerator.WallHeight)
 	    {
-	        var bottomBlock = transform.GetChild(0).gameObject;
-            var block = Instantiate(bottomBlock);
-	        block.transform.position = bottomBlock.transform.position + Vector3.up * BlockWallGenerator.WallHeight;
-	        GetComponent<BlockColumn>().Add(block);
-            block.GetComponent<Block>().MakeFall();
+	        var block = Instantiate(BlockPrefab);
+	        block.transform.position = _blockColumn.SupportPosition + Vector3.up * BlockWallGenerator.WallHeight;
+	        _blockColumn.Add(block);
+            block.GetComponent<Block>().MakeFallImmediately();
 	        SetupNextSpawn();
 	    }
 	}
