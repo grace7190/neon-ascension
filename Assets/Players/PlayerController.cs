@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public GameObject Wall;
 
+    public const float GravityScale = 10.0f;
     private const int CastMask = 1 << Layers.Solid;
     private const float CastRadius = 0.1f;
     private const float MoveDurationInSeconds = 0.25f;
@@ -23,7 +24,13 @@ public class PlayerController : MonoBehaviour
                 Mathf.RoundToInt(transform.position.z));
         }
     }
-    
+
+    void FixedUpdate()
+    {
+        var gravity = Physics.gravity * GravityScale;
+        GetComponent<Rigidbody>().AddForce(gravity, ForceMode.Acceleration);
+    }
+
     void OnTriggerEnter(Collider other) {
         var collidingObject = other.gameObject;
         if (collidingObject.CompareTag(Tags.Block)) {
