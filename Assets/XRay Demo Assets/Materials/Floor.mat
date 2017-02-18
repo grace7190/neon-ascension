@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: BluePlayer
-  m_Shader: {fileID: 4800000, guid: 0a8a33aed56087c4bb6f8272cae4dfa5, type: 3}
+  m_Name: Floor
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -121,10 +121,7 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0, g: 0.66896534, b: 1, a: 1}
-    - first:
-        name: _EdgeColor
-      second: {r: 0, g: 0.67058825, b: 1, a: 1}
+      second: {r: 0.5147059, g: 0.38743886, b: 0.3406142, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}

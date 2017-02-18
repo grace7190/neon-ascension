@@ -83,11 +83,11 @@ public class Block : MonoBehaviour {
         while (t <= duration)
         {
             var currColor = Color.Lerp(oldColor, targetColor, t / duration);
-            material.SetColor("_EmissionColor", currColor);
+            material.SetColor("_Color", currColor);
             yield return new WaitForEndOfFrame();
             t += Time.deltaTime;
         }
 
-        material.SetColor("_EmissionColor", targetColor);
+        material.SetColor("_Color", targetColor);
     }
 }
