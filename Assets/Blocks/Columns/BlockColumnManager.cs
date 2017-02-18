@@ -67,9 +67,9 @@ public class BlockColumnManager : MonoBehaviour
         }
     }
 
-    public Vector3 GetRespawnPoint(Teams team)
+    public Vector3 GetRespawnPoint(Team team)
     {
-        var z = team == Teams.Blue ? BlueTeamZIndex : PurpleTeamZIndex;
+        var z = team == Team.Blue ? BlueTeamZIndex : PurpleTeamZIndex;
         var highestColumn = _blockColumns[0, z];
         for (var x = 1; x < Width; x++)
         {

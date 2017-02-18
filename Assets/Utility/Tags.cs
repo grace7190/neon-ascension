@@ -1,4 +1,4 @@
-﻿public class Tags
+﻿public static class Tags
 {
     public const string Player = "Player";
     public const string Block = "Block";

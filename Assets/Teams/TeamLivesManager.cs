@@ -6,7 +6,7 @@ public class TeamLivesManager : MonoBehaviour
 {
     public static TeamLivesManager Instance;
 
-    private const float MaxLives = 3;
+    private const float MaxLives = 1;
 
     private const float RespawnDelay = 1;
 
@@ -31,7 +31,7 @@ public class TeamLivesManager : MonoBehaviour
     {
         switch (playerGameObject.GetComponent<PlayerController>().Team)
         {
-            case Teams.Blue:
+            case Team.Blue:
                 _blueLives--;
                 if (_blueLives > 0)
                 {
@@ -40,9 +40,10 @@ public class TeamLivesManager : MonoBehaviour
                 else
                 {
                     Destroy(playerGameObject);
+                    EndOfGameManager.Instance.ShowVictoryScreen(Team.Purple);
                 }
                 break;
-            case Teams.Purple:
+            case Team.Purple:
                 _purpleLives--;
                 if (_purpleLives > 0)
                 {
@@ -51,6 +52,7 @@ public class TeamLivesManager : MonoBehaviour
                 else
                 {
                     Destroy(playerGameObject);
+                    EndOfGameManager.Instance.ShowVictoryScreen(Team.Blue);
                 }
                 break;
         }
