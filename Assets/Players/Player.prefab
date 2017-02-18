@@ -11,6 +11,22 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1969443819305820}
   m_IsPrefabParent: 1
+--- !u!1 &1282370154224690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4068553137543724}
+  - component: {fileID: 108254552732702254}
+  m_Layer: 29
+  m_Name: Spotlight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1969443819305820
 GameObject:
   m_ObjectHideFlags: 0
@@ -20,12 +36,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4217022988493692}
   - component: {fileID: 33959621605804016}
-  - component: {fileID: 136095006810907278}
   - component: {fileID: 23996942556105928}
   - component: {fileID: 54861086765942710}
+  - component: {fileID: 136095006810907278}
+  - component: {fileID: 136500412171248758}
   - component: {fileID: 114622955586493316}
   - component: {fileID: 114048516413413216}
-  - component: {fileID: 136500412171248758}
+  - component: {fileID: 114071286143339944}
   m_Layer: 29
   m_Name: Player
   m_TagString: Player
@@ -50,6 +67,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4068553137543724
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282370154224690}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.01, y: -2.13, z: -9.41}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4217022988493692}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &4160628248022524
 Transform:
   m_ObjectHideFlags: 1
@@ -70,10 +100,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1969443819305820}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: -1}
+  m_LocalPosition: {x: 0, y: 1, z: -1}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4160628248022524}
+  - {fileID: 4068553137543724}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -166,8 +197,42 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 122
   m_CollisionDetection: 2
+--- !u!108 &108254552732702254
+Light:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1282370154224690}
+  m_Enabled: 1
+  serializedVersion: 7
+  m_Type: 0
+  m_Color: {r: 0.66176474, g: 0.9720081, b: 1, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 2800000, guid: 1167c0a28d11119930004d8a4241aa39, type: 3}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!114 &114048516413413216
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,6 +251,17 @@ MonoBehaviour:
   RightKey: 275
   PushKey: 46
   PullKey: 47
+--- !u!114 &114071286143339944
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1969443819305820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecc8b4fff61d95341b699ce18ce9b3f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114622955586493316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -197,8 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ee4596c3363b44ba858d2d3f4fdd5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GravityMultiplier: 80
-  Wall: {fileID: 0}
+  Team: 0
 --- !u!136 &136095006810907278
 CapsuleCollider:
   m_ObjectHideFlags: 1

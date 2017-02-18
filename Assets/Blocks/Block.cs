@@ -4,9 +4,13 @@ using UnityEngine;
 public class Block : MonoBehaviour {
     
     public const float ChangeColorDuration = 0.2f;
-    public static readonly Color BaseColor = new Color(0.132f, 6.0f, 5.272f);
-    public static readonly Color LockedColor = Color.red;
 
+    public static readonly Color NeutralColor = new Color(3f, 3f, 3f);
+    public static readonly Color BlueColor = new Color(0.132f, 6.0f, 5.272f);
+    public static readonly Color PurpleColor = new Color(6.0f, 0.132f, 5.272f);
+    public static readonly Color LockedColor = new Color(6, 0.6f, 0.0f);
+
+    public Color BaseColor = NeutralColor;
     public bool IsLocked;
 
     private IEnumerator _colorChangeCoroutine;
@@ -46,7 +50,6 @@ public class Block : MonoBehaviour {
 
         yield return new WaitForSeconds(duration);
         _rigidbody.isKinematic = false;
-        _rigidbody.velocity = Vector3.down * 0.05f;
         yield return new WaitForFixedUpdate();
         
         while (_rigidbody.velocity.y < 0)
@@ -80,11 +83,11 @@ public class Block : MonoBehaviour {
         while (t <= duration)
         {
             var currColor = Color.Lerp(oldColor, targetColor, t / duration);
-            material.SetColor("_EmissionColor", currColor);
+            material.SetColor("_Color", currColor);
             yield return new WaitForEndOfFrame();
             t += Time.deltaTime;
         }
 
-        material.SetColor("_EmissionColor", targetColor);
+        material.SetColor("_Color", targetColor);
     }
 }

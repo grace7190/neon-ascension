@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public GameObject Wall;
-
     public const float GravityScale = 10.0f;
+
+    public bool IsFalling { get; private set; }
+
+    public Teams Team;
+
     private const int CastMask = 1 << Layers.Solid;
     private const float CastRadius = 0.1f;
     private const float MoveDurationInSeconds = 0.25f;
 
     private bool _isMoving;
-    private bool _isFalling;
     private float _moveTimer;
     
 
@@ -31,26 +33,16 @@ public class PlayerController : MonoBehaviour
         GetComponent<Rigidbody>().AddForce(gravity, ForceMode.Acceleration);
     }
 
-    void OnTriggerEnter(Collider other) {
-        var collidingObject = other.gameObject;
-        if (collidingObject.CompareTag(Tags.Block)) {
-            if (gameObject.transform.position.x - collidingObject.transform.position.x < 0.5
-                && gameObject.transform.position.y < collidingObject.transform.position.y) {
-                Destroy (gameObject);
-            }
-        }
-    }
-
     void OnCollisionEnter(Collision collision) {
         if (collision.transform.position.y < transform.position.y)
         {
-            _isFalling = false;
+            IsFalling = false;
         }
     }
 
     public void Move(Vector3 direction)
     {
-        if (_isMoving || _isFalling)
+        if (_isMoving || IsFalling)
         {
             return;
         }
@@ -67,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
             if (isPlayerJumpingDownInDirection) {
                 // Lock movement till player has reached the bottom
-                _isFalling = true;
+                IsFalling = true;
             }
 
             StartCoroutine(MoveCoroutine(new[] { transform }, direction));
@@ -82,7 +74,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!IsOpen(transform.position + transform.forward) &&
             IsOpen(transform.position + transform.forward * 2) &&
-            !_isFalling)
+            !IsFalling)
         {
             var block = GetBlockInFront();
             var direction = transform.forward;
@@ -96,7 +88,7 @@ public class PlayerController : MonoBehaviour
 
     public void TryPullBlock()
     {
-        if (!IsOpen(transform.position + transform.forward) && !_isFalling)
+        if (!IsOpen(transform.position + transform.forward) && !IsFalling)
         {
             var block = GetBlockInFront();
             var direction = -transform.forward;

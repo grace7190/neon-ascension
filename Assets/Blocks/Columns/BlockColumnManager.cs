@@ -14,7 +14,9 @@ public class BlockColumnManager : MonoBehaviour
 
     private const int Depth = 3;
     private const int Width = 10;
-    private const int WallIndex = 1;
+    private const int WallZIndex = 1;
+    private const int BlueTeamZIndex = 0;
+    private const int PurpleTeamZIndex = 2;
 
     private readonly BlockColumn[,] _blockColumns = new BlockColumn[Width, Depth];
 
@@ -43,24 +45,42 @@ public class BlockColumnManager : MonoBehaviour
                 blockColumnComponent.Initialize();
                 _blockColumns[x, z] = blockColumnComponent;
                     
+                if (z == WallZIndex)
+                {
+                    blockColumnComponent.gameObject.AddComponent(typeof(BlockWallGenerator));
+                    blockColumnComponent.BaseColor = Block.NeutralColor;
+                }
+                else
+                {
+                    blockColumnComponent.BaseColor = z == BlueTeamZIndex ? Block.BlueColor : Block.PurpleColor;
+                    blockColumnComponent.gameObject.AddComponent(typeof(BlockRainGenerator));
+                    blockColumnComponent.GetComponent<BlockRainGenerator>().BlockPrefab = BlockPrefab;
+                }
+
                 var block = Instantiate(BlockPrefab);
                 block.transform.position = transform.position + new Vector3(x, 0, z);
                 blockColumnComponent.Add(block);
                 var blockComponent = block.GetComponent<Block>();
                 blockComponent.Initialize();
                 blockComponent.MakeFallImmediately();
-
-                if (z == WallIndex)
-                {
-                    blockColumnComponent.gameObject.AddComponent(typeof(BlockWallGenerator));
-                }
-                else
-                {
-                    blockColumnComponent.gameObject.AddComponent(typeof(BlockRainGenerator));
-                    blockColumnComponent.GetComponent<BlockRainGenerator>().BlockPrefab = BlockPrefab;
-                }
             }
         }
+    }
+
+    public Vector3 GetRespawnPoint(Teams team)
+    {
+        var z = team == Teams.Blue ? BlueTeamZIndex : PurpleTeamZIndex;
+        var highestColumn = _blockColumns[0, z];
+        for (var x = 1; x < Width; x++)
+        {
+            if (_blockColumns[x, z].transform.childCount > highestColumn.transform.childCount)
+            {
+                highestColumn = _blockColumns[x, z];
+            }
+        }
+
+        var highestBlock = highestColumn.transform.GetChild(highestColumn.transform.childCount - 1);
+        return highestBlock.position + Vector3.up;
     }
 
     public void SlideBlock(GameObject block, Vector3 direction)

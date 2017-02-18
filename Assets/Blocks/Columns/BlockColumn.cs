@@ -9,6 +9,8 @@ public class BlockColumn : MonoBehaviour
 {
     public Vector3 SupportPosition { get { return transform.position + _supportCollider.center; } }
 
+    public Color BaseColor;
+
     private BoxCollider _supportCollider;
 
 
@@ -61,6 +63,8 @@ public class BlockColumn : MonoBehaviour
 
     public void Add(GameObject block)
     {
+        block.GetComponent<Block>().BaseColor = BaseColor;
+
         var position = block.transform.position;
         ValidateIsAlongColumn(position);
         ValidateIsNotBelowSupportBlock(position);
