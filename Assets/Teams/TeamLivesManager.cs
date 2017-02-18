@@ -6,7 +6,7 @@ public class TeamLivesManager : MonoBehaviour
 {
     public static TeamLivesManager Instance;
 
-    private const float MaxLives = 1;
+    private const float MaxLives = 3;
 
     private const float RespawnDelay = 1;
 
@@ -29,6 +29,8 @@ public class TeamLivesManager : MonoBehaviour
 
     public void HandlePlayerDeath(GameObject playerGameObject)
     {
+        DisablePlayer(playerGameObject);
+
         switch (playerGameObject.GetComponent<PlayerController>().Team)
         {
             case Team.Blue:
@@ -66,9 +68,13 @@ public class TeamLivesManager : MonoBehaviour
         _purpleText.text = "Lives: " + _purpleLives;
     }
 
-    private IEnumerator RespawnCoroutine(GameObject playerGameObject)
+    private void DisablePlayer(GameObject playerGameObject)
     {
         playerGameObject.SetActive(false);
+    }
+
+    private IEnumerator RespawnCoroutine(GameObject playerGameObject)
+    {
         yield return new WaitForSeconds(RespawnDelay);
         var team = playerGameObject.GetComponent<PlayerController>().Team;
         playerGameObject.transform.position = BlockColumnManager.Instance.GetRespawnPoint(team);
