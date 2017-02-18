@@ -1,4 +1,4 @@
-﻿public enum Teams
+﻿public enum Team
 {
     Blue, Purple
 }

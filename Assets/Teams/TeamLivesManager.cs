@@ -29,9 +29,11 @@ public class TeamLivesManager : MonoBehaviour
 
     public void HandlePlayerDeath(GameObject playerGameObject)
     {
+        DisablePlayer(playerGameObject);
+
         switch (playerGameObject.GetComponent<PlayerController>().Team)
         {
-            case Teams.Blue:
+            case Team.Blue:
                 _blueLives--;
                 if (_blueLives > 0)
                 {
@@ -40,9 +42,10 @@ public class TeamLivesManager : MonoBehaviour
                 else
                 {
                     Destroy(playerGameObject);
+                    EndOfGameManager.Instance.ShowVictoryScreen(Team.Purple);
                 }
                 break;
-            case Teams.Purple:
+            case Team.Purple:
                 _purpleLives--;
                 if (_purpleLives > 0)
                 {
@@ -51,6 +54,7 @@ public class TeamLivesManager : MonoBehaviour
                 else
                 {
                     Destroy(playerGameObject);
+                    EndOfGameManager.Instance.ShowVictoryScreen(Team.Blue);
                 }
                 break;
         }
@@ -64,9 +68,13 @@ public class TeamLivesManager : MonoBehaviour
         _purpleText.text = "Lives: " + _purpleLives;
     }
 
-    private IEnumerator RespawnCoroutine(GameObject playerGameObject)
+    private void DisablePlayer(GameObject playerGameObject)
     {
         playerGameObject.SetActive(false);
+    }
+
+    private IEnumerator RespawnCoroutine(GameObject playerGameObject)
+    {
         yield return new WaitForSeconds(RespawnDelay);
         var team = playerGameObject.GetComponent<PlayerController>().Team;
         playerGameObject.transform.position = BlockColumnManager.Instance.GetRespawnPoint(team);

@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 
     public bool IsFalling { get; private set; }
 
-    public Teams Team;
+    public Team Team;
 
     private const int CastMask = 1 << Layers.Solid;
     private const float CastRadius = 0.1f;
