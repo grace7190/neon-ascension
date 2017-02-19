@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Block
   - Destructor
+  - LifeIcon
   layers:
   - Default
   - TransparentFX

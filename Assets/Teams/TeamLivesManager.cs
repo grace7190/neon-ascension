@@ -6,14 +6,15 @@ public class TeamLivesManager : MonoBehaviour
 {
     public static TeamLivesManager Instance;
 
-    private const float MaxLives = 3;
+    private const int MaxLives = 5;
 
     private const float RespawnDelay = 1;
 
-    private float _blueLives = MaxLives;
-    private float _purpleLives = MaxLives;
-    private Text _blueText;
-    private Text _purpleText;
+    private int _blueLives = MaxLives;
+    private int _purpleLives = MaxLives;
+
+    public GameObject blueLivesIcon;
+    public GameObject purpleLivesIcon; 
 
     void Awake()
     {
@@ -22,8 +23,6 @@ public class TeamLivesManager : MonoBehaviour
 
     void Start()
     {
-        _blueText = transform.FindChild("Blue").GetComponent<Text>();
-        _purpleText = transform.FindChild("Purple").GetComponent<Text>();
         UpdateHud();
     }
 
@@ -64,8 +63,31 @@ public class TeamLivesManager : MonoBehaviour
 
     private void UpdateHud()
     {
-        _blueText.text = "Lives: " + _blueLives;
-        _purpleText.text = "Lives: " + _purpleLives;
+        //destroy all icons... there might be a better way?
+        GameObject[] objects = GameObject.FindGameObjectsWithTag("LifeIcon");
+
+        for (int i = 0; i < objects.Length; i++)
+        {
+            Destroy(objects[i]);
+        }
+
+        //draw an icon for each life remaining
+        float offset = 50f;
+        for (int i = 0; i < _purpleLives; i++)
+        {
+            GameObject ico = Instantiate(purpleLivesIcon);
+            ico.transform.SetParent(gameObject.transform, false);
+            ico.transform.Translate(i * 30f + offset, 0, 0);
+            Debug.Log(ico.transform.position);
+        }
+        for (int i = 0; i < _blueLives; i++)
+        {
+            GameObject ico = Instantiate(blueLivesIcon);
+            ico.transform.SetParent(gameObject.transform, false);
+            ico.transform.Translate(-i * 30f - offset, 0, 0);
+            Debug.Log(ico.transform.position);
+        }
+
     }
 
     private void DisablePlayer(GameObject playerGameObject)

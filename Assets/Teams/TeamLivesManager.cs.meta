@@ -1,10 +1,12 @@
 fileFormatVersion: 2
 guid: b5ea222efacc4f342a4f7e9b66e153f9
-timeCreated: 1487436756
-licenseType: Free
+timeCreated: 1487523173
+licenseType: Pro
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - blueLivesIcon: {instanceID: 0}
+  - purpleLivesIcon: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
