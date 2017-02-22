@@ -79,7 +79,7 @@ public class TeamLivesManager : MonoBehaviour
             float w = ((RectTransform)purpleLivesIcon.transform).rect.width;
             ico.transform.SetParent(gameObject.transform, false);
             ico.transform.Translate(i * w/3 + w/2, 0, 0);
-            Debug.Log(ico.transform.position);
+            //Debug.Log(ico.transform.position);
         }
         for (int i = 0; i < _blueLives; i++)
         {
@@ -87,7 +87,7 @@ public class TeamLivesManager : MonoBehaviour
             float w = ((RectTransform)purpleLivesIcon.transform).rect.width;
             ico.transform.SetParent(gameObject.transform, false);
             ico.transform.Translate(-i * w/3 - w/2, 0, 0);
-            Debug.Log(ico.transform.position);
+            //Debug.Log(ico.transform.position);
         }
 
     }

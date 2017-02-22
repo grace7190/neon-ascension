@@ -13,6 +13,11 @@ public class PlayerInputManager : MonoBehaviour
     public KeyCode JumpKey;
 
     private PlayerController _controller;
+	private float horizontalVal;
+	private float verticalVal;
+	private int repeat;
+	private int current_iteration;
+	private bool grabOn;
 
 	void Start ()
 	{
@@ -26,11 +31,23 @@ public class PlayerInputManager : MonoBehaviour
 	        LeftKey = RightKey;
 	        RightKey = temp;
 	    }
+		repeat = 15;
+		current_iteration = 15;
 	}
 	
 	void Update ()
 	{
-	    if (Input.GetKeyDown(RightKey))
+		if (gameObject.name == "Player 1") {
+			horizontalVal = Mathf.Round (Input.GetAxis ("Horizontal_P1"));
+			verticalVal = Mathf.Round (Input.GetAxis ("Vertical_P1"));
+			grabOn = Input.GetButton ("Grab_P1");
+		} else {
+			horizontalVal = Mathf.Round (Input.GetAxis ("Horizontal_P2"));
+			verticalVal = Mathf.Round (Input.GetAxis ("Vertical_P2"));
+			grabOn = Input.GetButton ("Grab_P2");
+		}
+		current_iteration += 1;
+		if (Input.GetKeyDown(RightKey) || (current_iteration >= repeat && horizontalVal == 1))
         {   
 
             if (Input.GetKey(PushKey))
@@ -51,8 +68,9 @@ public class PlayerInputManager : MonoBehaviour
                 }
 
             }
+			current_iteration = 0;
         }
-        else if (Input.GetKeyDown(LeftKey))
+		else if (Input.GetKeyDown(LeftKey) || (current_iteration >= repeat && horizontalVal == -1))
         {  
 
             if (Input.GetKey(PushKey))
@@ -73,10 +91,11 @@ public class PlayerInputManager : MonoBehaviour
                 }
 
             }
+			current_iteration = 0;
         }
-        else if (Input.GetKeyDown(UpKey))
+		else if (Input.GetKeyDown(UpKey) || (current_iteration >= repeat && verticalVal == -1))
         {
-            if (Input.GetKey(PushKey))
+            if (Input.GetKey(PushKey) || grabOn)
             {
                 if (Invert)
                 {
@@ -85,15 +104,15 @@ public class PlayerInputManager : MonoBehaviour
                 }
                 else
                 {
-                _controller.Turn(Vector3.forward);
-                _controller.TryPushBlock();
+	                _controller.Turn(Vector3.forward);
+	                _controller.TryPushBlock();
                 }
             }
             
         }
-        else if (Input.GetKeyDown(DownKey))
+		else if (Input.GetKeyDown(DownKey) || (current_iteration >= repeat && verticalVal == 1))
         {
-            if (Input.GetKey(PushKey))
+            if (Input.GetKey(PushKey) || grabOn)
             {
                 if (Invert)
                 {
@@ -111,6 +130,5 @@ public class PlayerInputManager : MonoBehaviour
         {
            // _controller.Jump(); 
         }
-
 	}
 }
