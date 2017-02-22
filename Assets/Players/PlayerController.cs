@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool wouldTurn(Vector3 direction)
+    public bool IsFacing(Vector3 direction)
     {
         return transform.rotation != Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
 
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
     public bool Turn(Vector3 direction)
     {
-        if (transform.rotation != Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up)))
+        if (IsFacing(direction))
         {
             transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
             return true;

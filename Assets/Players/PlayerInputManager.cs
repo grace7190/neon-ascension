@@ -32,10 +32,11 @@ public class PlayerInputManager : MonoBehaviour
 	{
 	    if (Input.GetKeyDown(RightKey))
         {   
-            bool wouldTurn = _controller.wouldTurn(Vector3.right);
+
             if (Input.GetKey(PushKey))
             {
-                if (wouldTurn) //if facing left, try to pull left block [ ]->p
+                bool IsFacing = _controller.IsFacing(Vector3.right);
+                if (IsFacing) //if facing left, try to pull left block [ ]->p
                 {
                     _controller.TryPullBlock();
                 } //if facing right, try to push block to right p->[ ]
@@ -53,10 +54,11 @@ public class PlayerInputManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(LeftKey))
         {  
-            bool wouldTurn = _controller.wouldTurn(Vector3.left);
+
             if (Input.GetKey(PushKey))
             {
-                if (wouldTurn)
+                bool IsFacing = _controller.IsFacing(Vector3.left);
+                if (IsFacing)
                 {
                     _controller.TryPullBlock();
                 }
