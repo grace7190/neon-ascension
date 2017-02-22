@@ -16,7 +16,13 @@ public class PlayerController : MonoBehaviour
 
     private bool _isMoving;
     private float _moveTimer;
-    
+
+    public Rigidbody rb; 
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     void Update()
     {
@@ -40,14 +46,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool IsFacing(Vector3 direction)
+    {
+        return transform.rotation != Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
+
+    }
+
+    public bool Turn(Vector3 direction)
+    {
+        if (IsFacing(direction))
+        {
+            transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
+            return true;
+        }
+        return false; 
+    }
+    
     public void Move(Vector3 direction)
     {
         if (_isMoving || IsFalling)
         {
             return;
         }
-
-        transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
 
         var canPlayerMoveInDirection = IsOpen(transform.position + direction);
         var canPlayerJumpInDirection = IsOpen(transform.position + direction + Vector3.up);

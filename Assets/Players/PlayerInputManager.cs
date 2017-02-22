@@ -10,7 +10,7 @@ public class PlayerInputManager : MonoBehaviour
     public KeyCode RightKey;
 
     public KeyCode PushKey;
-    public KeyCode PullKey;
+    public KeyCode JumpKey;
 
     private PlayerController _controller;
 
@@ -19,10 +19,10 @@ public class PlayerInputManager : MonoBehaviour
 	    _controller = GetComponent<PlayerController>();
 	    if (Invert)
 	    {
-	        var temp = UpKey;
-	        UpKey = DownKey;
-	        DownKey = temp;
-	        temp = LeftKey;
+	        //var temp = UpKey;
+	        //UpKey = DownKey;
+	        //DownKey = temp;
+	        var temp = LeftKey;
 	        LeftKey = RightKey;
 	        RightKey = temp;
 	    }
@@ -31,30 +31,86 @@ public class PlayerInputManager : MonoBehaviour
 	void Update ()
 	{
 	    if (Input.GetKeyDown(RightKey))
-	    {
-	        _controller.Move(Vector3.right);
-	    }
+        {   
+
+            if (Input.GetKey(PushKey))
+            {
+                bool IsFacing = _controller.IsFacing(Vector3.right);
+                if (IsFacing) //if facing left, try to pull left block [ ]->p
+                {
+                    _controller.TryPullBlock();
+                } //if facing right, try to push block to right p->[ ]
+                _controller.TryPushBlock();
+            }
+            else
+            {   //only move if didn't turn
+                bool didTurn = _controller.Turn(Vector3.right);
+                if (!didTurn)
+                {
+                    _controller.Move(Vector3.right);
+                }
+
+            }
+        }
         else if (Input.GetKeyDown(LeftKey))
-	    {
-	        _controller.Move(Vector3.left);
+        {  
+
+            if (Input.GetKey(PushKey))
+            {
+                bool IsFacing = _controller.IsFacing(Vector3.left);
+                if (IsFacing)
+                {
+                    _controller.TryPullBlock();
+                }
+                _controller.TryPushBlock();
+            }
+            else
+            {
+                bool didTurn = _controller.Turn(Vector3.left);
+                if (!didTurn)
+                {
+                    _controller.Move(Vector3.left);
+                }
+
+            }
         }
         else if (Input.GetKeyDown(UpKey))
         {
-            _controller.Move(Vector3.forward);
+            if (Input.GetKey(PushKey))
+            {
+                if (Invert)
+                {
+                    _controller.Turn(Vector3.back);
+                    _controller.TryPushBlock();
+                }
+                else
+                {
+                _controller.Turn(Vector3.forward);
+                _controller.TryPushBlock();
+                }
+            }
+            
         }
         else if (Input.GetKeyDown(DownKey))
         {
-            _controller.Move(Vector3.back);
-        }
-        
+            if (Input.GetKey(PushKey))
+            {
+                if (Invert)
+                {
+                    _controller.Turn(Vector3.back);
+                    _controller.TryPullBlock();
+                } else
+                {
+                    _controller.Turn(Vector3.forward);
+                    _controller.TryPullBlock();
+                }
 
-	    if (Input.GetKeyDown(PushKey))
-	    {
-	        _controller.TryPushBlock();
-	    }
-	    else if (Input.GetKeyUp(PullKey))
-	    {
-	        _controller.TryPullBlock();
-	    }
+            }
+        }
+        else if (Input.GetKeyDown(JumpKey))
+        {
+           // _controller.Jump(); 
+        }
+
 	}
 }
