@@ -7,6 +7,8 @@ public class BlockColumn : MonoBehaviour
 {
     public Vector3 SupportPosition { get { return _blockColumnSupport.transform.position; } }
 
+    /// <summary>
+    /// A list of blocks in the column in ascending order by y-position. </summary>
     public readonly List<Block> Blocks = new List<Block>();
 
     public Color BaseColor;
