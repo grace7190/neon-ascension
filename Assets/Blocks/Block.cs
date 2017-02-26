@@ -29,7 +29,7 @@ public class Block : MonoBehaviour {
 
     public void MakeFallImmediately()
     {
-        StartCoroutine(MakeFallCoroutine(1));
+        StartCoroutine(MakeFallCoroutine(0));
     }
 
     public void MakeFallAfterSlideBlockDelay()
