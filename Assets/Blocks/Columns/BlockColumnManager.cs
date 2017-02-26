@@ -85,7 +85,16 @@ public class BlockColumnManager : MonoBehaviour
     {
         StartCoroutine(SlideBlockCoroutine(block, direction));
     }
-    
+
+    private void PropagateSlidingToPlayerFromBlock(GameObject block, Vector3 direction)
+    {
+        var playerBehindBlock = block.GetComponent<Block>().GetPlayerInDirection(direction);
+        if (playerBehindBlock != null)
+        {
+            playerBehindBlock.GetComponent<PlayerController>().Move(direction);
+        }
+    }
+
     private IEnumerator SlideBlockCoroutine(GameObject block, Vector3 direction)
     {
         var oldBlockColumn = GetBlockColumnAtLocalPosition(block.transform.parent.localPosition);
@@ -97,6 +106,7 @@ public class BlockColumnManager : MonoBehaviour
         var oldPosition = removedBlock.transform.position;
         while (t <= SlideBlockDuration)
         {
+            PropagateSlidingToPlayerFromBlock(block, direction);
             removedBlock.transform.position = Vector3.Lerp(oldPosition, oldPosition + direction, t / SlideBlockDuration);
             yield return new WaitForEndOfFrame();
             t += Time.deltaTime;

@@ -108,8 +108,8 @@ public class PlayerController : MonoBehaviour
 
             if (!block.GetComponent<Block>().IsLocked)
             {
-                BlockColumnManager.Instance.SlideBlock(block, direction);
                 StartCoroutine(MoveCoroutine(new[] {transform}, Vector3.up));
+                BlockColumnManager.Instance.SlideBlock(block, direction);
             }
         }
     }
