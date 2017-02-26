@@ -18,6 +18,7 @@ public class BlockColumnManager : MonoBehaviour
     
     public GameObject BlockColumnPrefab;
     public GameObject BlockPrefab;
+	public GameObject ImmovableBlockPrefab;
 
 
     void Awake()
