@@ -13,11 +13,13 @@ public class PlayerController : MonoBehaviour
     private const int CastMask = 1 << Layers.Solid;
     private const float CastRadius = 0.1f;
     private const float MoveDurationInSeconds = 0.25f;
+    private const float speed = 4.0f;
+    private const float jumpVelocity = 4.0f;
 
     private bool _isMoving;
     private float _moveTimer;
 
-    public Rigidbody rb; 
+    private Rigidbody rb; 
 
     void Start()
     {
@@ -26,11 +28,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!_isMoving)
-        {
-            transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y,
-                Mathf.RoundToInt(transform.position.z));
-        }
+        
     }
 
     void FixedUpdate()
@@ -48,7 +46,15 @@ public class PlayerController : MonoBehaviour
 
     public bool IsFacing(Vector3 direction)
     {
-        return transform.rotation != Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
+        var yAngle = transform.eulerAngles.y;
+        var flip = 1;
+        if (yAngle > 180)
+        {
+            yAngle -= 180;
+            flip = -1;
+        }
+        var roundRotation = Quaternion.Euler(0.0f, (flip*yAngle / 90) * 90, 0.0f);
+        return roundRotation != Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
 
     }
 
@@ -87,6 +93,26 @@ public class PlayerController : MonoBehaviour
         else if (canPlayerJumpInDirection)
         {
             StartCoroutine(MoveCoroutine(new[] { transform }, direction + Vector3.up));
+        }
+    }
+
+    public void Move2(float hor, float vert)
+    {
+        Vector3 newPosition = transform.position + new Vector3(hor*Time.deltaTime*speed, 0, 0);
+        if (IsOpen(newPosition))
+        {
+            transform.position = newPosition;
+        }
+
+        //transform.eulerAngles = new Vector3(0.0f, Mathf.Atan2(hor, vert), 0.0f);
+    }
+
+    public void Jump()
+    {
+        if(!IsOpen(transform.position - new Vector3(0.0f, 0.5f, 0.0f)))
+        {
+            //rb.AddRelativeForce(0.0f, 2.0f, 0.0f, ForceMode.Impulse);
+            rb.velocity = new Vector3(0.0f, jumpVelocity, 0.0f);
         }
     }
 

@@ -62,6 +62,7 @@ public class PlayerInputManager : MonoBehaviour
             else
             {   //only move if didn't turn
                 bool didTurn = _controller.Turn(Vector3.right);
+                Debug.Log(didTurn);
                 if (!didTurn)
                 {
                     _controller.Move(Vector3.right);
@@ -85,6 +86,7 @@ public class PlayerInputManager : MonoBehaviour
             else
             {
                 bool didTurn = _controller.Turn(Vector3.left);
+                Debug.Log(didTurn);
                 if (!didTurn)
                 {
                     _controller.Move(Vector3.left);
