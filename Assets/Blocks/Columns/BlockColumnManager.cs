@@ -71,14 +71,14 @@ public class BlockColumnManager : MonoBehaviour
         var highestColumn = BlockColumns[0, z];
         for (var x = 1; x < Width; x++)
         {
-            if (BlockColumns[x, z].transform.childCount > highestColumn.transform.childCount)
+            if (BlockColumns[x, z].Blocks.Count > highestColumn.Blocks.Count)
             {
                 highestColumn = BlockColumns[x, z];
             }
         }
 
-        var highestBlock = highestColumn.transform.GetChild(highestColumn.transform.childCount - 1);
-        return highestBlock.position + Vector3.up;
+        var highestBlock = highestColumn.Blocks[highestColumn.Blocks.Count - 1];
+        return highestBlock.transform.position + Vector3.up;
     }
 
     public void SlideBlock(GameObject block, Vector3 direction)
