@@ -1,39 +1,65 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BlockRainGenerator : MonoBehaviour
 {
     public GameObject BlockPrefab;
 
-    private const float SpawnMinDelay = 2f;
-    private const float SpawnMaxDelay = 8f;
-    private const float SpawnRate = 0.6f; //higher = more blocks
+    private const float SpawnMinDelay = 1f;
+    private const float SpawnMaxDelay = 2f;
 
     private float _spawnCooldown;
-    private BlockColumn _blockColumn;
 
     void Start()
     {
-        _blockColumn = GetComponent<BlockColumn>();
-
         SetupNextSpawn();
     }
 
 	void Update ()
 	{
-	    _spawnCooldown -= Time.deltaTime;
-	    if (_spawnCooldown <= 0 && transform.childCount < BlockWallGenerator.WallHeight)
+        _spawnCooldown -= Time.deltaTime;
+	    if (_spawnCooldown <= 0)
 	    {
-	        var block = Instantiate(BlockPrefab);
-	        block.transform.position = _blockColumn.SupportPosition + Vector3.up * (BlockWallGenerator.WallHeight-1);
-            block.transform.position = block.transform.position.RoundToInt();
-            _blockColumn.Add(block);
-            block.GetComponent<Block>().MakeFallImmediately();
-	        SetupNextSpawn();
+	        TrySpawn(BlockColumnManager.BlueTeamZIndex);
+	        TrySpawn(BlockColumnManager.PurpleTeamZIndex);
 	    }
 	}
 
+    private void TrySpawn(int zIndex)
+    {
+        var openBlockColumns = new List<BlockColumn>();
+        for (var x = 0; x < BlockColumnManager.Width; x++)
+        {
+            var blockColumn = BlockColumnManager.Instance.BlockColumns[x, zIndex];
+            var isColumnTopOpen = blockColumn.Blocks.Count == 0 ||
+                GetBlockSpawnPosition(blockColumn).y - blockColumn.Blocks[blockColumn.Blocks.Count - 1].transform.position.y >= 1;
+            if (isColumnTopOpen)
+            {
+                openBlockColumns.Add(blockColumn);
+            }
+        }
+
+        if (openBlockColumns.Count > 0)
+        {
+            var i = Random.Range(0, openBlockColumns.Count);
+            var openBlockColumn = openBlockColumns[i];
+            var block = Instantiate(BlockPrefab);
+            block.transform.position = GetBlockSpawnPosition(openBlockColumn);
+            block.transform.position = block.transform.position.RoundToInt();
+            openBlockColumn.Add(block);
+            block.GetComponent<Block>().MakeFallImmediately();
+            SetupNextSpawn();
+        }
+    }
+
     private void SetupNextSpawn()
     {
-        _spawnCooldown = (Random.Range(SpawnMinDelay, SpawnMaxDelay) + Random.Range(SpawnMinDelay, SpawnMaxDelay)) / SpawnRate;
+        _spawnCooldown = Random.Range(SpawnMinDelay, SpawnMaxDelay);
+    }
+
+    private Vector3 GetBlockSpawnPosition(BlockColumn blockColumn)
+    {
+	    return blockColumn.transform.position + Vector3.up * (BlockColumnManager.Instance.SupportBlockHeight + BlockWallGenerator.WallHeight);
     }
 }

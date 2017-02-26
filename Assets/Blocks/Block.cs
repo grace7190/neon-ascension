@@ -13,6 +13,8 @@ public class Block : MonoBehaviour {
     public Color BaseColor = NeutralColor;
     public bool IsLocked;
 
+    private const int CastMask = 1 << Layers.Player;
+    private const float CastRadius = 0.1f;
     private IEnumerator _colorChangeCoroutine;
     private Rigidbody _rigidbody;
 
@@ -29,12 +31,30 @@ public class Block : MonoBehaviour {
 
     public void MakeFallImmediately()
     {
-        StartCoroutine(MakeFallCoroutine(1));
+        StartCoroutine(MakeFallCoroutine(0));
     }
 
     public void MakeFallAfterSlideBlockDelay()
     {
         StartCoroutine(MakeFallCoroutine(BlockColumnManager.SlideBlockDuration));
+    }
+
+    public GameObject GetPlayerInDirection(Vector3 direction)
+    {
+        var colliders =
+            Physics.OverlapSphere(transform.position + direction,
+                                  CastRadius,
+                                  CastMask,
+                                  QueryTriggerInteraction.Ignore);
+
+        foreach (Collider collider in colliders)
+        {
+            if (collider.tag == Tags.Player) {
+                return collider.gameObject;
+            }
+        }
+
+        return null;
     }
 
     private IEnumerator MakeFallCoroutine(float duration)

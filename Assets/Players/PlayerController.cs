@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -14,22 +14,17 @@ public class PlayerController : MonoBehaviour
     private const float CastRadius = 0.1f;
     private const float MoveDurationInSeconds = 0.25f;
     private const float speed = 4.0f;
-    private const float jumpVelocity = 4.0f;
+    private const float jumpVelocity = 15.0f;
     private const float groundCheck = 0.5f;
 
     private bool _isMoving;
     private float _moveTimer;
 
-    private Rigidbody rb; 
+    private Rigidbody rb;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-    }
-
-    void Update()
-    {
-        
     }
 
     void FixedUpdate()
@@ -66,7 +61,7 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
             return true;
         }
-        return false; 
+        return false;
     }
     
     public void Move(Vector3 direction)
@@ -140,9 +135,9 @@ public class PlayerController : MonoBehaviour
 
             if (!block.GetComponent<Block>().IsLocked)
             {
-                BlockColumnManager.Instance.SlideBlock(block, direction);
                 StartCoroutine(MoveCoroutine(new[] {transform}, Vector3.up));
-            }
+                BlockColumnManager.Instance.SlideBlock(block, direction);
+                }
         }
     }
 
