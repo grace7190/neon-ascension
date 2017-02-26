@@ -15,6 +15,7 @@ public class TeamLivesManager : MonoBehaviour
 
     public GameObject blueLivesIcon;
     public GameObject purpleLivesIcon; 
+	public GameObject livesText;
 
     void Awake()
     {
@@ -72,21 +73,20 @@ public class TeamLivesManager : MonoBehaviour
         }
 
         //draw an icon for each life remaining
+		float w = ((RectTransform)purpleLivesIcon.transform).rect.width;
+		float offset = ((RectTransform)livesText.transform).rect.width;
 
         for (int i = 0; i < _purpleLives; i++)
         {
             GameObject ico = Instantiate(purpleLivesIcon);
-            float w = ((RectTransform)purpleLivesIcon.transform).rect.width;
             ico.transform.SetParent(gameObject.transform, false);
-            ico.transform.Translate(i * w/3 + w/2, 0, 0);
-            //Debug.Log(ico.transform.position);
+			ico.transform.Translate(i * w/2 + offset/2, 0, 0);
         }
         for (int i = 0; i < _blueLives; i++)
         {
             GameObject ico = Instantiate(blueLivesIcon);
-            float w = ((RectTransform)purpleLivesIcon.transform).rect.width;
             ico.transform.SetParent(gameObject.transform, false);
-            ico.transform.Translate(-i * w/3 - w/2, 0, 0);
+            ico.transform.Translate(-i * w/2 - offset/2, 0, 0);
             //Debug.Log(ico.transform.position);
         }
 
