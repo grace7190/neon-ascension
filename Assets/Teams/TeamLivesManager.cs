@@ -16,6 +16,7 @@ public class TeamLivesManager : MonoBehaviour
     public GameObject blueLivesIcon;
     public GameObject purpleLivesIcon; 
 	public GameObject livesText;
+	public AudioSource SFXDeath; 
 
     void Awake()
     {
@@ -25,12 +26,14 @@ public class TeamLivesManager : MonoBehaviour
     void Start()
     {
         UpdateHud();
+		var audioSources = GetComponents<AudioSource>();
+		SFXDeath = audioSources[0];
     }
 
     public void HandlePlayerDeath(GameObject playerGameObject)
     {
         DisablePlayer(playerGameObject);
-
+		SFXDeath.Play ();
         switch (playerGameObject.GetComponent<PlayerController>().Team)
         {
             case Team.Blue:

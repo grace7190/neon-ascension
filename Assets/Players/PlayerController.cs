@@ -18,10 +18,15 @@ public class PlayerController : MonoBehaviour
     private float _moveTimer;
 
     public Rigidbody rb; 
+	public AudioSource SFXPush;
+	public AudioSource SFXDeath; 
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+		var audioSources = GetComponents<AudioSource>();
+		SFXPush = audioSources[0];
+		SFXDeath = audioSources[1];
     }
 
     void Update()
@@ -102,6 +107,7 @@ public class PlayerController : MonoBehaviour
             if (!block.GetComponent<Block>().IsLocked)
             {
                 BlockColumnManager.Instance.SlideBlock(block, direction);
+				SFXPush.Play(); 
             }
         }
     }
@@ -117,6 +123,7 @@ public class PlayerController : MonoBehaviour
             {
                 BlockColumnManager.Instance.SlideBlock(block, direction);
                 StartCoroutine(MoveCoroutine(new[] {transform}, Vector3.up));
+				SFXPush.Play(); 
             }
         }
     }
