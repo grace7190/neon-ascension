@@ -32,8 +32,8 @@ public class BlockRainGenerator : MonoBehaviour
         for (var x = 0; x < BlockColumnManager.Width; x++)
         {
             var blockColumn = BlockColumnManager.Instance.BlockColumns[x, zIndex];
-            var isColumnTopOpen = blockColumn.transform.childCount == 0 ||
-                GetBlockSpawnPosition(blockColumn).y - blockColumn.transform.GetChild(blockColumn.transform.childCount - 1).transform.position.y >= 1;
+            var isColumnTopOpen = blockColumn.Blocks.Count == 0 ||
+                GetBlockSpawnPosition(blockColumn).y - blockColumn.Blocks[blockColumn.Blocks.Count - 1].transform.position.y >= 1;
             if (isColumnTopOpen)
             {
                 openBlockColumns.Add(blockColumn);
@@ -60,6 +60,6 @@ public class BlockRainGenerator : MonoBehaviour
 
     private Vector3 GetBlockSpawnPosition(BlockColumn blockColumn)
     {
-	    return blockColumn.SupportPosition + Vector3.up * (BlockWallGenerator.WallHeight - 1);
+	    return blockColumn.SupportPosition + Vector3.up * BlockWallGenerator.WallHeight;
     }
 }

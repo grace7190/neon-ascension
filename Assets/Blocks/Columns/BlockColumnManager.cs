@@ -71,21 +71,30 @@ public class BlockColumnManager : MonoBehaviour
         var highestColumn = BlockColumns[0, z];
         for (var x = 1; x < Width; x++)
         {
-            if (BlockColumns[x, z].transform.childCount > highestColumn.transform.childCount)
+            if (BlockColumns[x, z].Blocks.Count > highestColumn.Blocks.Count)
             {
                 highestColumn = BlockColumns[x, z];
             }
         }
 
-        var highestBlock = highestColumn.transform.GetChild(highestColumn.transform.childCount - 1);
-        return highestBlock.position + Vector3.up;
+        var highestBlock = highestColumn.Blocks[highestColumn.Blocks.Count - 1];
+        return highestBlock.transform.position + Vector3.up;
     }
 
     public void SlideBlock(GameObject block, Vector3 direction)
     {
         StartCoroutine(SlideBlockCoroutine(block, direction));
     }
-    
+
+    private void PropagateSlidingToPlayerFromBlock(GameObject block, Vector3 direction)
+    {
+        var playerBehindBlock = block.GetComponent<Block>().GetPlayerInDirection(direction);
+        if (playerBehindBlock != null)
+        {
+            playerBehindBlock.GetComponent<PlayerController>().Move(direction);
+        }
+    }
+
     private IEnumerator SlideBlockCoroutine(GameObject block, Vector3 direction)
     {
         var oldBlockColumn = GetBlockColumnAtLocalPosition(block.transform.parent.localPosition);
@@ -97,6 +106,7 @@ public class BlockColumnManager : MonoBehaviour
         var oldPosition = removedBlock.transform.position;
         while (t <= SlideBlockDuration)
         {
+            PropagateSlidingToPlayerFromBlock(block, direction);
             removedBlock.transform.position = Vector3.Lerp(oldPosition, oldPosition + direction, t / SlideBlockDuration);
             yield return new WaitForEndOfFrame();
             t += Time.deltaTime;
