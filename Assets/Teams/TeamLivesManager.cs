@@ -26,8 +26,8 @@ public class TeamLivesManager : MonoBehaviour
     void Start()
     {
         UpdateHud();
-		var audioSources = GetComponents<AudioSource>();
-		SFXDeath = audioSources[0];
+		SFXDeath = GetComponent<AudioSource>();
+		//SFXDeath = audioSource;
     }
 
     public void HandlePlayerDeath(GameObject playerGameObject)
