@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4068553137543724}
   - component: {fileID: 108254552732702254}
-  m_Layer: 29
+  m_Layer: 8
   m_Name: Spotlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 114622955586493316}
   - component: {fileID: 114048516413413216}
   - component: {fileID: 114071286143339944}
-  m_Layer: 29
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 4160628248022524}
   - component: {fileID: 33919055320845440}
   - component: {fileID: 23730757422808370}
-  m_Layer: 29
+  m_Layer: 8
   m_Name: Nose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ MonoBehaviour:
   LeftKey: 276
   RightKey: 275
   PushKey: 46
-  PullKey: 47
+  JumpKey: 0
 --- !u!114 &114071286143339944
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -274,6 +274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Team: 0
+  rb: {fileID: 0}
 --- !u!136 &136095006810907278
 CapsuleCollider:
   m_ObjectHideFlags: 1

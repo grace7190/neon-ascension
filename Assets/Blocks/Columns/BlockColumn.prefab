@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4269367627299678}
   - component: {fileID: 114442989564993140}
   - component: {fileID: 65075878541622190}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BlockColumn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,3 +64,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6420dbc7f5343b54d9a774155e65fb91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BaseColor: {r: 0, g: 0, b: 0, a: 0}
