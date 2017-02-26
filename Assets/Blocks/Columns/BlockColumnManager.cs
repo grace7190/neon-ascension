@@ -16,9 +16,12 @@ public class BlockColumnManager : MonoBehaviour
 
     public readonly BlockColumn[,] BlockColumns = new BlockColumn[Width, Depth];
     
+    public float SupportBlockHeight { get { return transform.position.y + _supportBoxCollider.center.y; } }
+
     public GameObject BlockColumnPrefab;
     public GameObject BlockPrefab;
 
+    private BoxCollider _supportBoxCollider;
 
     void Awake()
     {
@@ -27,6 +30,9 @@ public class BlockColumnManager : MonoBehaviour
 
     void Start()
     {
+        _supportBoxCollider = GetComponent<BoxCollider>();
+        _supportBoxCollider.center = new Vector3((Width - 1) / 2f, -1, (Depth - 1) / 2f);
+
         while (transform.childCount > 0)
         {
             var child = transform.GetChild(0);
@@ -84,6 +90,11 @@ public class BlockColumnManager : MonoBehaviour
     public void SlideBlock(GameObject block, Vector3 direction)
     {
         StartCoroutine(SlideBlockCoroutine(block, direction));
+    }
+
+    public void MoveSupportUp()
+    {
+        _supportBoxCollider.center += Vector3.up;
     }
 
     private void PropagateSlidingToPlayerFromBlock(GameObject block, Vector3 direction)

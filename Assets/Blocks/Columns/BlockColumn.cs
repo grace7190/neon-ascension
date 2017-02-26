@@ -5,8 +5,6 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class BlockColumn : MonoBehaviour
 {
-    public Vector3 SupportPosition { get { return _blockColumnSupport.transform.position; } }
-
     /// <summary>
     /// A list of blocks in the column in ascending order by y-position. </summary>
     public readonly List<Block> Blocks = new List<Block>();
@@ -14,7 +12,6 @@ public class BlockColumn : MonoBehaviour
     public Color BaseColor;
 
     private GameObject _blockFallIndicator;
-    private GameObject _blockColumnSupport;
 
 
     void Start()
@@ -42,14 +39,8 @@ public class BlockColumn : MonoBehaviour
     public void Initialize()
     {
         _blockFallIndicator = transform.FindChild("BlockFallIndicator").gameObject;
-        _blockColumnSupport = transform.FindChild("BlockColumnSupport").gameObject;
     }
-
-    public void MoveSupportUp()
-    {
-        _blockColumnSupport.transform.position += Vector3.up;
-    }
-
+    
     public GameObject Remove(Vector3 position)
     {
         Block removedBlock = null;
@@ -62,7 +53,7 @@ public class BlockColumn : MonoBehaviour
             }
             else if (removedBlock != null)
             {
-                var isRemovedBlockLowest = Mathf.Approximately(removedBlock.transform.position.y, SupportPosition.y + 1);
+                var isRemovedBlockLowest = Mathf.Approximately(removedBlock.transform.position.y, BlockColumnManager.Instance.SupportBlockHeight + 1);
                 if (!isRemovedBlockLowest)
                 {
                     block.MakeFallAfterSlideBlockDelay();
@@ -124,11 +115,11 @@ public class BlockColumn : MonoBehaviour
 
     private void ValidateIsNotBelowSupportBlock(Vector3 position)
     {
-        var isBelowLowest = position.y < SupportPosition.y + 1;
+        var isBelowLowest = position.y < BlockColumnManager.Instance.SupportBlockHeight + 1;
         if (isBelowLowest)
         {
             throw new ArgumentException(string.Format("{0} is below the support block at {1}", position,
-                SupportPosition.y));
+                BlockColumnManager.Instance.SupportBlockHeight));
         }
     }
 
