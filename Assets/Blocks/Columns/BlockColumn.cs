@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -17,6 +18,7 @@ public class BlockColumn : MonoBehaviour
     void Start()
     {
         Initialize();
+		StartCoroutine (BlockFallCoroutine());
     }
 
     public void Initialize()
@@ -28,6 +30,20 @@ public class BlockColumn : MonoBehaviour
     {
         _supportCollider.center += Vector3.up;
     }
+		
+	private IEnumerator BlockFallCoroutine()
+	{
+		for (var i = 1; i < transform.childCount; i++)
+		{
+			var child = transform.GetChild(i);
+			var child_below = transform.GetChild(i-1);
+			if (child.position.y - child_below.position.y > 1.1) {
+				child.gameObject.GetComponent<Block>().MakeFallImmediately(); 
+			}
+		}
+		yield return new WaitForSeconds (0.2f);
+		StartCoroutine (BlockFallCoroutine()); 
+	}
 
     public GameObject Remove(Vector3 position)
     {
