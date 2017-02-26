@@ -47,10 +47,10 @@ public class PlayerInputManager : MonoBehaviour
 			grabOn = Input.GetButton ("Grab_P2");
 		}
 		current_iteration += 1;
-		if (Input.GetKeyDown(RightKey) || (current_iteration >= repeat && horizontalVal == 1))
-        {   
+        if (Input.GetKeyDown(RightKey) || (current_iteration >= repeat && horizontalVal == 1))
+        {
 
-            if (Input.GetKey(PushKey))
+            if (Input.GetKey(PushKey) || grabOn)
             {
                 bool IsFacing = _controller.IsFacing(Vector3.right);
                 if (IsFacing) //if facing left, try to pull left block [ ]->p
@@ -73,7 +73,7 @@ public class PlayerInputManager : MonoBehaviour
 		else if (Input.GetKeyDown(LeftKey) || (current_iteration >= repeat && horizontalVal == -1))
         {  
 
-            if (Input.GetKey(PushKey))
+            if (Input.GetKey(PushKey) || grabOn)
             {
                 bool IsFacing = _controller.IsFacing(Vector3.left);
                 if (IsFacing)
