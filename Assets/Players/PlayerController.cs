@@ -85,15 +85,23 @@ public class PlayerController : MonoBehaviour
 
     public void TryPushBlock()
     {
-        if (!IsOpen(transform.position + transform.forward) &&
-            IsOpen(transform.position + transform.forward * 2) &&
-            !IsFalling)
+        if (!IsOpen(transform.position + transform.forward) && !IsFalling)
         {
             var block = GetBlockInFront();
-            var direction = transform.forward;
+            var isBlockBlocked = !IsOpen(transform.position + transform.forward * 2);
 
-            if (!block.GetComponent<Block>().IsLocked)
+            if (block.GetComponent<Block>().IsLocked)
             {
+                return;
+            }
+
+            if (isBlockBlocked)
+            {
+                block.GetComponent<Block>().AnimateBlocked();
+            }
+            else
+            {
+                var direction = transform.forward;
                 BlockColumnManager.Instance.SlideBlock(block, direction);
             }
         }
