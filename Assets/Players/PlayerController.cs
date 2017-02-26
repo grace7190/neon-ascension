@@ -17,12 +17,6 @@ public class PlayerController : MonoBehaviour
     private bool _isMoving;
     private float _moveTimer;
 
-    public Rigidbody rb; 
-
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
 
     void Update()
     {
@@ -49,7 +43,6 @@ public class PlayerController : MonoBehaviour
     public bool IsFacing(Vector3 direction)
     {
         return transform.rotation != Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
-
     }
 
     public bool Turn(Vector3 direction)
@@ -115,8 +108,8 @@ public class PlayerController : MonoBehaviour
 
             if (!block.GetComponent<Block>().IsLocked)
             {
-                BlockColumnManager.Instance.SlideBlock(block, direction);
                 StartCoroutine(MoveCoroutine(new[] {transform}, Vector3.up));
+                BlockColumnManager.Instance.SlideBlock(block, direction);
             }
         }
     }

@@ -1,17 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Blocks are children GameObjects, in ascending order by y-position.
-/// </summary>
 [ExecuteInEditMode]
 public class BlockColumn : MonoBehaviour
 {
-    public Vector3 SupportPosition { get { return transform.position + _supportCollider.center; } }
+    public Vector3 SupportPosition { get { return _blockColumnSupport.transform.position; } }
+
+    /// <summary>
+    /// A list of blocks in the column in ascending order by y-position. </summary>
+    public readonly List<Block> Blocks = new List<Block>();
 
     public Color BaseColor;
 
-    private BoxCollider _supportCollider;
+    private GameObject _blockFallIndicator;
+    private GameObject _blockColumnSupport;
 
 
     void Start()
@@ -19,33 +22,50 @@ public class BlockColumn : MonoBehaviour
         Initialize();
     }
 
+    void Update()
+    {
+        var isCompacted = true;
+        for (var i = 1; i < Blocks.Count; i++)
+        {
+            var currBlock = Blocks[i];
+            var prevBlock = Blocks[i - 1];
+            if (currBlock.transform.position.y - prevBlock.transform.position.y > 1)
+            {
+                isCompacted = false;
+                _blockFallIndicator.transform.position = prevBlock.transform.position + Vector3.up * 0.5f;
+            }
+        }
+
+        _blockFallIndicator.SetActive(!isCompacted && Blocks.Count > 0);
+    }
+
     public void Initialize()
     {
-        _supportCollider = GetComponent<BoxCollider>();
+        _blockFallIndicator = transform.FindChild("BlockFallIndicator").gameObject;
+        _blockColumnSupport = transform.FindChild("BlockColumnSupport").gameObject;
     }
 
     public void MoveSupportUp()
     {
-        _supportCollider.center += Vector3.up;
+        _blockColumnSupport.transform.position += Vector3.up;
     }
 
     public GameObject Remove(Vector3 position)
     {
-        GameObject removedBlock = null;
-        for (var i = 0; i < transform.childCount; i++)
+        Block removedBlock = null;
+        foreach (var block in Blocks)
         {
-            var child = transform.GetChild(i);
-            if (removedBlock == null && child.position == position)
+            if (removedBlock == null && block.transform.position == position)
             {
-                removedBlock = child.gameObject;
-                removedBlock.GetComponent<Block>().MakeFallAfterSlideBlockDelay();
+                removedBlock = block;
+                removedBlock.MakeFallAfterSlideBlockDelay();
             }
             else if (removedBlock != null)
             {
                 var isRemovedBlockLowest = Mathf.Approximately(removedBlock.transform.position.y, SupportPosition.y + 1);
                 if (!isRemovedBlockLowest)
                 {
-                    child.GetComponent<Block>().MakeFallAfterSlideBlockDelay();
+                    block.MakeFallAfterSlideBlockDelay();
                 }
             }
         }
@@ -57,13 +77,15 @@ public class BlockColumn : MonoBehaviour
         }
 
         removedBlock.transform.SetParent(null);
+        Blocks.Remove(removedBlock);
 
-        return removedBlock;
+        return removedBlock.gameObject;
     }
 
     public void Add(GameObject block)
     {
-        block.GetComponent<Block>().BaseColor = BaseColor;
+        var blockComponent = block.GetComponent<Block>();
+        blockComponent.BaseColor = BaseColor;
 
         var position = block.transform.position;
         ValidateIsAlongColumn(position);
@@ -71,21 +93,22 @@ public class BlockColumn : MonoBehaviour
         ValidateIsOpen(position);
 
         block.transform.SetParent(transform);
-        block.transform.SetSiblingIndex(GetSiblingIndex(position));
+        InsertBlock(blockComponent);
     }
     
-    private int GetSiblingIndex(Vector3 position)
+    private void InsertBlock(Block block)
     {
-        for (var i = 0; i < transform.childCount; i++)
+        var insertIndex = Blocks.Count;
+        for (var i = 0; i < Blocks.Count; i++)
         {
-            var isAbove = transform.GetChild(i).transform.position.y > position.y;
+            var isAbove = Blocks[i].transform.position.y > block.transform.position.y;
             if (isAbove)
             {
-                return i;
+                insertIndex = i;
             }
         }
-
-        return transform.childCount - 1;
+        
+        Blocks.Insert(insertIndex, block);
     }
 
     private void ValidateIsAlongColumn(Vector3 position)
@@ -94,7 +117,8 @@ public class BlockColumn : MonoBehaviour
             Mathf.Approximately(position.z, transform.position.z);
         if (!isInColumn)
         {
-            throw new ArgumentException(string.Format("{0} is not in the column at {1}", position, transform.position));
+            throw new ArgumentException(string.Format("{0} is not in the column at {1}. Column local position is {2}",
+                position, transform.position, transform.localPosition));
         }
     }
 
@@ -111,9 +135,9 @@ public class BlockColumn : MonoBehaviour
     private void ValidateIsOpen(Vector3 position)
     {
         var isOpen = true;
-        for (var i = 0; i < transform.childCount; i++)
+        for (var i = 0; i < Blocks.Count; i++)
         {
-            if (Mathf.Abs(transform.GetChild(i).position.y - position.y) < 1)
+            if (Mathf.Abs(Blocks[i].transform.position.y - position.y) < 1)
             {
                 isOpen = false;
                 break;
@@ -122,7 +146,8 @@ public class BlockColumn : MonoBehaviour
 
         if (!isOpen)
         {
-            throw new ArgumentException(string.Format("{0} is not open", position));
+            throw new ArgumentException(string.Format("{0} is not open on column at {1}. Column local position is {2}",
+                position, transform.position, transform.localPosition));
         }
     }
 }
