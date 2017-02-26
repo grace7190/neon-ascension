@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private const float MoveDurationInSeconds = 0.25f;
     private const float speed = 4.0f;
     private const float jumpVelocity = 4.0f;
+    private const float groundCheck = 0.5f;
 
     private bool _isMoving;
     private float _moveTimer;
@@ -103,15 +104,13 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = newPosition;
         }
-
-        //transform.eulerAngles = new Vector3(0.0f, Mathf.Atan2(hor, vert), 0.0f);
+        
     }
 
     public void Jump()
     {
-        if(!IsOpen(transform.position - new Vector3(0.0f, 0.5f, 0.0f)))
+        if(isGrounded())
         {
-            //rb.AddRelativeForce(0.0f, 2.0f, 0.0f, ForceMode.Impulse);
             rb.velocity = new Vector3(0.0f, jumpVelocity, 0.0f);
         }
     }
@@ -120,7 +119,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!IsOpen(transform.position + transform.forward) &&
             IsOpen(transform.position + transform.forward * 2) &&
-            !IsFalling)
+            isGrounded())
         {
             var block = GetBlockInFront();
             var direction = transform.forward;
@@ -134,7 +133,7 @@ public class PlayerController : MonoBehaviour
 
     public void TryPullBlock()
     {
-        if (!IsOpen(transform.position + transform.forward) && !IsFalling)
+        if (!IsOpen(transform.position + transform.forward) && isGrounded())
         {
             var block = GetBlockInFront();
             var direction = -transform.forward;
@@ -146,7 +145,12 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    
+
+    private bool isGrounded()
+    {
+        return !IsOpen(transform.position - new Vector3(0.0f, groundCheck, 0.0f));
+    }
+
     private bool IsOpen(Vector3 position)
     {
         var colliders = Physics.OverlapSphere(position, CastRadius, CastMask);

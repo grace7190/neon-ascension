@@ -2,17 +2,9 @@
 
 public class PlayerJoystickInputManager : MonoBehaviour
 {
-    public bool Invert;
-
-    public KeyCode UpKey;
-    public KeyCode DownKey;
-    public KeyCode LeftKey;
-    public KeyCode RightKey;
-
-    public KeyCode PushKey;
-    public KeyCode JumpKey;
 
     private PlayerController _controller;
+    private bool invert;
     private float horizontalVal;
     private float verticalVal;
     private bool grabOn;
@@ -34,6 +26,7 @@ public class PlayerJoystickInputManager : MonoBehaviour
         }
         else
         {
+            invert = true;
             horizontalVal = Input.GetAxis("Horizontal_P2");
             verticalVal = Input.GetAxis("Vertical_P2");
             grabOn = Input.GetButton("Grab_P2");
@@ -42,7 +35,7 @@ public class PlayerJoystickInputManager : MonoBehaviour
         if (horizontalVal == 1)
         {
 
-            if (Input.GetKey(PushKey) || grabOn)
+            if (grabOn)
             {
                 bool IsFacing = _controller.IsFacing(Vector3.right);
                 if (IsFacing) //if facing left, try to pull left block [ ]->p
@@ -64,7 +57,7 @@ public class PlayerJoystickInputManager : MonoBehaviour
         else if (horizontalVal == -1)
         {
 
-            if (Input.GetKey(PushKey) || grabOn)
+            if (grabOn)
             {
                 bool IsFacing = _controller.IsFacing(Vector3.left);
                 if (IsFacing)
@@ -85,9 +78,9 @@ public class PlayerJoystickInputManager : MonoBehaviour
         }
         else if (verticalVal == -1)
         {
-            if (Input.GetKey(PushKey) || grabOn)
+            if (grabOn)
             {
-                if (Invert)
+                if (invert)
                 {
                     _controller.Turn(Vector3.back);
                     _controller.TryPushBlock();
@@ -102,9 +95,9 @@ public class PlayerJoystickInputManager : MonoBehaviour
         }
         else if (verticalVal == 1)
         {
-            if (Input.GetKey(PushKey) || grabOn)
+            if (grabOn)
             {
-                if (Invert)
+                if (invert)
                 {
                     _controller.Turn(Vector3.back);
                     _controller.TryPullBlock();
@@ -117,7 +110,7 @@ public class PlayerJoystickInputManager : MonoBehaviour
 
             }
         }
-        if (Input.GetKeyDown(JumpKey) || jump)
+        if (jump)
         {
             _controller.Jump(); 
         }
