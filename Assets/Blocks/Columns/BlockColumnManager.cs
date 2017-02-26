@@ -5,20 +5,20 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class BlockColumnManager : MonoBehaviour
 {
+    public const int Depth = 3;
+    public const int Width = 10;
+    public const int WallZIndex = 1;
+    public const int BlueTeamZIndex = 0;
+    public const int PurpleTeamZIndex = 2;
     public const float SlideBlockDuration = 0.25f;
 
     public static BlockColumnManager Instance;
 
+    public readonly BlockColumn[,] BlockColumns = new BlockColumn[Width, Depth];
+    
     public GameObject BlockColumnPrefab;
     public GameObject BlockPrefab;
 
-    private const int Depth = 3;
-    private const int Width = 10;
-    private const int WallZIndex = 1;
-    private const int BlueTeamZIndex = 0;
-    private const int PurpleTeamZIndex = 2;
-
-    private readonly BlockColumn[,] _blockColumns = new BlockColumn[Width, Depth];
 
     void Awake()
     {
@@ -43,7 +43,7 @@ public class BlockColumnManager : MonoBehaviour
                 blockColumn.transform.localPosition = new Vector3(x, 0, z);
                 var blockColumnComponent = blockColumn.GetComponent<BlockColumn>();
                 blockColumnComponent.Initialize();
-                _blockColumns[x, z] = blockColumnComponent;
+                BlockColumns[x, z] = blockColumnComponent;
                     
                 if (z == WallZIndex)
                 {
@@ -53,8 +53,6 @@ public class BlockColumnManager : MonoBehaviour
                 else
                 {
                     blockColumnComponent.BaseColor = z == BlueTeamZIndex ? Block.BlueColor : Block.PurpleColor;
-                    blockColumnComponent.gameObject.AddComponent(typeof(BlockRainGenerator));
-                    blockColumnComponent.GetComponent<BlockRainGenerator>().BlockPrefab = BlockPrefab;
                 }
 
                 var block = Instantiate(BlockPrefab);
@@ -70,12 +68,12 @@ public class BlockColumnManager : MonoBehaviour
     public Vector3 GetRespawnPoint(Team team)
     {
         var z = team == Team.Blue ? BlueTeamZIndex : PurpleTeamZIndex;
-        var highestColumn = _blockColumns[0, z];
+        var highestColumn = BlockColumns[0, z];
         for (var x = 1; x < Width; x++)
         {
-            if (_blockColumns[x, z].transform.childCount > highestColumn.transform.childCount)
+            if (BlockColumns[x, z].transform.childCount > highestColumn.transform.childCount)
             {
-                highestColumn = _blockColumns[x, z];
+                highestColumn = BlockColumns[x, z];
             }
         }
 
@@ -87,7 +85,7 @@ public class BlockColumnManager : MonoBehaviour
     {
         StartCoroutine(SlideBlockCoroutine(block, direction));
     }
-
+    
     private IEnumerator SlideBlockCoroutine(GameObject block, Vector3 direction)
     {
         var oldBlockColumn = GetBlockColumnAtLocalPosition(block.transform.parent.localPosition);
@@ -116,7 +114,7 @@ public class BlockColumnManager : MonoBehaviour
     {
         try
         {
-            return _blockColumns[Mathf.RoundToInt(localPosition.x), Mathf.RoundToInt(localPosition.z)];
+            return BlockColumns[Mathf.RoundToInt(localPosition.x), Mathf.RoundToInt(localPosition.z)];
         }
         catch (IndexOutOfRangeException)
         {

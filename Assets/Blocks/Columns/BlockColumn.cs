@@ -138,7 +138,8 @@ public class BlockColumn : MonoBehaviour
 
         if (!isOpen)
         {
-            throw new ArgumentException(string.Format("{0} is not open", position));
+            throw new ArgumentException(string.Format("{0} is not open on column at {1}. Column local position is {2}",
+                position, transform.position, transform.localPosition));
         }
     }
 }

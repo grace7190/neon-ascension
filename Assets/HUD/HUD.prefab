@@ -367,6 +367,8 @@ MonoBehaviour:
     type: 2}
   purpleLivesIcon: {fileID: 1721718408941698, guid: f1e02af44c5644a4889029f897742404,
     type: 2}
+  livesText: {fileID: 1971166070205492, guid: bba1dde8c65a93a4496f0f1ecfce6d5b, type: 2}
+  SFXDeath: {fileID: 0}
 --- !u!114 &114845059931817560
 MonoBehaviour:
   m_ObjectHideFlags: 1
