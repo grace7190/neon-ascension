@@ -20,7 +20,7 @@ public class BlockWallGenerator : MonoBehaviour
 
 	void Update()
 	{
-		while (_blockColumn.Blocks.Count < WallHeight)
+        while (0 < _blockColumn.Blocks.Count && _blockColumn.Blocks.Count < WallHeight)
 		{
 			GameObject newTopBlock;
 			var topBlock = _blockColumn.Blocks[_blockColumn.Blocks.Count - 1].gameObject;

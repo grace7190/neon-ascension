@@ -10,7 +10,11 @@ public class Destructor : MonoBehaviour
             if (blockColumn != null)
             {
                 blockColumn.Remove(other.transform.position);
-                blockColumn.MoveSupportUp();
+            }
+
+            if (BlockColumnManager.Instance.SupportBlockHeight - transform.position.y < 0.5)
+            {
+                BlockColumnManager.Instance.MoveSupportUp();
             }
 
             Destroy(other.gameObject);

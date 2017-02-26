@@ -57,6 +57,19 @@ public class Block : MonoBehaviour {
         return null;
     }
 
+    public void AnimateBlocked()
+    {
+        float waitDuration = 0.5f;
+        StartCoroutine(AnimateBlockedCoroutine(waitDuration));
+    }
+
+    private IEnumerator AnimateBlockedCoroutine(float waitDuration)
+    {
+        ChangeColor(LockedColor, ChangeColorDuration);
+        yield return new WaitForSeconds(ChangeColorDuration + waitDuration);
+        ChangeColor(BaseColor, ChangeColorDuration);
+    }
+
     private IEnumerator MakeFallCoroutine(float duration)
     {
         if (_rigidbody == null)
