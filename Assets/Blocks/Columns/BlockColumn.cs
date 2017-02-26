@@ -51,20 +51,19 @@ public class BlockColumn : MonoBehaviour
     {
         _blockColumnSupport.transform.position += Vector3.up;
     }
-		
-	private IEnumerator BlockFallCoroutine()
-	{
-		for (var i = 1; i < transform.childCount; i++)
-		{
-			var child = transform.GetChild(i);
-			var child_below = transform.GetChild(i-1);
-			if (child.position.y - child_below.position.y > 1.1) {
-				child.gameObject.GetComponent<Block>().MakeFallImmediately(); 
-			}
-		}
-		yield return new WaitForSeconds (0.2f);
-		StartCoroutine (BlockFallCoroutine()); 
-	}
+
+    private IEnumerator BlockFallCoroutine()
+    {
+        for (var i = 1; i < Blocks.Count; i++)
+        {
+            if (Blocks[i].transform.position.y - Blocks[i - 1].transform.position.y > 1.1)
+            {
+                Blocks[i].MakeFallImmediately(); 
+            }
+        }
+        yield return new WaitForSeconds(0.2f);
+        StartCoroutine(BlockFallCoroutine()); 
+    }
 
     public GameObject Remove(Vector3 position)
     {
