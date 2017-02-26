@@ -109,18 +109,26 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector3(0.0f, jumpVelocity, 0.0f);
         }
     }
-
+    
     public void TryPushBlock()
     {
-        if (!IsOpen(transform.position + transform.forward) &&
-            IsOpen(transform.position + transform.forward * 2) &&
-            isGrounded())
+        if (!IsOpen(transform.position + transform.forward) && isGrounded())
         {
             var block = GetBlockInFront();
-            var direction = transform.forward;
+            var isBlockBlocked = !IsOpen(transform.position + transform.forward * 2);
 
-            if (!block.GetComponent<Block>().IsLocked)
+            if (block.GetComponent<Block>().IsLocked)
             {
+                return;
+            }
+
+            if (isBlockBlocked)
+            {
+                block.GetComponent<Block>().AnimateBlocked();
+            }
+            else
+            {
+                var direction = transform.forward;
                 BlockColumnManager.Instance.SlideBlock(block, direction);
             }
         }
