@@ -17,16 +17,14 @@ public class PlayerController : MonoBehaviour
     private bool _isMoving;
     private float _moveTimer;
 
-    public Rigidbody rb; 
-	public AudioSource SFXPush;
-	public AudioSource SFXDeath; 
+    public Rigidbody rb;
+    public AudioSource SFXPush;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-		var audioSources = GetComponents<AudioSource>();
-		SFXPush = audioSources[0];
-		SFXDeath = audioSources[1];
+        var audioSources = GetComponents<AudioSource>();
+        SFXPush = audioSources[0];
     }
 
     void Update()
@@ -44,7 +42,8 @@ public class PlayerController : MonoBehaviour
         GetComponent<Rigidbody>().AddForce(gravity, ForceMode.Acceleration);
     }
 
-    void OnCollisionEnter(Collision collision) {
+    void OnCollisionEnter(Collision collision)
+    {
         if (collision.transform.position.y < transform.position.y)
         {
             IsFalling = false;
@@ -64,9 +63,9 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
             return true;
         }
-        return false; 
+        return false;
     }
-    
+
     public void Move(Vector3 direction)
     {
         if (_isMoving || IsFalling)
@@ -82,7 +81,8 @@ public class PlayerController : MonoBehaviour
             // Check if player is jumping down, check for the platform under direction
             var isPlayerJumpingDownInDirection = IsOpen(transform.position + direction + Vector3.down);
 
-            if (isPlayerJumpingDownInDirection) {
+            if (isPlayerJumpingDownInDirection)
+            {
                 // Lock movement till player has reached the bottom
                 IsFalling = true;
             }
@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
             if (!block.GetComponent<Block>().IsLocked)
             {
                 BlockColumnManager.Instance.SlideBlock(block, direction);
-				SFXPush.Play(); 
+                SFXPush.Play();
             }
         }
     }
@@ -122,12 +122,12 @@ public class PlayerController : MonoBehaviour
             if (!block.GetComponent<Block>().IsLocked)
             {
                 BlockColumnManager.Instance.SlideBlock(block, direction);
-                StartCoroutine(MoveCoroutine(new[] {transform}, Vector3.up));
-				SFXPush.Play(); 
+                SFXPush.Play();
+                StartCoroutine(MoveCoroutine(new[] { transform }, Vector3.up));
             }
         }
     }
-    
+
     private bool IsOpen(Vector3 position)
     {
         var colliders = Physics.OverlapSphere(position, CastRadius, CastMask);

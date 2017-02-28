@@ -3,15 +3,10 @@
 public class PlayerDeathController : MonoBehaviour
 {
     private PlayerController _playerController;
-    public AudioSource SFXDeath;
 
     void Start()
     {
         _playerController = GetComponent<PlayerController>();
-
-        var audioSources = GetComponents<AudioSource>();
-        //SFXPush = audioSources[0];
-        SFXDeath = audioSources[1];
     }
 
     void OnTriggerEnter(Collider other)
@@ -24,7 +19,6 @@ public class PlayerDeathController : MonoBehaviour
             if (isUnderBlock && !_playerController.IsFalling)
             {
                 TeamLivesManager.Instance.HandlePlayerDeath(gameObject);
-
             }
         }
         else if (other.CompareTag(Tags.Destructor))
