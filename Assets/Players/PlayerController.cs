@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private const float CastRadius = 0.1f;
     private const float MoveDurationInSeconds = 0.25f;
     private const float speed = 4.0f;
-    private const float jumpVelocity = 15.0f;
+    private const float jumpVelocity = 18.0f;
     private const float groundCheck = 0.5f;
 
     private bool _isMoving;

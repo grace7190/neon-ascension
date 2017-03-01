@@ -32,6 +32,7 @@ public class PlayerJoystickInputManager : MonoBehaviour
             grabOn = Input.GetButton("Grab_P2");
             jump = Input.GetButton("Jump_P2");
         }
+        
         if (horizontalVal == 1)
         {
 
