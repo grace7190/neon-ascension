@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -13,11 +13,14 @@ public class PlayerController : MonoBehaviour
     private const int CastMask = 1 << Layers.Solid;
     private const float CastRadius = 0.1f;
     private const float MoveDurationInSeconds = 0.25f;
+    private const float speed = 4.0f;
+    private const float jumpVelocity = 18.0f;
+    private const float groundCheck = 0.5f;
 
     private bool _isMoving;
     private float _moveTimer;
 
-    public Rigidbody rb;
+    private Rigidbody rb;
     public AudioSource SFXPush;
 
     void Start()
@@ -25,15 +28,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         var audioSources = GetComponents<AudioSource>();
         SFXPush = audioSources[0];
-    }
-
-    void Update()
-    {
-        if (!_isMoving)
-        {
-            transform.position = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y,
-                Mathf.RoundToInt(transform.position.z));
-        }
     }
 
     void FixedUpdate()
@@ -52,7 +46,15 @@ public class PlayerController : MonoBehaviour
 
     public bool IsFacing(Vector3 direction)
     {
-        return transform.rotation != Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
+        var yAngle = transform.eulerAngles.y;
+        var flip = 1;
+        if (yAngle > 180)
+        {
+            yAngle -= 180;
+            flip = -1;
+        }
+        var roundRotation = Quaternion.Euler(0.0f, (flip*yAngle / 90) * 90, 0.0f);
+        return roundRotation != Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
 
     }
 
@@ -65,7 +67,7 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
-
+   
     public void Move(Vector3 direction)
     {
         if (_isMoving || IsFalling)
@@ -95,9 +97,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Move2(float hor, float vert)
+    {
+        Vector3 newPosition = transform.position + new Vector3(hor*Time.deltaTime*speed, 0, 0);
+        if (IsOpen(newPosition))
+        {
+            transform.position = newPosition;
+        }
+        
+    }
+
+    public void Jump()
+    {
+        if(isGrounded())
+        {
+            rb.velocity = new Vector3(0.0f, jumpVelocity, 0.0f);
+        }
+    }
+    
     public void TryPushBlock()
     {
-        if (!IsOpen(transform.position + transform.forward) && !IsFalling)
+        if (!IsOpen(transform.position + transform.forward) && isGrounded())
         {
             var block = GetBlockInFront();
             var isBlockBlocked = !IsOpen(transform.position + transform.forward * 2);
@@ -122,18 +142,24 @@ public class PlayerController : MonoBehaviour
 
     public void TryPullBlock()
     {
-        if (!IsOpen(transform.position + transform.forward) && !IsFalling)
+        if (!IsOpen(transform.position + transform.forward) && isGrounded())
         {
             var block = GetBlockInFront();
             var direction = -transform.forward;
 
             if (!block.GetComponent<Block>().IsLocked)
             {
+                StartCoroutine(MoveCoroutine(new[] {transform}, Vector3.up));
                 BlockColumnManager.Instance.SlideBlock(block, direction);
                 SFXPush.Play();
                 StartCoroutine(MoveCoroutine(new[] { transform }, Vector3.up));
             }
         }
+    }
+
+    private bool isGrounded()
+    {
+        return !IsOpen(transform.position - new Vector3(0.0f, groundCheck, 0.0f));
     }
 
     private bool IsOpen(Vector3 position)

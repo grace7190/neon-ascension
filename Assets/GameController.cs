@@ -27,8 +27,8 @@ public class GameController : MonoBehaviour {
 			Time.timeScale = 0.0f;
 			gamePaused = true;
 			pauseMenu.SetActive (true);
-			player1.GetComponent<PlayerInputManager>().enabled = false;
-			player2.GetComponent<PlayerInputManager>().enabled = false;
+			player1.GetComponent<PlayerJoystickInputManager>().enabled = false;
+			player2.GetComponent<PlayerJoystickInputManager>().enabled = false;
 		}
 	}
 
@@ -36,8 +36,8 @@ public class GameController : MonoBehaviour {
 		pauseMenu.SetActive (false);
 		Time.timeScale = 1.0f;
 		gamePaused = false;
-		player1.GetComponent<PlayerInputManager>().enabled = true;
-		player2.GetComponent<PlayerInputManager>().enabled = true;
+		player1.GetComponent<PlayerJoystickInputManager>().enabled = true;
+		player2.GetComponent<PlayerJoystickInputManager>().enabled = true;
 	}
 
 	public void Restart() {
