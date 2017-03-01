@@ -1,4 +1,4 @@
-﻿﻿using System.Collections;
+﻿using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -149,10 +149,9 @@ public class PlayerController : MonoBehaviour
 
             if (!block.GetComponent<Block>().IsLocked)
             {
-                StartCoroutine(MoveCoroutine(new[] {transform}, Vector3.up));
+                Jump();
                 BlockColumnManager.Instance.SlideBlock(block, direction);
                 SFXPush.Play();
-                StartCoroutine(MoveCoroutine(new[] { transform }, Vector3.up));
             }
         }
     }
