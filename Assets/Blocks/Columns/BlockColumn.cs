@@ -42,7 +42,20 @@ public class BlockColumn : MonoBehaviour
     {
         _blockFallIndicator = transform.FindChild("BlockFallIndicator").gameObject;
     }
-    
+
+    private IEnumerator BlockFallCoroutine()
+    {
+        for (var i = 1; i < Blocks.Count; i++)
+        {
+            if (Blocks[i].transform.position.y - Blocks[i - 1].transform.position.y > 1.1)
+            {
+                Blocks[i].MakeFallImmediately();
+            }
+        }
+        yield return new WaitForSeconds(0.2f);
+        StartCoroutine(BlockFallCoroutine());
+    }
+
     public GameObject Remove(Vector3 position)
     {
         Block removedBlock = null;
