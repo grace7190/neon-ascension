@@ -60,6 +60,6 @@ public class BlockRainGenerator : MonoBehaviour
 
     private Vector3 GetBlockSpawnPosition(BlockColumn blockColumn)
     {
-	    return blockColumn.SupportPosition + Vector3.up * BlockWallGenerator.WallHeight;
+	    return blockColumn.transform.position + Vector3.up * (BlockColumnManager.Instance.SupportBlockHeight + BlockWallGenerator.WallHeight);
     }
 }
