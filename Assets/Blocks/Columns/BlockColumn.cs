@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ public class BlockColumn : MonoBehaviour
     void Start()
     {
         Initialize();
+        StartCoroutine(BlockFallCoroutine());
     }
 
     void Update()
@@ -40,7 +42,20 @@ public class BlockColumn : MonoBehaviour
     {
         _blockFallIndicator = transform.FindChild("BlockFallIndicator").gameObject;
     }
-    
+
+    private IEnumerator BlockFallCoroutine()
+    {
+        for (var i = 1; i < Blocks.Count; i++)
+        {
+            if (Blocks[i].transform.position.y - Blocks[i - 1].transform.position.y > 1.1)
+            {
+                Blocks[i].MakeFallImmediately();
+            }
+        }
+        yield return new WaitForSeconds(0.2f);
+        StartCoroutine(BlockFallCoroutine());
+    }
+
     public GameObject Remove(Vector3 position)
     {
         Block removedBlock = null;
@@ -86,7 +101,7 @@ public class BlockColumn : MonoBehaviour
         block.transform.SetParent(transform);
         InsertBlock(blockComponent);
     }
-    
+
     private void InsertBlock(Block block)
     {
         var insertIndex = Blocks.Count;
@@ -98,13 +113,13 @@ public class BlockColumn : MonoBehaviour
                 insertIndex = i;
             }
         }
-        
+
         Blocks.Insert(insertIndex, block);
     }
 
     private void ValidateIsAlongColumn(Vector3 position)
     {
-        var isInColumn = Mathf.Approximately(position.x, transform.position.x) && 
+        var isInColumn = Mathf.Approximately(position.x, transform.position.x) &&
             Mathf.Approximately(position.z, transform.position.z);
         if (!isInColumn)
         {
