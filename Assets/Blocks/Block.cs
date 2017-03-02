@@ -63,6 +63,35 @@ public class Block : MonoBehaviour {
         StartCoroutine(AnimateBlockedCoroutine(waitDuration));
     }
 
+    public void AnimateDeletion()
+    {
+        // Cause the blocks to stop moving
+        GetComponent<Rigidbody>().useGravity = false;
+        GetComponent<Rigidbody>().isKinematic = true;
+        StartCoroutine(AnimateDeletionCoroutine(6));
+    }
+
+    private IEnumerator AnimateDeletionCoroutine(int blinkTimes)
+    {
+        float flashDurationUnlocked = 0.8f;
+        float flashDurationLocked = 0.1f;
+        float changeTime = 0.01f;
+
+        for (int i = 0; i < blinkTimes; i++) {
+            ChangeColor(LockedColor, changeTime);
+            yield return new WaitForSeconds(changeTime + flashDurationLocked);
+            ChangeColor(BaseColor, changeTime);
+            yield return new WaitForSeconds(changeTime + flashDurationUnlocked);
+            flashDurationUnlocked -= flashDurationUnlocked * 0.5f;
+        }
+        ChangeColor(LockedColor, changeTime);
+
+        // Fall due to gravity
+        GetComponent<Rigidbody>().useGravity = true;
+        GetComponent<Rigidbody>().isKinematic = false;
+        GetComponent<Collider>().isTrigger = true;
+    }
+
     private IEnumerator AnimateBlockedCoroutine(float waitDuration)
     {
         ChangeColor(LockedColor, ChangeColorDuration);
