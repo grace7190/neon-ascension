@@ -10,8 +10,8 @@ public class PlayerController : MonoBehaviour
 
     public Team Team;
 
-    private const int CastMask = 1 << Layers.Solid;
-    private const float CastRadius = 0.1f;
+    private const int CastMask = 1 << Layers.Solid | 1 << Layers.IgnoreColumnSupport;
+    private const float CastRadius = 0.2f;
     private const float MoveDurationInSeconds = 0.25f;
     private const float speed = 4.0f;
     private const float jumpVelocity = 18.0f;
