@@ -16,16 +16,18 @@ public class PlayerController : MonoBehaviour
     private const float speed = 4.0f;
     private const float jumpVelocity = 18.0f;
     private const float groundCheck = 0.5f;
-
+     
     private bool _isMoving;
     private float _moveTimer;
 
-    private Rigidbody rb;
+    private Rigidbody _rb;
+    private Animator _anim;
     public AudioSource SFXPush;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
+        _anim = GetComponentInChildren<Animator>();
         var audioSources = GetComponents<AudioSource>();
         SFXPush = audioSources[0];
     }
@@ -67,37 +69,8 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
-   
-    public void Move(Vector3 direction)
-    {
-        if (_isMoving || IsFalling)
-        {
-            return;
-        }
 
-        var canPlayerMoveInDirection = IsOpen(transform.position + direction);
-        var canPlayerJumpInDirection = IsOpen(transform.position + direction + Vector3.up);
-
-        if (canPlayerMoveInDirection)
-        {
-            // Check if player is jumping down, check for the platform under direction
-            var isPlayerJumpingDownInDirection = IsOpen(transform.position + direction + Vector3.down);
-
-            if (isPlayerJumpingDownInDirection)
-            {
-                // Lock movement till player has reached the bottom
-                IsFalling = true;
-            }
-
-            StartCoroutine(MoveCoroutine(new[] { transform }, direction));
-        }
-        else if (canPlayerJumpInDirection)
-        {
-            StartCoroutine(MoveCoroutine(new[] { transform }, direction + Vector3.up));
-        }
-    }
-
-    public void Move2(float hor, float vert)
+    public void Move(float hor, float vert)
     {
         Vector3 newPosition = transform.position + new Vector3(hor*Time.deltaTime*speed, 0, 0);
         if (IsOpen(newPosition))
@@ -111,7 +84,7 @@ public class PlayerController : MonoBehaviour
     {
         if(isGrounded())
         {
-            rb.velocity = new Vector3(0.0f, jumpVelocity, 0.0f);
+            _rb.velocity = new Vector3(0.0f, jumpVelocity, 0.0f);
         }
     }
     
