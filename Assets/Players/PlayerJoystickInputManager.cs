@@ -50,7 +50,7 @@ public class PlayerJoystickInputManager : MonoBehaviour
                 bool didTurn = _controller.Turn(Vector3.right);
                 if (!didTurn)
                 {
-                    _controller.Move2(horizontalVal, verticalVal);
+                    _controller.Move(horizontalVal, verticalVal);
                 }
 
             }
@@ -72,7 +72,7 @@ public class PlayerJoystickInputManager : MonoBehaviour
                 bool didTurn = _controller.Turn(Vector3.left);
                 if (!didTurn)
                 {
-                    _controller.Move2(horizontalVal, verticalVal);
+                    _controller.Move(horizontalVal, verticalVal);
                 }
 
             }
