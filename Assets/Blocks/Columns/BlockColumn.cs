@@ -18,7 +18,7 @@ public class BlockColumn : MonoBehaviour
     void Start()
     {
         Initialize();
-        BlockFallCoroutine(false);
+        StartCoroutine(BlockFallCoroutine());
     }
 
     void Update()
@@ -43,7 +43,7 @@ public class BlockColumn : MonoBehaviour
         _blockFallIndicator = transform.FindChild("BlockFallIndicator").gameObject;
     }
 
-    private IEnumerator BlockFallCoroutine(bool repeat)
+    private IEnumerator BlockFallCoroutine()
     {
         for (var i = 1; i < Blocks.Count; i++)
         {
@@ -53,9 +53,7 @@ public class BlockColumn : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(0.2f);
-
-        if (repeat)
-            StartCoroutine(BlockFallCoroutine(true));
+        StartCoroutine(BlockFallCoroutine());
     }
 
     public GameObject Remove(Vector3 position)
