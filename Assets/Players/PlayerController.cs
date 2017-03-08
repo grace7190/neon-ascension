@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public const float GravityScale = 10.0f;
-
+    public bool IsDebug = false;
     public bool IsFalling { get; private set; }
 
     public Team Team;
@@ -81,9 +81,10 @@ public class PlayerController : MonoBehaviour
 
     public void Move(float hor, float vert)
     {
-        Vector3 newPosition = transform.position + new Vector3(hor*Time.deltaTime*speed, 0, 0);
-        if (IsOpen(newPosition))
-        {
+        float deltaMovement = (float)System.Math.Round(Time.deltaTime*speed,1);
+        Vector3 newPosition = transform.position + new Vector3(hor*deltaMovement, 0, 0);
+
+        if (IsOpenForMove(new Vector3(hor, 0, 0), deltaMovement)) {
             transform.position = newPosition;
         }
         
@@ -145,6 +146,43 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded()
     {
         return !IsOpen(transform.position - new Vector3(0.0f, groundCheck, 0.0f));
+    }
+
+    private bool IsOpenForMove(Vector3 direction, float distance)
+    {
+        RaycastHit hitInfo = new RaycastHit();
+        var capsuleCollider = GetComponent<CapsuleCollider>();
+
+        var boxDimensions = new Vector3(capsuleCollider.radius, capsuleCollider.height/2 * 0.9f, capsuleCollider.radius);
+        boxDimensions.Scale(transform.localScale);
+
+        bool hit =  Physics.BoxCast(
+                        transform.position,
+                        boxDimensions,
+                        direction,
+                        out hitInfo,
+                        Quaternion.identity,
+                        distance,
+                        CastMask,
+                        QueryTriggerInteraction.Ignore);
+
+        if (IsDebug)
+        {
+            if (hit)
+            {
+                hitInfo.collider.gameObject.GetComponent<Block>().AnimateBlocked();
+            }
+
+            ExtDebug.DrawBoxCastOnHit(
+                transform.position,
+                boxDimensions,
+                Quaternion.identity,
+                direction,
+                distance,
+                Color.blue);
+        }
+
+        return !hit;
     }
 
     private bool IsOpen(Vector3 position)
