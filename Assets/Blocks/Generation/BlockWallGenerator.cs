@@ -24,7 +24,7 @@ public class BlockWallGenerator : MonoBehaviour
         {
             GameObject newTopBlock;
             var topBlock = _blockColumn.Blocks[_blockColumn.Blocks.Count - 1].gameObject;
-            if (Random.Range(1,100) < 5)
+            if (Random.Range(1,20) <= 2)
             {
                 newTopBlock = Instantiate(BlockColumnManager.Instance.BombBlockPrefab);
             } else if (num_movable < accumulated) {

@@ -104,7 +104,6 @@ public class BlockColumnManager : MonoBehaviour
         
         var oldBlockColumn = GetBlockColumnAtLocalPosition(block.transform.parent.localPosition);
         var newBlockColumn = GetBlockColumnAtLocalPosition(block.transform.parent.localPosition + direction);
-
         var removedBlock = oldBlockColumn.Remove(block.transform.position);
 
         var t = 0f;
@@ -127,22 +126,64 @@ public class BlockColumnManager : MonoBehaviour
 
         //if bomb block, make active, start exploding coroutine
 
-        if (block.tag == "BombBlock")
+        if (removedBlock.tag == "BombBlock")
         {
             Debug.Log("FIRE IN THE HOLE");
-            StartCoroutine(BombExplodeCoroutine(block));
+            StartCoroutine(BombExplodeCoroutine(newBlockColumn, removedBlock));
+
         }
 
     }
 
-    private IEnumerator BombExplodeCoroutine(GameObject block)
+    private IEnumerator BombExplodeCoroutine(BlockColumn blockColumn, GameObject block)
     {
         yield return new WaitForSeconds(1.0f);
-        //remove blocks in a 3x3x1 square around block
-        //get current column, remove +1 and -1
-        //get left column
-        //get right column
+        destroyBlock(blockColumn, block.transform.position);
+        destroyBlock(blockColumn, block.transform.position + transform.up);
+        destroyBlock(blockColumn, block.transform.position - transform.up);
+        //Debug.Log(blockColumn.transform.localPosition);
+        
+        try
+        {
+            var columnLeft = GetBlockColumnAtLocalPosition(blockColumn.transform.localPosition - transform.right);
+            destroyBlock(columnLeft, block.transform.position - transform.right);
+            destroyBlock(columnLeft, block.transform.position + transform.up - transform.right);
+            destroyBlock(columnLeft, block.transform.position - transform.up - transform.right);
+        }
+        catch (Exception)
+        {
+            Debug.Log(String.Format("no column at {0}", blockColumn.transform.localPosition - transform.right));
+        }
 
+        try
+        {
+            var columnRight = GetBlockColumnAtLocalPosition(blockColumn.transform.localPosition + transform.right);
+            destroyBlock(columnRight, block.transform.position + transform.right);
+            destroyBlock(columnRight, block.transform.position + transform.up + transform.right);
+            destroyBlock(columnRight, block.transform.position - transform.up + transform.right);
+        }
+        catch (Exception)
+        {
+            Debug.Log(String.Format("no column at {0}", blockColumn.transform.localPosition + transform.right));
+        }
+    
+    }
+
+    private bool destroyBlock(BlockColumn blockColumn, Vector3 blockPosition)
+    {
+        try
+        {
+            var destroyedBlock = blockColumn.Remove(blockPosition);
+            Destroy(destroyedBlock);
+            Debug.Log(String.Format("removed block at {0}", destroyedBlock.transform.position));
+        }
+        catch (ArgumentException)
+        {
+            Debug.Log(String.Format("no block to remove at {0}", blockPosition));
+            return false;
+        }
+
+        return true;
     }
 
     private BlockColumn GetBlockColumnAtLocalPosition(Vector3 localPosition)

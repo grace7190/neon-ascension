@@ -20506,7 +20506,7 @@ MonoBehaviour:
     type: 2}
   ImmovableBlockPrefab: {fileID: 1081042364655006, guid: e3907143360c42f4fb6c62a27c9251d0,
     type: 2}
-  BombBlockPrefab: {fileID: 1790944577154644, guid: e2fe595141fb4834e98683cb876d4dee,
+  BombBlockPrefab: {fileID: 1989275176702382, guid: 51ecc544d9796874497bf76716ddf4bf,
     type: 2}
 --- !u!114 &114278381427253466
 MonoBehaviour:
