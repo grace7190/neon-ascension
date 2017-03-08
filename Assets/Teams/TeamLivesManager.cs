@@ -106,7 +106,7 @@ public class TeamLivesManager : MonoBehaviour
         var team = playerGameObject.GetComponent<PlayerController>().Team;
         playerGameObject.transform.position = BlockColumnManager.Instance.GetRespawnPoint(team);
         playerGameObject.SetActive(true);
-        playerGameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        playerGameObject.GetComponent<PlayerController>().Initialize();
     }
 }
 
