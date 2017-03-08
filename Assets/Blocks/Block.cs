@@ -36,7 +36,12 @@ public class Block : MonoBehaviour {
 
     public void MakeFallAfterSlideBlockDelay()
     {
-        StartCoroutine(MakeFallCoroutine(BlockColumnManager.SlideBlockDuration));
+        MakeFallAfterDelay(BlockColumnManager.SlideBlockDuration);
+    }
+
+    public void MakeFallAfterDelay(float delay)
+    {
+        StartCoroutine(MakeFallCoroutine(delay));
     }
 
     public GameObject GetPlayerInDirection(Vector3 direction)
@@ -101,6 +106,7 @@ public class Block : MonoBehaviour {
 
     private IEnumerator MakeFallCoroutine(float duration)
     {
+        Debug.Log("Called");
         if (_rigidbody == null)
         {
             _rigidbody = GetComponent<Rigidbody>();
@@ -109,9 +115,16 @@ public class Block : MonoBehaviour {
         IsLocked = true;
         ChangeColor(LockedColor, ChangeColorDuration);
 
+        _rigidbody.velocity = Vector3.zero;
+        _rigidbody.isKinematic = true;
 
-        yield return new WaitForSeconds(duration);
+        if (duration > 0)
+        {
+            yield return new WaitForSeconds(duration);
+        }
+
         _rigidbody.isKinematic = false;
+
         yield return new WaitForFixedUpdate();
         
         while (_rigidbody.velocity.y < 0)

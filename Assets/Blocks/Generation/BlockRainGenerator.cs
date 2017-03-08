@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 public class BlockRainGenerator : MonoBehaviour
 {
     public GameObject BlockPrefab;
+    public const float FallDelay = .3f;
 
     private const float SpawnMinDelay = 1f;
     private const float SpawnMaxDelay = 2f;
@@ -48,7 +49,7 @@ public class BlockRainGenerator : MonoBehaviour
             block.transform.position = GetBlockSpawnPosition(openBlockColumn);
             block.transform.position = block.transform.position.RoundToInt();
             openBlockColumn.Add(block);
-            block.GetComponent<Block>().MakeFallImmediately();
+            block.GetComponent<Block>().MakeFallAfterDelay(FallDelay);
             SetupNextSpawn();
         }
     }
