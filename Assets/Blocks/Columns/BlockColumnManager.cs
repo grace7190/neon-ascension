@@ -21,6 +21,7 @@ public class BlockColumnManager : MonoBehaviour
     public GameObject BlockColumnPrefab;
     public GameObject BlockPrefab;
     public GameObject ImmovableBlockPrefab;
+    public GameObject BombBlockPrefab;
 
     private BoxCollider _supportBoxCollider;
 
@@ -100,6 +101,7 @@ public class BlockColumnManager : MonoBehaviour
 
     private IEnumerator SlideBlockCoroutine(GameObject block, Vector3 direction)
     {
+        
         var oldBlockColumn = GetBlockColumnAtLocalPosition(block.transform.parent.localPosition);
         var newBlockColumn = GetBlockColumnAtLocalPosition(block.transform.parent.localPosition + direction);
 
@@ -122,6 +124,25 @@ public class BlockColumnManager : MonoBehaviour
         {
             newBlockColumn.Add(removedBlock);
         }
+
+        //if bomb block, make active, start exploding coroutine
+
+        if (block.tag == "BombBlock")
+        {
+            Debug.Log("FIRE IN THE HOLE");
+            StartCoroutine(BombExplodeCoroutine(block));
+        }
+
+    }
+
+    private IEnumerator BombExplodeCoroutine(GameObject block)
+    {
+        yield return new WaitForSeconds(1.0f);
+        //remove blocks in a 3x3x1 square around block
+        //get current column, remove +1 and -1
+        //get left column
+        //get right column
+
     }
 
     private BlockColumn GetBlockColumnAtLocalPosition(Vector3 localPosition)
