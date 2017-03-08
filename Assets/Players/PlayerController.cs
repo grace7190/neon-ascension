@@ -183,7 +183,6 @@ public class PlayerController : MonoBehaviour
         }
 
         return !hit;
-
     }
 
     private bool IsOpen(Vector3 position)
