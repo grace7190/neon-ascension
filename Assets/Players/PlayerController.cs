@@ -16,9 +16,11 @@ public class PlayerController : MonoBehaviour
     private const float speed = 4.0f;
     private const float jumpVelocity = 18.0f;
     private const float groundCheck = 0.5f;
+    private const float _actionDelay = BlockColumnManager.SlideBlockDuration * 2;
      
     private bool _isMoving;
     private float _moveTimer;
+    private bool _canPerformAction;
 
     private Rigidbody _rb;
     private Animator _anim;
@@ -30,6 +32,7 @@ public class PlayerController : MonoBehaviour
         _anim = GetComponentInChildren<Animator>();
         var audioSources = GetComponents<AudioSource>();
         SFXPush = audioSources[0];
+        Initialize();
     }
 
     void FixedUpdate()
@@ -44,6 +47,12 @@ public class PlayerController : MonoBehaviour
         {
             IsFalling = false;
         }
+    }
+
+    public void Initialize()
+    {
+        _canPerformAction = true;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     public bool IsFacing(Vector3 direction)
@@ -90,7 +99,7 @@ public class PlayerController : MonoBehaviour
     
     public void TryPushBlock()
     {
-        if (!IsOpen(transform.position + transform.forward) && isGrounded())
+        if (_canPerformAction && !IsOpen(transform.position + transform.forward) && isGrounded())
         {
             var block = GetBlockInFront();
             var isBlockBlocked = !IsOpen(transform.position + transform.forward * 2);
@@ -109,13 +118,15 @@ public class PlayerController : MonoBehaviour
                 var direction = transform.forward;
                 BlockColumnManager.Instance.SlideBlock(block, direction);
                 SFXPush.Play();
+
+                StartCoroutine(ActionDelayCoroutine());
             }
         }
     }
 
     public void TryPullBlock()
     {
-        if (!IsOpen(transform.position + transform.forward) && isGrounded())
+        if (_canPerformAction && !IsOpen(transform.position + transform.forward) && isGrounded())
         {
             var block = GetBlockInFront();
             var direction = -transform.forward;
@@ -125,6 +136,8 @@ public class PlayerController : MonoBehaviour
                 Jump();
                 BlockColumnManager.Instance.SlideBlock(block, direction);
                 SFXPush.Play();
+
+                StartCoroutine(ActionDelayCoroutine());
             }
         }
     }
@@ -148,6 +161,13 @@ public class PlayerController : MonoBehaviour
                                   CastMask,
                                   QueryTriggerInteraction.Ignore)[0].gameObject;
     }
+
+    private IEnumerator ActionDelayCoroutine() {
+        _canPerformAction = false;
+        yield return new WaitForSeconds(_actionDelay);
+        _canPerformAction = true;
+    }
+
 
     private IEnumerator MoveCoroutine(Transform[] movedTransforms, Vector3 direction)
     {
