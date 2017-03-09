@@ -90,9 +90,10 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        if(isGrounded())
+        if(_canPerformAction && isGrounded())
         {
             _rb.velocity = new Vector3(0.0f, jumpVelocity, 0.0f);
+            StartCoroutine(ActionDelayCoroutine());
         }
     }
     
