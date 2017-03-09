@@ -95,7 +95,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4094188366988370}
   - component: {fileID: 95426213933776256}
-  - component: {fileID: 114011408066068850}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1240,10 +1239,10 @@ Animator:
   m_GameObject: {fileID: 1112559375878184}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 2ae10ddb0f4c93947b7fdb06df40b6ec, type: 3}
-  m_Controller: {fileID: 9100000, guid: d4a04f9305096dc4599fe54b5560ea0e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2f0a71974b381e743883f19012c5382c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -1282,17 +1281,6 @@ Light:
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114011408066068850
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1112559375878184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dc34a60ae2df4db590fb897fe31fcea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114071286143339944
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1326,6 +1314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3ee4596c3363b44ba858d2d3f4fdd5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsDebug: 0
   Team: 0
   SFXPush: {fileID: 0}
 --- !u!136 &136095006810907278
