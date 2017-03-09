@@ -128,7 +128,6 @@ public class BlockColumnManager : MonoBehaviour
 
         if (removedBlock.tag == "BombBlock")
         {
-            Debug.Log("FIRE IN THE HOLE");
             StartCoroutine(BombExplodeCoroutine(newBlockColumn, removedBlock));
 
         }
@@ -177,7 +176,7 @@ public class BlockColumnManager : MonoBehaviour
         */
     }
 
-    private bool destroyBlock(BlockColumn blockColumn, Vector3 blockPosition)
+    public bool destroyBlock(BlockColumn blockColumn, Vector3 blockPosition)
     {
         try
         {
@@ -194,7 +193,7 @@ public class BlockColumnManager : MonoBehaviour
         return true;
     }
 
-    private BlockColumn GetBlockColumnAtLocalPosition(Vector3 localPosition)
+    public BlockColumn GetBlockColumnAtLocalPosition(Vector3 localPosition)
     {
         try
         {
