@@ -6,10 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Body_Anim_Jump_Up_BlankSkin2
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 5
+  m_Name: Body_Anim_Jump_Up_BlankSkin2_Purple
+  m_Shader: {fileID: 4800000, guid: 0a8a33aed56087c4bb6f8272cae4dfa5, type: 3}
+  m_ShaderKeywords: _EMISSION
+  m_LightmapFlags: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
@@ -121,7 +121,10 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.854078, g: 0.854078, b: 0.854078, a: 1}
+      second: {r: 0.71049094, g: 0.18836506, b: 0.9852941, a: 1}
+    - first:
+        name: _EdgeColor
+      second: {r: 0.64468753, g: 0.11505187, b: 0.9779411, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}

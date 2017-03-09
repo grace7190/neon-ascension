@@ -5,8 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public const float GravityScale = 10.0f;
-
-    public bool IsFalling { get; private set; }
+    public bool IsDebug = false;
 
     public Team Team;
 
@@ -16,9 +15,11 @@ public class PlayerController : MonoBehaviour
     private const float speed = 4.0f;
     private const float jumpVelocity = 18.0f;
     private const float groundCheck = 0.5f;
+    private const float _actionDelay = BlockColumnManager.SlideBlockDuration * 2;
      
     private bool _isMoving;
     private float _moveTimer;
+    private bool _canPerformAction;
 
     private Rigidbody _rb;
     private Animator _anim;
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
         _anim = GetComponentInChildren<Animator>();
         var audioSources = GetComponents<AudioSource>();
         SFXPush = audioSources[0];
+        Initialize();
     }
 
     void FixedUpdate()
@@ -38,12 +40,10 @@ public class PlayerController : MonoBehaviour
         GetComponent<Rigidbody>().AddForce(gravity, ForceMode.Acceleration);
     }
 
-    void OnCollisionEnter(Collision collision)
+    public void Initialize()
     {
-        if (collision.transform.position.y < transform.position.y)
-        {
-            IsFalling = false;
-        }
+        _canPerformAction = true;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     public bool IsFacing(Vector3 direction)
@@ -72,25 +72,34 @@ public class PlayerController : MonoBehaviour
 
     public void Move(float hor, float vert)
     {
-        Vector3 newPosition = transform.position + new Vector3(hor*Time.deltaTime*speed, 0, 0);
-        if (IsOpen(newPosition))
-        {
+        float deltaMovement = (float)System.Math.Round(Time.deltaTime*speed,1);
+        Vector3 newPosition = transform.position + new Vector3(hor*deltaMovement, 0, 0);
+
+        if (IsOpenForMove(new Vector3(hor, 0, 0), deltaMovement)) {
             transform.position = newPosition;
         }
+
+        _anim.SetBool(AnimationParameters.isWalking, true);
         
+    }
+
+    public void Idle()
+    {
+        _anim.SetBool(AnimationParameters.isWalking, false);
     }
 
     public void Jump()
     {
-        if(isGrounded())
+        if(_canPerformAction && isGrounded())
         {
             _rb.velocity = new Vector3(0.0f, jumpVelocity, 0.0f);
+            StartCoroutine(ActionDelayCoroutine());
         }
     }
     
     public void TryPushBlock()
     {
-        if (!IsOpen(transform.position + transform.forward) && isGrounded())
+        if (_canPerformAction && !IsOpen(transform.position + transform.forward) && isGrounded())
         {
             var block = GetBlockInFront();
             var isBlockBlocked = !IsOpen(transform.position + transform.forward * 2);
@@ -109,13 +118,15 @@ public class PlayerController : MonoBehaviour
                 var direction = transform.forward;
                 BlockColumnManager.Instance.SlideBlock(block, direction);
                 SFXPush.Play();
+
+                StartCoroutine(ActionDelayCoroutine());
             }
         }
     }
 
     public void TryPullBlock()
     {
-        if (!IsOpen(transform.position + transform.forward) && isGrounded())
+        if (_canPerformAction && !IsOpen(transform.position + transform.forward) && isGrounded())
         {
             var block = GetBlockInFront();
             var direction = -transform.forward;
@@ -125,6 +136,8 @@ public class PlayerController : MonoBehaviour
                 Jump();
                 BlockColumnManager.Instance.SlideBlock(block, direction);
                 SFXPush.Play();
+
+                StartCoroutine(ActionDelayCoroutine());
             }
         }
     }
@@ -132,6 +145,43 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded()
     {
         return !IsOpen(transform.position - new Vector3(0.0f, groundCheck, 0.0f));
+    }
+
+    private bool IsOpenForMove(Vector3 direction, float distance)
+    {
+        RaycastHit hitInfo = new RaycastHit();
+        var capsuleCollider = GetComponent<CapsuleCollider>();
+
+        var boxDimensions = new Vector3(capsuleCollider.radius, capsuleCollider.height/2 * 0.9f, capsuleCollider.radius);
+        boxDimensions.Scale(transform.localScale);
+
+        bool hit =  Physics.BoxCast(
+                        transform.position,
+                        boxDimensions,
+                        direction,
+                        out hitInfo,
+                        Quaternion.identity,
+                        distance,
+                        CastMask,
+                        QueryTriggerInteraction.Ignore);
+
+        if (IsDebug)
+        {
+            if (hit)
+            {
+                hitInfo.collider.gameObject.GetComponent<Block>().AnimateBlocked();
+            }
+
+            ExtDebug.DrawBoxCastOnHit(
+                transform.position,
+                boxDimensions,
+                Quaternion.identity,
+                direction,
+                distance,
+                Color.blue);
+        }
+
+        return !hit;
     }
 
     private bool IsOpen(Vector3 position)
@@ -148,6 +198,13 @@ public class PlayerController : MonoBehaviour
                                   CastMask,
                                   QueryTriggerInteraction.Ignore)[0].gameObject;
     }
+
+    private IEnumerator ActionDelayCoroutine() {
+        _canPerformAction = false;
+        yield return new WaitForSeconds(_actionDelay);
+        _canPerformAction = true;
+    }
+
 
     private IEnumerator MoveCoroutine(Transform[] movedTransforms, Vector3 direction)
     {
