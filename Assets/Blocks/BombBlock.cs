@@ -49,13 +49,13 @@ public class BombBlock : Block
         Vector3 blockPosition;
         BlockColumn col;
         blockPosition = gameObject.transform.parent.localPosition;
-        Debug.Log(String.Format("tsss....💣 boom!!🔥🔥 here: {0}", blockPosition));
+        Debug.Log(String.Format("tsss....💣 boom!!🔥🔥 here: {0}", gameObject.transform.position));
 
         // Use Physics.OverlapBox to find everything in radius of box
-        Collider[] objectsInRange = Physics.OverlapBox(gameObject.transform.parent.position, new Vector3(1.5f, 1.5f, 1.5f));
+        Collider[] objectsInRange = Physics.OverlapBox(gameObject.transform.position, new Vector3(1.0f, 1.0f, 1.0f));
         foreach (Collider c in objectsInRange)
         {
-            //Debug.Log(c.gameObject.transform.position);
+
             if ((c.gameObject.tag == "Block" || c.gameObject.tag == "BombBlock") && c.gameObject != gameObject )
             {
                 blockPosition = c.gameObject.transform.parent.localPosition;
@@ -63,21 +63,19 @@ public class BombBlock : Block
                 BlockColumnManager.Instance.destroyBlock(col, c.gameObject.transform.position);
             }
 
-            //if it's a player, bump off? 
+            //TODO: bump off player
             if (c.gameObject.tag == "Player")
             {
                 PlayerController pc = c.gameObject.GetComponent<PlayerController>();
-                pc.Move(1,0);
+                //pc.Move(1,0); or something
             }
 
         }
-
-
-        // Look at PlayerController, to see how Casts, Layers work if needed
-        // https://docs.unity3d.com/ScriptReference/Physics.OverlapBox.html
+        
         blockPosition = gameObject.transform.parent.localPosition;
         col = BlockColumnManager.Instance.GetBlockColumnAtLocalPosition(blockPosition);
         BlockColumnManager.Instance.destroyBlock(col, gameObject.transform.position);
+
     }
 
     private IEnumerator AnimateDetonatingCoroutine(int bombTicks, Action completion = null)
