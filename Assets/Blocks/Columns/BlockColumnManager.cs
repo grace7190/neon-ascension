@@ -137,6 +137,14 @@ public class BlockColumnManager : MonoBehaviour
 
     private IEnumerator BombExplodeCoroutine(BlockColumn blockColumn, GameObject block)
     {
+        // Probably won't need this Coroutine anymore
+        // Just replace with the following:
+        block.GetComponent<BombBlock>().SetBombActive();
+
+         
+        yield return new WaitForSeconds(1.0f);
+
+        /*
         yield return new WaitForSeconds(1.0f);
         destroyBlock(blockColumn, block.transform.position);
         destroyBlock(blockColumn, block.transform.position + transform.up);
@@ -166,7 +174,7 @@ public class BlockColumnManager : MonoBehaviour
         {
             Debug.Log(String.Format("no column at {0}", blockColumn.transform.localPosition + transform.right));
         }
-    
+        */
     }
 
     private bool destroyBlock(BlockColumn blockColumn, Vector3 blockPosition)

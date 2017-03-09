@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using UnityEngine;
 
 public class Block : MonoBehaviour {
@@ -13,10 +14,11 @@ public class Block : MonoBehaviour {
     public Color BaseColor = NeutralColor;
     public bool IsLocked;
 
+    protected Rigidbody _rigidbody;
+
     private const int CastMask = 1 << Layers.Player;
     private const float CastRadius = 0.1f;
     private IEnumerator _colorChangeCoroutine;
-    private Rigidbody _rigidbody;
 
 
     void Start ()
@@ -69,6 +71,18 @@ public class Block : MonoBehaviour {
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Rigidbody>().isKinematic = true;
         StartCoroutine(AnimateDeletionCoroutine(6));
+    }
+
+    protected void ChangeColor(Color targetColor, float duration, Action completion = null)
+    {
+        if (_colorChangeCoroutine != null)
+        {
+            StopCoroutine(_colorChangeCoroutine);
+        }
+
+        _colorChangeCoroutine = ChangeColorCoroutine(targetColor, duration, completion);
+
+        StartCoroutine(_colorChangeCoroutine);
     }
 
     private IEnumerator AnimateDeletionCoroutine(int blinkTimes)
@@ -125,17 +139,7 @@ public class Block : MonoBehaviour {
         IsLocked = false;
     }
 
-    private void ChangeColor(Color targetColor, float duration)
-    {
-        if (_colorChangeCoroutine != null)
-        {
-            StopCoroutine(_colorChangeCoroutine);
-        }
-        _colorChangeCoroutine = ChangeColorCoroutine(targetColor, duration);
-        StartCoroutine(_colorChangeCoroutine);
-    }
-
-    private IEnumerator ChangeColorCoroutine(Color targetColor, float duration)
+    private IEnumerator ChangeColorCoroutine(Color targetColor, float duration, Action completion = null)
     {
         var material = new Material(GetComponent<Renderer>().sharedMaterial);
         var oldColor = material.color;
@@ -151,5 +155,9 @@ public class Block : MonoBehaviour {
         }
 
         material.SetColor("_Color", targetColor);
+
+        if (completion != null) {
+            completion();
+        }
     }
 }
