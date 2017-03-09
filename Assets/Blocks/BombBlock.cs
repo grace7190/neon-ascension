@@ -60,14 +60,33 @@ public class BombBlock : Block
             {
                 blockPosition = c.gameObject.transform.parent.localPosition;
                 col = BlockColumnManager.Instance.GetBlockColumnAtLocalPosition(blockPosition);
-                BlockColumnManager.Instance.destroyBlock(col, c.gameObject.transform.position);
+
+                c.attachedRigidbody.isKinematic = false;
+                if (blockPosition.z == BlockColumnManager.WallZIndex) {
+                    BlockColumnManager.Instance.destroyBlock(col, c.gameObject.transform.position);
+                }
+                else if (blockPosition.z == BlockColumnManager.PurpleTeamZIndex) 
+                {
+                    BlockColumnManager.Instance.SlideBlock(c.gameObject, Vector3.forward);
+                }
+                else if (blockPosition.z == BlockColumnManager.BlueTeamZIndex) {
+                    BlockColumnManager.Instance.SlideBlock(c.gameObject, Vector3.back);
+                }
             }
 
-            //TODO: bump off player
+            //TODO: bump off player properly
             if (c.gameObject.tag == "Player")
             {
                 PlayerController pc = c.gameObject.GetComponent<PlayerController>();
-                //pc.Move(1,0); or something
+
+                if (pc.Team == Team.Purple) {
+                    pc.transform.rotation = Quaternion.identity;
+                    c.GetComponent<Rigidbody>().AddForce(Vector3.forward * 100);
+                }
+                else {
+                    pc.transform.rotation = Quaternion.identity;
+                    pc.GetComponent<Rigidbody>().AddForce(Vector3.back * 100);
+                   }
             }
 
         }
