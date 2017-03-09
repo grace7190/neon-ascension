@@ -11,6 +11,7 @@ public class EndOfGameManager : MonoBehaviour
 
     private CanvasFader _screenFader;
     private bool _isGameOver;
+    private bool _isRestarting;
 
 	void Awake ()
 	{
@@ -20,6 +21,19 @@ public class EndOfGameManager : MonoBehaviour
     void Start()
     {
         _screenFader = GameObject.Find("ScreenFader").GetComponent<CanvasFader>();
+    }
+
+    void Update()
+    {
+        if (_isGameOver && Input.GetButton("Submit"))
+        {
+            if (!_isRestarting)
+            {
+                _isRestarting = true;
+                RestartGame();
+            }
+        }
+
     }
 
     public void ShowVictoryScreen(Team winningTeam)
