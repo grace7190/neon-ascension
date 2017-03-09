@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour
 {
     public const float GravityScale = 10.0f;
     public bool IsDebug = false;
-    public bool IsFalling { get; private set; }
 
     public Team Team;
 
@@ -39,14 +38,6 @@ public class PlayerController : MonoBehaviour
     {
         var gravity = Physics.gravity * GravityScale;
         GetComponent<Rigidbody>().AddForce(gravity, ForceMode.Acceleration);
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.position.y < transform.position.y)
-        {
-            IsFalling = false;
-        }
     }
 
     public void Initialize()
@@ -87,7 +78,14 @@ public class PlayerController : MonoBehaviour
         if (IsOpenForMove(new Vector3(hor, 0, 0), deltaMovement)) {
             transform.position = newPosition;
         }
+
+        _anim.SetBool(AnimationParameters.isWalking, true);
         
+    }
+
+    public void Idle()
+    {
+        _anim.SetBool(AnimationParameters.isWalking, false);
     }
 
     public void Jump()

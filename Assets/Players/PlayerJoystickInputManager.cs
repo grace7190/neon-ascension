@@ -79,6 +79,8 @@ public class PlayerJoystickInputManager : MonoBehaviour
         }
         else if (verticalVal == -1)
         {
+            _controller.Idle();
+
             if (grabOn)
             {
                 if (invert)
@@ -92,10 +94,11 @@ public class PlayerJoystickInputManager : MonoBehaviour
                     _controller.TryPushBlock();
                 }
             }
-
         }
         else if (verticalVal == 1)
         {
+            _controller.Idle();
+
             if (grabOn)
             {
                 if (invert)
@@ -111,9 +114,15 @@ public class PlayerJoystickInputManager : MonoBehaviour
 
             }
         }
+        else {
+            _controller.Idle();
+        }
+
+
         if (jump)
         {
             _controller.Jump(); 
         }
+
     }
 }

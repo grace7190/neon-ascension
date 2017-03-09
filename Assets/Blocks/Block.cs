@@ -106,7 +106,6 @@ public class Block : MonoBehaviour {
 
     private IEnumerator MakeFallCoroutine(float duration)
     {
-        Debug.Log("Called");
         if (_rigidbody == null)
         {
             _rigidbody = GetComponent<Rigidbody>();
