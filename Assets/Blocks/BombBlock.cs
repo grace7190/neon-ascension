@@ -49,52 +49,54 @@ public class BombBlock : Block
         Vector3 blockPosition;
         BlockColumn col;
         blockPosition = gameObject.transform.parent.localPosition;
-        Debug.Log(String.Format("tsss....💣 boom!!🔥🔥 here: {0}", gameObject.transform.position));
 
         // Use Physics.OverlapBox to find everything in radius of box
         Collider[] objectsInRange = Physics.OverlapBox(gameObject.transform.position, new Vector3(1.0f, 1.0f, 1.0f));
-        foreach (Collider c in objectsInRange)
+        foreach (Collider collider in objectsInRange)
         {
 
-            if ((c.gameObject.tag == "Block" || c.gameObject.tag == "BombBlock") && c.gameObject != gameObject )
+            if (collider.gameObject.tag == "Block" && collider.gameObject != gameObject )
             {
-                blockPosition = c.gameObject.transform.parent.localPosition;
+                blockPosition = collider.gameObject.transform.parent.localPosition;
                 col = BlockColumnManager.Instance.GetBlockColumnAtLocalPosition(blockPosition);
 
-                c.attachedRigidbody.isKinematic = false;
-                if (blockPosition.z == BlockColumnManager.WallZIndex) {
-                    BlockColumnManager.Instance.destroyBlock(col, c.gameObject.transform.position);
-                }
-                else if (blockPosition.z == BlockColumnManager.PurpleTeamZIndex) 
+                // Push blocks off
+                collider.attachedRigidbody.isKinematic = false;
+                if (blockPosition.z == BlockColumnManager.WallZIndex)
                 {
-                    BlockColumnManager.Instance.SlideBlock(c.gameObject, Vector3.forward);
+                    BlockColumnManager.Instance.destroyBlock(col, collider.gameObject.transform.position);
                 }
-                else if (blockPosition.z == BlockColumnManager.BlueTeamZIndex) {
-                    BlockColumnManager.Instance.SlideBlock(c.gameObject, Vector3.back);
+                else if (blockPosition.z == BlockColumnManager.PurpleTeamZIndex)
+                {
+                    BlockColumnManager.Instance.SlideBlock(collider.gameObject, Vector3.forward);
+                }
+                else if (blockPosition.z == BlockColumnManager.BlueTeamZIndex)
+                {
+                    BlockColumnManager.Instance.SlideBlock(collider.gameObject, Vector3.back);
                 }
             }
 
-            //TODO: bump off player properly
-            if (c.gameObject.tag == "Player")
+            // Push player off
+            if (collider.gameObject.tag == "Player")
             {
-                PlayerController pc = c.gameObject.GetComponent<PlayerController>();
+                PlayerController pc = collider.gameObject.GetComponent<PlayerController>();
 
-                if (pc.Team == Team.Purple) {
+                if (pc.Team == Team.Purple)
+                {
                     pc.transform.rotation = Quaternion.identity;
-                    c.GetComponent<Rigidbody>().AddForce(Vector3.forward * 100);
+                    collider.GetComponent<Rigidbody>().AddForce(Vector3.forward * 100);
                 }
-                else {
+                else
+                {
                     pc.transform.rotation = Quaternion.identity;
                     pc.GetComponent<Rigidbody>().AddForce(Vector3.back * 100);
-                   }
+                }
             }
-
         }
-        
+
         blockPosition = gameObject.transform.parent.localPosition;
         col = BlockColumnManager.Instance.GetBlockColumnAtLocalPosition(blockPosition);
         BlockColumnManager.Instance.destroyBlock(col, gameObject.transform.position);
-
     }
 
     private IEnumerator AnimateDetonatingCoroutine(int bombTicks, Action completion = null)
