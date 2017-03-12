@@ -11,6 +11,10 @@ public class Destructor : MonoBehaviour
             {
                 blockColumn.Remove(other.transform.position);
             }
+            else {
+                // This block is no longer in the game zone, let it fall
+                return;
+            }
 
             var thisCollider = GetComponent<Collider>();
 

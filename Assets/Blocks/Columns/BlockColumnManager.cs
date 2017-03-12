@@ -21,6 +21,7 @@ public class BlockColumnManager : MonoBehaviour
     public GameObject BlockColumnPrefab;
     public GameObject BlockPrefab;
     public GameObject ImmovableBlockPrefab;
+    public GameObject BombBlockPrefab;
 
     private BoxCollider _supportBoxCollider;
 
@@ -90,7 +91,14 @@ public class BlockColumnManager : MonoBehaviour
 
     public void SlideBlock(GameObject block, Vector3 direction)
     {
-        StartCoroutine(SlideBlockCoroutine(block, direction));
+        StartCoroutine(SlideBlockCoroutine(block, direction, () => {
+            //if bomb block, set active
+            var bombComponent = block.GetComponent<BombBlock>();
+            if (bombComponent != null)
+            {
+                bombComponent.SetBombActive();
+            }
+        }));
     }
 
     public void MoveSupportUp()
@@ -98,11 +106,11 @@ public class BlockColumnManager : MonoBehaviour
         _supportBoxCollider.center += Vector3.up;
     }
 
-    private IEnumerator SlideBlockCoroutine(GameObject block, Vector3 direction)
+    private IEnumerator SlideBlockCoroutine(GameObject block, Vector3 direction, Action completion)
     {
+        
         var oldBlockColumn = GetBlockColumnAtLocalPosition(block.transform.parent.localPosition);
         var newBlockColumn = GetBlockColumnAtLocalPosition(block.transform.parent.localPosition + direction);
-
         var removedBlock = oldBlockColumn.Remove(block.transform.position);
 
         var t = 0f;
@@ -122,9 +130,31 @@ public class BlockColumnManager : MonoBehaviour
         {
             newBlockColumn.Add(removedBlock);
         }
+
+        if (completion != null)
+        {
+            completion();
+        }
     }
 
-    private BlockColumn GetBlockColumnAtLocalPosition(Vector3 localPosition)
+    public bool destroyBlock(BlockColumn blockColumn, Vector3 blockPosition)
+    {
+        try
+        {
+            var destroyedBlock = blockColumn.Remove(blockPosition);
+            Destroy(destroyedBlock);
+            Debug.Log(String.Format("removed block at {0}", destroyedBlock.transform.position));
+        }
+        catch (ArgumentException)
+        {
+            Debug.Log(String.Format("no block to remove at {0}", blockPosition));
+            return false;
+        }
+
+        return true;
+    }
+
+    public BlockColumn GetBlockColumnAtLocalPosition(Vector3 localPosition)
     {
         try
         {
