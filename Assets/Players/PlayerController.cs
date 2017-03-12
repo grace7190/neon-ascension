@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public const float GravityScale = 10.0f;
     public bool IsDebug = false;
 
     public Team Team;
@@ -13,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private const float CastRadius = 0.2f;
     private const float MoveDurationInSeconds = 0.25f;
     private const float speed = 4.0f;
-    private const float jumpVelocity = 18.0f;
+    private const float jumpVelocity = 5.0f;
     private const float groundCheck = 0.5f;
     private const float _actionDelay = BlockColumnManager.SlideBlockDuration * 2;
      
@@ -36,8 +35,17 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        var gravity = Physics.gravity * GravityScale;
-        GetComponent<Rigidbody>().AddForce(gravity, ForceMode.Acceleration);
+        CheckIfJumpEnds();
+    }
+
+    private void CheckIfJumpEnds() {
+        if (_anim.GetBool(AnimationParameters.IsJumpingMidair) && _rb.velocity.y < 0) {
+
+            float endJumpAnimTime = AnimationUtility.AnimationClipWithName(_anim, AnimationParameters.JumpLandingName).length;
+            if (!IsOpenForMove(Vector3.down, Mathf.Abs(_rb.velocity.y * endJumpAnimTime))) {
+                _anim.SetBool(AnimationParameters.IsJumpingMidair, false);
+            }
+        }
     }
 
     public void Initialize()
@@ -79,20 +87,22 @@ public class PlayerController : MonoBehaviour
             transform.position = newPosition;
         }
 
-        _anim.SetBool(AnimationParameters.isWalking, true);
+        _anim.SetBool(AnimationParameters.IsWalking, true);
         
     }
 
     public void Idle()
     {
-        _anim.SetBool(AnimationParameters.isWalking, false);
+        _anim.SetBool(AnimationParameters.IsWalking, false);
     }
 
     public void Jump()
     {
         if(_canPerformAction && isGrounded())
         {
-            _rb.velocity = new Vector3(0.0f, jumpVelocity, 0.0f);
+            _rb.AddForce(Vector3.up * jumpVelocity, ForceMode.Impulse);
+            _anim.SetBool(AnimationParameters.IsJumping, true);
+            _anim.SetBool(AnimationParameters.IsJumpingMidair, true);
             StartCoroutine(ActionDelayCoroutine());
         }
     }
