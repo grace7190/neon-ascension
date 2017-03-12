@@ -1,8 +1,14 @@
 ﻿
 public class AnimationParameters {
     public const string IsWalking = "isWalking";
-    public const string IsJumping = "isJumping";
     public const string IsJumpingMidair = "isJumpMidair";
+
+    public const string TriggerJumping = "isJumping";
+    public const string TriggerPushing = "pushing";
+    public const string TriggerPulling = "pulling";
+    public const string TriggerFallingFar = "fallingFar";
+    public const string TriggerDeathCrushed = "deathCrushed";
+    public const string TriggerReset = "reset";
 
     //public const string 
     // Animation names
