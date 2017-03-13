@@ -204,9 +204,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseColor: {r: 3, g: 3, b: 3, a: 1}
   IsLocked: 0
+  DidMakeFall: 0
   BombActiveMaterial: {fileID: 0}
-  ticktok_clip: {fileID: 8300000, guid: 11c351d53b78b784992212b0323028ad, type: 3}
-  explosion_clip: {fileID: 8300000, guid: 3582c3cf324877d45925538828f42495, type: 3}
+  TicktokClip: {fileID: 0}
+  ExplosionClip: {fileID: 0}
 --- !u!114 &114934250219077220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -220,3 +221,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseColor: {r: 3, g: 3, b: 3, a: 1}
   IsLocked: 0
+  DidMakeFall: 0
