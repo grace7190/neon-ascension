@@ -12,7 +12,8 @@ public class Block : MonoBehaviour {
     public static readonly Color LockedColor = new Color(6, 0.6f, 0.0f);
 
     public Color BaseColor = NeutralColor;
-    public bool IsLocked;
+    public bool IsLocked = false;
+    public bool DidMakeFall = false;
 
     protected Rigidbody _rigidbody;
 
@@ -125,6 +126,7 @@ public class Block : MonoBehaviour {
             _rigidbody = GetComponent<Rigidbody>();
         }
 
+        DidMakeFall = true;
         IsLocked = true;
         ChangeColor(LockedColor, ChangeColorDuration);
 
@@ -149,6 +151,7 @@ public class Block : MonoBehaviour {
 
         ChangeColor(BaseColor, ChangeColorDuration);
         IsLocked = false;
+        DidMakeFall = false;
     }
 
     private IEnumerator ChangeColorCoroutine(Color targetColor, float duration, Action completion = null)
