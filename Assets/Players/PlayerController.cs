@@ -164,12 +164,7 @@ public class PlayerController : MonoBehaviour
 
             if (!block.GetComponent<Block>().IsLocked)
             {
-                Jump();
-                _anim.SetBool(AnimationParameters.TriggerPulling, true);
-                BlockColumnManager.Instance.SlideBlock(block, direction);
-                SFXPush.Play();
-
-                StartCoroutine(ActionDelayCoroutine());
+                StartCoroutine(PullBlockCoroutine(block, direction));
             }
         }
     }
@@ -248,6 +243,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(ActionDelay);
         _canPerformAction = true;
     }
+
     private IEnumerator PushBlockCoroutine(GameObject block)
     {
         _anim.SetBool(AnimationParameters.TriggerPushing, true);
@@ -257,6 +253,19 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         var direction = transform.forward;
+        BlockColumnManager.Instance.SlideBlock(block, direction);
+        SFXPush.Play();
+    }
+
+    private IEnumerator PullBlockCoroutine(GameObject block, Vector3 direction)
+    {
+        Jump();
+        StartCoroutine(ActionDelayCoroutine());
+
+        // TODO:Change Jump to an acutal pulling fixed movement animation
+        //_anim.SetBool(AnimationParameters.TriggerPulling, true);
+        yield return new WaitForSeconds(0.2f);
+
         BlockColumnManager.Instance.SlideBlock(block, direction);
         SFXPush.Play();
     }
