@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Linq;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -7,26 +6,26 @@ public class PlayerController : MonoBehaviour
     public bool IsDebug = false;
 
     public Team Team;
-
+    public AudioSource SFXPush;
+    
     private const int CastMask = 1 << Layers.Solid | 1 << Layers.IgnoreColumnSupport;
     private const float CastRadius = 0.2f;
-    private const float MoveDurationInSeconds = 0.25f;
-    private const float speed = 4.0f;
-    private const float jumpVelocity = 5.0f;
-    private const float groundCheck = 0.5f;
-    private const float _actionDelay = BlockColumnManager.SlideBlockDuration * 2;
-     
-    private bool _isMoving;
-    private float _moveTimer;
-    private bool _canPerformAction;
 
-    private Rigidbody _rb;
+    private const float ActionDelay = BlockColumnManager.SlideBlockDuration * 2;
+    private const float MaxHorizontalSpeed = 4.0f;
+    private const float DistanceToGround = 0.5f;
+    private const float InitialJumpVerticalSpeed = 5.0f;
+    private const float JumpHorizontalAcceleration = 15;
+    private const float AxisOnThreshold = 0.5f;
+    
+    private bool _canPerformAction;
+    
+    private Rigidbody _rigidbody;
     private Animator _anim;
-    public AudioSource SFXPush;
 
     void Start()
     {
-        _rb = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         var audioSources = GetComponents<AudioSource>();
         SFXPush = audioSources[0];
@@ -68,29 +67,65 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    public void Move(float hor, float vert)
+    public void Move(float horizontalAxis, float verticalAxis)
     {
-        float deltaMovement = (float)System.Math.Round(Time.deltaTime*speed,1);
-        Vector3 newPosition = transform.position + new Vector3(hor*deltaMovement, 0, 0);
+        var velocity = _rigidbody.velocity;
+        var isMovingHorizontally = Mathf.Abs(horizontalAxis) > AxisOnThreshold;
+        var isMovingVertically = Mathf.Abs(verticalAxis) > AxisOnThreshold;
+        if (IsGrounded())
+        {
+            var isWalking = isMovingHorizontally || isMovingVertically;
+            if (isWalking)
+            {
+                var horizontalDirection = horizontalAxis > 0 ? Vector3.right : Vector3.left;
+                var verticalDirection = verticalAxis > 0 ? Vector3.forward : Vector3.back;
+                var dominantDirection = Mathf.Abs(horizontalAxis) > Mathf.Abs(verticalAxis)
+                    ? horizontalDirection
+                    : verticalDirection;
 
-        if (IsOpenForMove(new Vector3(hor, 0, 0), deltaMovement)) {
-            transform.position = newPosition;
+                transform.rotation = Quaternion.LookRotation(dominantDirection);
+
+                velocity.x = dominantDirection.x * MaxHorizontalSpeed;
+            }
+            else
+            {
+                velocity.x = 0;
+            }
+
+            _anim.SetBool(AnimationParameters.IsWalking, isWalking);
         }
+        else
+        {
+            if (isMovingHorizontally)
+            {
+                transform.rotation = Quaternion.LookRotation(Vector3.right * Mathf.Sign(horizontalAxis));
 
-        _anim.SetBool(AnimationParameters.IsWalking, true);
+                velocity.x += Mathf.Sign(horizontalAxis) * JumpHorizontalAcceleration * Time.deltaTime;
+                if (Mathf.Abs(velocity.x) > MaxHorizontalSpeed)
+                {
+                    velocity.x = Mathf.Sign(velocity.x) * MaxHorizontalSpeed;
+                }
+            }
+            else
+            {
+                var oldSign = Mathf.Sign(velocity.x);
+                velocity.x -= oldSign * JumpHorizontalAcceleration * Time.deltaTime;
+                var isHorizontalDirectionChanged = !Mathf.Approximately(oldSign, Mathf.Sign(velocity.x));
+                if (isHorizontalDirectionChanged)
+                {
+                    velocity.x = 0;
+                }
+            }
+        }
         
-    }
-
-    public void Idle()
-    {
-        _anim.SetBool(AnimationParameters.IsWalking, false);
+        _rigidbody.velocity = velocity;
     }
 
     public void Jump()
     {
-        if(_canPerformAction && isGrounded())
+        if(_canPerformAction && IsGrounded())
         {
-            _rb.AddForce(Vector3.up * jumpVelocity, ForceMode.Impulse);
+            _rigidbody.AddForce(Vector3.up * InitialJumpVerticalSpeed, ForceMode.Impulse);
             _anim.SetBool(AnimationParameters.TriggerJumping, true);
             _anim.SetBool(AnimationParameters.IsJumpingMidair, true);
             StartCoroutine(ActionDelayCoroutine());
@@ -99,7 +134,7 @@ public class PlayerController : MonoBehaviour
     
     public void TryPushBlock()
     {
-        if (_canPerformAction && !IsOpen(transform.position + transform.forward) && isGrounded())
+        if (_canPerformAction && !IsOpen(transform.position + transform.forward) && IsGrounded())
         {
             var block = GetBlockInFront();
             var isBlockBlocked = !IsOpen(transform.position + transform.forward * 2);
@@ -122,7 +157,7 @@ public class PlayerController : MonoBehaviour
 
     public void TryPullBlock()
     {
-        if (_canPerformAction && !IsOpen(transform.position + transform.forward) && isGrounded())
+        if (_canPerformAction && !IsOpen(transform.position + transform.forward) && IsGrounded())
         {
             var block = GetBlockInFront();
             var direction = -transform.forward;
@@ -141,29 +176,29 @@ public class PlayerController : MonoBehaviour
 
     private void CheckIfJumpEnds()
     {
-        if (_anim.GetBool(AnimationParameters.IsJumpingMidair) && _rb.velocity.y < 0) {
+        if (_anim.GetBool(AnimationParameters.IsJumpingMidair) && _rigidbody.velocity.y < 0) {
 
             float endJumpAnimTime = AnimationUtility.AnimationClipWithName(_anim, AnimationParameters.JumpLandingName).length;
-            if (!IsOpenForMove(Vector3.down, Mathf.Abs(_rb.velocity.y * endJumpAnimTime))) {
+            if (!IsOpenForMove(Vector3.down, Mathf.Abs(_rigidbody.velocity.y * endJumpAnimTime))) {
                 _anim.SetBool(AnimationParameters.IsJumpingMidair, false);
             }
         }
     }
 
-    private bool isGrounded()
+    private bool IsGrounded()
     {
-        return !IsOpen(transform.position - new Vector3(0.0f, groundCheck, 0.0f));
+        return !IsOpen(transform.position - new Vector3(0.0f, DistanceToGround, 0.0f));
     }
 
     private bool IsOpenForMove(Vector3 direction, float distance)
     {
-        RaycastHit hitInfo = new RaycastHit();
+        RaycastHit hitInfo;
         var capsuleCollider = GetComponent<CapsuleCollider>();
 
         var boxDimensions = new Vector3(capsuleCollider.radius, capsuleCollider.height/2 * 0.9f, capsuleCollider.radius);
         boxDimensions.Scale(transform.localScale);
 
-        bool hit =  Physics.BoxCast(
+        var hit =  Physics.BoxCast(
                         transform.position,
                         boxDimensions,
                         direction,
@@ -210,10 +245,9 @@ public class PlayerController : MonoBehaviour
     private IEnumerator ActionDelayCoroutine()
     {
         _canPerformAction = false;
-        yield return new WaitForSeconds(_actionDelay);
+        yield return new WaitForSeconds(ActionDelay);
         _canPerformAction = true;
     }
-
     private IEnumerator PushBlockCoroutine(GameObject block)
     {
         _anim.SetBool(AnimationParameters.TriggerPushing, true);
@@ -225,30 +259,5 @@ public class PlayerController : MonoBehaviour
         var direction = transform.forward;
         BlockColumnManager.Instance.SlideBlock(block, direction);
         SFXPush.Play();
-    }
-
-    private IEnumerator MoveCoroutine(Transform[] movedTransforms, Vector3 direction)
-    {
-        _isMoving = true;
-        var oldPositions = movedTransforms.Select(i => i.position).ToList();
-        _moveTimer = 0;
-
-        while (_moveTimer < MoveDurationInSeconds)
-        {
-            yield return new WaitForEndOfFrame();
-            _moveTimer += Time.deltaTime;
-            for (var i = 0; i < movedTransforms.Length; i++)
-            {
-                movedTransforms[i].position = Vector3.Lerp(oldPositions[i], oldPositions[i] + direction,
-                    Mathf.Pow(_moveTimer / MoveDurationInSeconds, 0.25f));
-            }
-        }
-
-        for (var i = 0; i < movedTransforms.Length; i++)
-        {
-            movedTransforms[i].position = oldPositions[i] + direction;
-        }
-
-        _isMoving = false;
     }
 }

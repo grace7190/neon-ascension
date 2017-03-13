@@ -2,127 +2,47 @@
 
 public class PlayerJoystickInputManager : MonoBehaviour
 {
+    public int PlayerNumber;
+    public bool InvertVerticalAxis;
+
+    public KeyCode PushKeyCode;
+    public KeyCode PullKeyCode;
+    public KeyCode JumpKeyCode;
+
+    private string _joystickPushKey;
+    private string _joystickPullKey;
+    private string _joystickJumpKey;
 
     private PlayerController _controller;
-    private bool invert;
-    private float horizontalVal;
-    private float verticalVal;
-    private bool grabOn;
-    private bool jump;
 
     void Start()
     {
+        _joystickPushKey = string.Format("joystick {0} button 2", PlayerNumber);
+        _joystickPullKey = string.Format("joystick {0} button 3", PlayerNumber);
+        _joystickJumpKey = string.Format("joystick {0} button 0", PlayerNumber);
+
         _controller = GetComponent<PlayerController>();
     }
 
     void Update()
     {
-        if (gameObject.name == "Player 1")
-        {
-            horizontalVal = Input.GetAxis("Horizontal_P1");
-            verticalVal = Input.GetAxis("Vertical_P1");
-            grabOn = Input.GetButton("Grab_P1");
-            jump = Input.GetButton("Jump_P1");
-        }
-        else
-        {
-            invert = true;
-            horizontalVal = Input.GetAxis("Horizontal_P2");
-            verticalVal = Input.GetAxis("Vertical_P2");
-            grabOn = Input.GetButton("Grab_P2");
-            jump = Input.GetButton("Jump_P2");
-        }
+        var horizontalAxis = Input.GetAxis("Horizontal_P" + PlayerNumber);
+        var verticalAxis = Input.GetAxis("Vertical_P" + PlayerNumber) * (InvertVerticalAxis ? -1 : 1);
+        _controller.Move(horizontalAxis, verticalAxis);
         
-        if (horizontalVal == 1)
+        if (Input.GetKeyDown(_joystickPushKey) || Input.GetKeyDown(PushKeyCode))
         {
-
-            if (grabOn)
-            {
-                bool IsFacing = _controller.IsFacing(Vector3.right);
-                if (IsFacing) //if facing left, try to pull left block [ ]->p
-                {
-                    _controller.TryPullBlock();
-                } //if facing right, try to push block to right p->[ ]
-                _controller.TryPushBlock();
-            }
-            else
-            {   //only move if didn't turn
-                bool didTurn = _controller.Turn(Vector3.right);
-                if (!didTurn)
-                {
-                    _controller.Move(horizontalVal, verticalVal);
-                }
-
-            }
+            _controller.TryPushBlock();
         }
-        else if (horizontalVal == -1)
+
+        if (Input.GetKeyDown(_joystickPullKey) || Input.GetKeyDown(PullKeyCode))
         {
-
-            if (grabOn)
-            {
-                bool IsFacing = _controller.IsFacing(Vector3.left);
-                if (IsFacing)
-                {
-                    _controller.TryPullBlock();
-                }
-                _controller.TryPushBlock();
-            }
-            else
-            {
-                bool didTurn = _controller.Turn(Vector3.left);
-                if (!didTurn)
-                {
-                    _controller.Move(horizontalVal, verticalVal);
-                }
-
-            }
-        }
-        else if (verticalVal == -1)
-        {
-            _controller.Idle();
-
-            if (grabOn)
-            {
-                if (invert)
-                {
-                    _controller.Turn(Vector3.back);
-                    _controller.TryPushBlock();
-                }
-                else
-                {
-                    _controller.Turn(Vector3.forward);
-                    _controller.TryPushBlock();
-                }
-            }
-        }
-        else if (verticalVal == 1)
-        {
-            _controller.Idle();
-
-            if (grabOn)
-            {
-                if (invert)
-                {
-                    _controller.Turn(Vector3.back);
-                    _controller.TryPullBlock();
-                }
-                else
-                {
-                    _controller.Turn(Vector3.forward);
-                    _controller.TryPullBlock();
-                }
-
-            }
-        }
-        else {
-            _controller.Idle();
+            _controller.TryPullBlock();
         }
 
-
-        if (jump)
+        if (Input.GetKeyDown(_joystickJumpKey) || Input.GetKeyDown(JumpKeyCode))
         {
             _controller.Jump(); 
         }
-
     }
 }
