@@ -217,6 +217,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator PushBlockCoroutine(GameObject block)
     {
         _anim.SetBool(AnimationParameters.TriggerPushing, true);
+        StartCoroutine(ActionDelayCoroutine());
 
         // TODO: When Pushing animation is split into 2, we can remove this delay
         yield return new WaitForSeconds(0.1f);
@@ -224,8 +225,6 @@ public class PlayerController : MonoBehaviour
         var direction = transform.forward;
         BlockColumnManager.Instance.SlideBlock(block, direction);
         SFXPush.Play();
-
-        StartCoroutine(ActionDelayCoroutine());
     }
 
     private IEnumerator MoveCoroutine(Transform[] movedTransforms, Vector3 direction)
