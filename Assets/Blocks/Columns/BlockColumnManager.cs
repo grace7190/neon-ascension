@@ -137,23 +137,6 @@ public class BlockColumnManager : MonoBehaviour
         }
     }
 
-    public bool destroyBlock(BlockColumn blockColumn, Vector3 blockPosition)
-    {
-        try
-        {
-            var destroyedBlock = blockColumn.Remove(blockPosition);
-            Destroy(destroyedBlock);
-            Debug.Log(String.Format("removed block at {0}", destroyedBlock.transform.position));
-        }
-        catch (ArgumentException)
-        {
-            Debug.Log(String.Format("no block to remove at {0}", blockPosition));
-            return false;
-        }
-
-        return true;
-    }
-
     public BlockColumn GetBlockColumnAtLocalPosition(Vector3 localPosition)
     {
         try
