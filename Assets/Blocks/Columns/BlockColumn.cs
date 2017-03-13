@@ -92,6 +92,22 @@ public class BlockColumn : MonoBehaviour
         return removedBlock.gameObject;
     }
 
+    public bool DestroyBlockAtPosition(Vector3 blockPosition)
+    {
+        try
+        {
+            var destroyedBlock = Remove(blockPosition);
+            Destroy(destroyedBlock);
+        }
+        catch (ArgumentException)
+        {
+            Debug.Log(String.Format("no block to Destroy at {0}", blockPosition));
+            return false;
+        }
+
+        return true;
+    }
+
     public void Add(GameObject block)
     {
         var blockComponent = block.GetComponent<Block>();
