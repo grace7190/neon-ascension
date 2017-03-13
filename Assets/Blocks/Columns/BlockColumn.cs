@@ -18,7 +18,7 @@ public class BlockColumn : MonoBehaviour
     void Start()
     {
         Initialize();
-        BlockFallCoroutine(false);
+        StartCoroutine(BlockFallCoroutine(true));
     }
 
     void Update()
@@ -49,11 +49,13 @@ public class BlockColumn : MonoBehaviour
         {
             if (Blocks[i].transform.position.y - Blocks[i - 1].transform.position.y > 1.1)
             {
-                Blocks[i].MakeFallImmediately();
+                if (!Blocks[i].DidMakeFall)
+                {
+                    Blocks[i].MakeFallImmediately();
+                }
             }
         }
         yield return new WaitForSeconds(0.2f);
-
         if (repeat)
             StartCoroutine(BlockFallCoroutine(true));
     }
@@ -71,7 +73,7 @@ public class BlockColumn : MonoBehaviour
             else if (removedBlock != null)
             {
                 var isRemovedBlockLowest = Mathf.Approximately(removedBlock.transform.position.y, BlockColumnManager.Instance.SupportBlockHeight + 1);
-                if (!isRemovedBlockLowest)
+                if (!isRemovedBlockLowest && !block.DidMakeFall)
                 {
                     block.MakeFallAfterSlideBlockDelay();
                 }
