@@ -37,18 +37,6 @@ public class PlayerController : MonoBehaviour
         CheckIfJumpEnds();
     }
 
-    private void CheckIfJumpEnds()
-    {
-        if (_anim.GetBool(AnimationParameters.IsJumpingMidair) && _rigidbody.velocity.y < 0)
-        {
-            var endJumpAnimTime = AnimationUtility.AnimationClipWithName(_anim, AnimationParameters.JumpLandingName).length;
-            if (!IsOpenForMove(Vector3.down, Mathf.Abs(_rigidbody.velocity.y * endJumpAnimTime)))
-            {
-                _anim.SetBool(AnimationParameters.IsJumpingMidair, false);
-            }
-        }
-    }
-
     public void Initialize()
     {
         _canPerformAction = true;
@@ -138,7 +126,7 @@ public class PlayerController : MonoBehaviour
         if(_canPerformAction && IsGrounded())
         {
             _rigidbody.AddForce(Vector3.up * InitialJumpVerticalSpeed, ForceMode.Impulse);
-            _anim.SetBool(AnimationParameters.IsJumping, true);
+            _anim.SetBool(AnimationParameters.TriggerJumping, true);
             _anim.SetBool(AnimationParameters.IsJumpingMidair, true);
             StartCoroutine(ActionDelayCoroutine());
         }
@@ -162,11 +150,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                var direction = transform.forward;
-                BlockColumnManager.Instance.SlideBlock(block, direction);
-                SFXPush.Play();
-
-                StartCoroutine(ActionDelayCoroutine());
+                StartCoroutine(PushBlockCoroutine(block));
             }
         }
     }
@@ -181,10 +165,22 @@ public class PlayerController : MonoBehaviour
             if (!block.GetComponent<Block>().IsLocked)
             {
                 Jump();
+                _anim.SetBool(AnimationParameters.TriggerPulling, true);
                 BlockColumnManager.Instance.SlideBlock(block, direction);
                 SFXPush.Play();
 
                 StartCoroutine(ActionDelayCoroutine());
+            }
+        }
+    }
+
+    private void CheckIfJumpEnds()
+    {
+        if (_anim.GetBool(AnimationParameters.IsJumpingMidair) && _rigidbody.velocity.y < 0) {
+
+            float endJumpAnimTime = AnimationUtility.AnimationClipWithName(_anim, AnimationParameters.JumpLandingName).length;
+            if (!IsOpenForMove(Vector3.down, Mathf.Abs(_rigidbody.velocity.y * endJumpAnimTime))) {
+                _anim.SetBool(AnimationParameters.IsJumpingMidair, false);
             }
         }
     }
@@ -246,9 +242,22 @@ public class PlayerController : MonoBehaviour
                                   QueryTriggerInteraction.Ignore)[0].gameObject;
     }
 
-    private IEnumerator ActionDelayCoroutine() {
+    private IEnumerator ActionDelayCoroutine()
+    {
         _canPerformAction = false;
         yield return new WaitForSeconds(ActionDelay);
         _canPerformAction = true;
+    }
+    private IEnumerator PushBlockCoroutine(GameObject block)
+    {
+        _anim.SetBool(AnimationParameters.TriggerPushing, true);
+        StartCoroutine(ActionDelayCoroutine());
+
+        // TODO: When Pushing animation is split into 2, we can remove this delay
+        yield return new WaitForSeconds(0.1f);
+
+        var direction = transform.forward;
+        BlockColumnManager.Instance.SlideBlock(block, direction);
+        SFXPush.Play();
     }
 }
