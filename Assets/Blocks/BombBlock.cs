@@ -10,14 +10,18 @@ public class BombBlock : Block
 
     public Material BombActiveMaterial;
     public const int BombTicks = 5;
+	public AudioClip ticktok_clip;
+	public AudioClip explosion_clip;
 
     private float blinkTimes;
     private bool _shouldDetonate;
+	private AudioSource audio;
 
     // Use this for initialization
     void Start () {
         _shouldDetonate = false;
         _rigidbody = GetComponent<Rigidbody>();
+		audio = GetComponent<AudioSource> ();
     }
 
     void Update() {
@@ -49,6 +53,9 @@ public class BombBlock : Block
         Vector3 blockPosition;
         BlockColumn col;
         blockPosition = gameObject.transform.parent.localPosition;
+
+		audio.clip = explosion_clip;
+		audio.Play ();
 
         // Use Physics.OverlapBox to find everything in radius of box
         Collider[] objectsInRange = Physics.OverlapBox(gameObject.transform.position, new Vector3(1.0f, 1.0f, 1.0f));
@@ -104,6 +111,8 @@ public class BombBlock : Block
         float flashDurationNormal = 0.3f;
         float flashDurationDetonation = 0.1f;
         float changeTime = 0.01f;
+		audio.clip = ticktok_clip;
+		audio.Play ();
 
         for (int i = 0; i < bombTicks; i++)
         {
