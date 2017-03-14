@@ -35,10 +35,14 @@ public class PlayerJoystickInputManager : MonoBehaviour
             GameController.Instance.TogglePause();
         }
 
-        var horizontalAxis = Input.GetAxis("L_XAxis_" + PlayerNumber);
-        var verticalAxis = Input.GetAxis("L_YAxis_" + PlayerNumber) * (InvertVerticalAxis ? -1 : 1);
-        _controller.Move(horizontalAxis, verticalAxis);
-        
+        var leftHorizontalAxis = Input.GetAxis("L_XAxis_" + PlayerNumber);
+        var leftVerticalAxis = Input.GetAxis("L_YAxis_" + PlayerNumber) * (InvertVerticalAxis ? -1 : 1);
+        _controller.Move(leftHorizontalAxis, leftVerticalAxis);
+
+        var rightHorizontalAxis = Input.GetAxis("R_XAxis_" + PlayerNumber);
+        var rightVerticalAxis = Input.GetAxis("R_YAxis_" + PlayerNumber) * (InvertVerticalAxis ? -1 : 1);
+        _controller.TryMoveBlock(rightHorizontalAxis, rightVerticalAxis);
+
         if (Input.GetKeyDown(_joystickPushKey) || Input.GetKeyDown(PushKeyCode))
         {
             _controller.TryPushBlock();
