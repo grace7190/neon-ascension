@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class PauseInputController : MonoBehaviour {
 
@@ -29,8 +26,8 @@ public class PauseInputController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		verticalVal = Mathf.Round (Input.GetAxis ("Vertical_P1") + Input.GetAxis ("Vertical_P2"));
-		clicked = Input.GetButton ("Choose");
+		verticalVal = Mathf.Round (Input.GetAxis ("L_YAxis_1") + Input.GetAxis ("L_YAxis_2") + Input.GetAxis("L_YAxis_3") + Input.GetAxis("L_YAxis_4"));
+		clicked = Input.GetButton("X_1") || Input.GetButton("X_2") || Input.GetButton("X_3") || Input.GetButton("X_4");
 		if (current_iteration >= repeat) {
 			if (clicked) {
 				currentButton.onClick.Invoke ();

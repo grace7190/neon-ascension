@@ -25,24 +25,26 @@ public class GameController : MonoBehaviour
 		player2 = GameObject.Find ("Player 2");
 		pauseMenu.SetActive (false);
 	}
-	
-	void Update () {
-		if ((Input.GetKeyDown (pauseKey) || Input.GetButton("Pause")) && !gamePaused) {
-			Time.timeScale = 0.0f;
-			gamePaused = true;
-			pauseMenu.SetActive (true);
-			player1.GetComponent<PlayerJoystickInputManager>().enabled = false;
-			player2.GetComponent<PlayerJoystickInputManager>().enabled = false;
-		}
-	}
 
-	public void Resume() {
-		pauseMenu.SetActive (false);
-		Time.timeScale = 1.0f;
-		gamePaused = false;
-		player1.GetComponent<PlayerJoystickInputManager>().enabled = true;
-		player2.GetComponent<PlayerJoystickInputManager>().enabled = true;
-	}
+    public void TogglePause()
+    {
+        if (!gamePaused)
+        {
+            Time.timeScale = 0.0f;
+            gamePaused = true;
+            pauseMenu.SetActive(true);
+            player1.GetComponent<PlayerJoystickInputManager>().enabled = false;
+            player2.GetComponent<PlayerJoystickInputManager>().enabled = false;
+        }
+        else
+        {
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1.0f;
+            gamePaused = false;
+            player1.GetComponent<PlayerJoystickInputManager>().enabled = true;
+            player2.GetComponent<PlayerJoystickInputManager>().enabled = true;
+        }
+    }
 
 	public void Restart() {
 		Time.timeScale = 1.0f;
