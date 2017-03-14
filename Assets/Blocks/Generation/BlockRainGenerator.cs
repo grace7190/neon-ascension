@@ -19,11 +19,14 @@ public class BlockRainGenerator : MonoBehaviour
 
 	void Update ()
 	{
-        _spawnCooldown -= Time.deltaTime;
-	    if (_spawnCooldown <= 0)
+	    if (GameController.Instance.IsStarted)
 	    {
-	        TrySpawn(BlockColumnManager.BlueTeamZIndex);
-	        TrySpawn(BlockColumnManager.PurpleTeamZIndex);
+	        _spawnCooldown -= Time.deltaTime;
+	        if (_spawnCooldown <= 0)
+	        {
+	            TrySpawn(BlockColumnManager.BlueTeamZIndex);
+	            TrySpawn(BlockColumnManager.PurpleTeamZIndex);
+	        }
 	    }
 	}
 

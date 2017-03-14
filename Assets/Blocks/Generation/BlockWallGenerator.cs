@@ -4,40 +4,70 @@
 public class BlockWallGenerator : MonoBehaviour
 {
     public const int WallHeight = 15;
-    public const int RangeMin = 5;
-    public const int RangeMax = 8;
+    public const int ConsecutiveMovableBlockMin = 5;
+    public const int ConsecutiveMovableBlockMax = 8;
+
+    public bool IsInitialized { get; private set; }
 
     private BlockColumn _blockColumn;
-    private int num_movable;
-    private int accumulated;
+    private int _consecutiveMovableBlocks;
+    private int _consecutiveMovableBlocksBeforeImmovableBlock;
 
     void Start()
     {
+        IsInitialized = false;
         _blockColumn = GetComponent<BlockColumn>();
-        num_movable = 0;
-        accumulated = Random.Range (RangeMin, RangeMax);
+        _consecutiveMovableBlocks = 0;
+        _consecutiveMovableBlocksBeforeImmovableBlock = Random.Range (ConsecutiveMovableBlockMin, ConsecutiveMovableBlockMax);
     }
 
     void Update()
     {
         while (0 < _blockColumn.Blocks.Count && _blockColumn.Blocks.Count < WallHeight)
         {
-            GameObject newTopBlock;
             var topBlock = _blockColumn.Blocks[_blockColumn.Blocks.Count - 1].gameObject;
-            if (Random.Range(1,20) <= 2)
+            var bottomBlock = _blockColumn.Blocks[0].gameObject;
+            
+            var isTopOfWallOpen = topBlock.transform.position.y <= bottomBlock.transform.position.y + WallHeight - 1;
+            if (!isTopOfWallOpen)
+            {
+                return;
+            }
+
+            GameObject newTopBlock;
+            if (Random.Range(1, 20) <= 2)
             {
                 newTopBlock = Instantiate(BlockColumnManager.Instance.BombBlockPrefab);
-            } else if (num_movable < accumulated) {
-                newTopBlock = Instantiate (BlockColumnManager.Instance.BlockPrefab);
-                num_movable++;
-            } else {
-                newTopBlock = Instantiate (BlockColumnManager.Instance.ImmovableBlockPrefab);
-                num_movable = 0;
-                accumulated = Random.Range (RangeMin, RangeMax);
             }
-            newTopBlock.transform.position = topBlock.transform.position + Vector3.up;
-            GetComponent<BlockColumn>().Add(newTopBlock);
-            newTopBlock.GetComponent<Block>().MakeFallAfterSlideBlockDelay();
+            else if (_consecutiveMovableBlocks < _consecutiveMovableBlocksBeforeImmovableBlock)
+            {
+                newTopBlock = Instantiate(BlockColumnManager.Instance.BlockPrefab);
+                _consecutiveMovableBlocks++;
+            }
+            else
+            {
+                newTopBlock = Instantiate(BlockColumnManager.Instance.ImmovableBlockPrefab);
+                _consecutiveMovableBlocks = 0;
+                _consecutiveMovableBlocksBeforeImmovableBlock = Random.Range(ConsecutiveMovableBlockMin, ConsecutiveMovableBlockMax);
+            }
+
+            newTopBlock.transform.position = bottomBlock.transform.position + Vector3.up * WallHeight;
+            _blockColumn.Add(newTopBlock);
+
+            if (IsInitialized)
+            {
+                newTopBlock.GetComponent<Block>().MakeFallAfterSlideBlockDelay();
+            }
+            else
+            {
+                newTopBlock.GetComponent<Block>().MakeFallAfterDelay(Random.Range(0.0f, 0.1f));
+            }
+
+            if (_blockColumn.Blocks.Count == WallHeight)
+            {
+                IsInitialized = true;
+                GameController.Instance.IsStarted = true;
+            }
         }
     }
 }

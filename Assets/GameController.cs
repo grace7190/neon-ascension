@@ -1,10 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameController : MonoBehaviour {
+public class GameController : MonoBehaviour
+{
+    public static GameController Instance;
 
+    public bool IsStarted = false;
 	public KeyCode pauseKey;
 
 	private bool gamePaused;
@@ -12,7 +13,11 @@ public class GameController : MonoBehaviour {
 	private GameObject player1;
 	private GameObject player2;
 
-	// Use this for initialization
+    void Awake()
+    {
+        Instance = this;
+    }
+
 	void Start () {
 		gamePaused = false;
 		pauseMenu = GameObject.Find ("PauseMenu");
@@ -21,7 +26,6 @@ public class GameController : MonoBehaviour {
 		pauseMenu.SetActive (false);
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		if ((Input.GetKeyDown (pauseKey) || Input.GetButton("Pause")) && !gamePaused) {
 			Time.timeScale = 0.0f;
