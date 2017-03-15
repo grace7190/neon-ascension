@@ -1305,6 +1305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerNumber: 0
   InvertVerticalAxis: 0
+  InvertHorizontalAxis: 0
   PushKeyCode: 0
   PullKeyCode: 0
   JumpKeyCode: 0
