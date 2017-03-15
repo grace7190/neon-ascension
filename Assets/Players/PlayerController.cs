@@ -253,7 +253,7 @@ public class PlayerController : MonoBehaviour
         var direction = transform.forward;
         BlockColumnManager.Instance.SlideBlock(block, direction);
         SFXPush.Play();
-		yield return new WaitForSeconds (0.8f);
+		yield return new WaitForSeconds (0.6f);
 		_canMoveWhenPush = true;
     }
 
