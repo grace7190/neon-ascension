@@ -45,26 +45,7 @@ public class PlayerController : MonoBehaviour
 
     public bool IsFacing(Vector3 direction)
     {
-        var yAngle = transform.eulerAngles.y;
-        var flip = 1;
-        if (yAngle > 180)
-        {
-            yAngle -= 180;
-            flip = -1;
-        }
-        var roundRotation = Quaternion.Euler(0.0f, (flip*yAngle / 90) * 90, 0.0f);
-        return roundRotation != Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
-
-    }
-
-    public bool Turn(Vector3 direction)
-    {
-        if (IsFacing(direction))
-        {
-            transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
-            return true;
-        }
-        return false;
+        return transform.forward == direction;
     }
 
     public void Move(float horizontalAxis, float verticalAxis)
@@ -129,6 +110,27 @@ public class PlayerController : MonoBehaviour
             _anim.SetBool(AnimationParameters.TriggerJumping, true);
             _anim.SetBool(AnimationParameters.IsJumpingMidair, true);
             StartCoroutine(ActionDelayCoroutine());
+        }
+    }
+
+    public void TryMoveBlock(float horizontalAxis, float verticalAxis)
+    {
+        if (Mathf.Abs(horizontalAxis) > 0 || Mathf.Abs(verticalAxis) > 0)
+        {
+            var horizontalDirection = horizontalAxis > 0 ? Vector3.right : Vector3.left;
+            var verticalDirection = verticalAxis > 0 ? Vector3.forward : Vector3.back;
+            var dominantDirection = Mathf.Abs(horizontalAxis) > Mathf.Abs(verticalAxis)
+                ? horizontalDirection
+                : verticalDirection;
+
+            if (IsFacing(dominantDirection))
+            {
+                TryPushBlock();
+            }
+            else if (IsFacing(-dominantDirection))
+            {
+                TryPullBlock();
+            }
         }
     }
     
