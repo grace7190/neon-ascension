@@ -247,18 +247,10 @@ public class PlayerController : MonoBehaviour
     {
 		if (Physics.Raycast (block.transform.position, Vector3.up, 1)) {
 			_canMoveWhenPush = false;
-			if (gameObject.transform.name == "Player 1") {
-				if (block.transform.position.x - transform.position.x > 0.5) {
-					_pushingDirection = Vector3.right;
-				} else {
-					_pushingDirection = Vector3.left;
-				}
+			if (block.transform.position.x - transform.position.x > 0.5) {
+				_pushingDirection = Vector3.right;
 			} else {
-				if (block.transform.position.x - transform.position.x < -0.5) {
-					_pushingDirection = Vector3.right;
-				} else {
-					_pushingDirection = Vector3.left;
-				}
+				_pushingDirection = Vector3.left;
 			}
 		}
         _anim.SetBool(AnimationParameters.TriggerPushing, true);
