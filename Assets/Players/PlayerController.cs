@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     private const float AxisOnThreshold = 0.5f;
     
     private bool _canPerformAction;
-	private bool _isPushing;
+	private bool _canMoveWhenPush;
     
     private Rigidbody _rigidbody;
     private Animator _anim;
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     public void Initialize()
     {
         _canPerformAction = true;
-		_isPushing = false;
+		_canMoveWhenPush = true;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
 		var velocity = _rigidbody.velocity;
 		var isMovingHorizontally = Mathf.Abs (horizontalAxis) > AxisOnThreshold;
 		var isMovingVertically = Mathf.Abs (verticalAxis) > AxisOnThreshold;
-		if (!_isPushing) {
+		if (_canMoveWhenPush) {
 			if (IsGrounded ()) {
 				var isWalking = isMovingHorizontally || isMovingVertically;
 				if (isWalking) {
@@ -241,7 +241,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator PushBlockCoroutine(GameObject block)
     {
-		_isPushing = true;
+		if (Physics.Raycast (block.transform.position, Vector3.up, 1)) {
+			_canMoveWhenPush = false;
+		}
         _anim.SetBool(AnimationParameters.TriggerPushing, true);
         StartCoroutine(ActionDelayCoroutine());
 
@@ -252,7 +254,7 @@ public class PlayerController : MonoBehaviour
         BlockColumnManager.Instance.SlideBlock(block, direction);
         SFXPush.Play();
 		yield return new WaitForSeconds (0.8f);
-		_isPushing = false;
+		_canMoveWhenPush = true;
     }
 
     private IEnumerator PullBlockCoroutine(GameObject block, Vector3 direction)
