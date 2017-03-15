@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class BombBlock : Block
@@ -71,25 +70,32 @@ public class BombBlock : Block
         Collider[] objectsInRange = Physics.OverlapBox(gameObject.transform.position, new Vector3(1.0f, 1.0f, 1.0f));
         foreach (Collider collider in objectsInRange)
         {
-
             if (collider.gameObject.tag == Tags.Block && collider.gameObject != gameObject)
             {
-                blockPosition = collider.gameObject.transform.parent.localPosition;
-                col = BlockColumnManager.Instance.GetBlockColumnAtLocalPosition(blockPosition);
+                // Hacks to detonate blocks without parents
+                if (collider.transform.parent != null)
+                {
+                    blockPosition = collider.gameObject.transform.parent.localPosition;
+                    col = BlockColumnManager.Instance.GetBlockColumnAtLocalPosition(blockPosition);
 
-                // Push blocks off
-                collider.attachedRigidbody.isKinematic = false;
-                if (blockPosition.z == BlockColumnManager.WallZIndex)
-                {
-                    col.DestroyBlockAtPosition(collider.gameObject.transform.position);
+                    // Push blocks off
+                    collider.attachedRigidbody.isKinematic = false;
+                    if (blockPosition.z == BlockColumnManager.WallZIndex)
+                    {
+                        col.DestroyBlockAtPosition(collider.gameObject.transform.position);
+                    }
+                    else if (blockPosition.z == BlockColumnManager.PurpleTeamZIndex)
+                    {
+                        BlockColumnManager.Instance.SlideBlock(collider.gameObject, Vector3.forward);
+                    }
+                    else if (blockPosition.z == BlockColumnManager.BlueTeamZIndex)
+                    {
+                        BlockColumnManager.Instance.SlideBlock(collider.gameObject, Vector3.back);
+                    }
                 }
-                else if (blockPosition.z == BlockColumnManager.PurpleTeamZIndex)
+                else
                 {
-                    BlockColumnManager.Instance.SlideBlock(collider.gameObject, Vector3.forward);
-                }
-                else if (blockPosition.z == BlockColumnManager.BlueTeamZIndex)
-                {
-                    BlockColumnManager.Instance.SlideBlock(collider.gameObject, Vector3.back);
+                    Destroy(collider.gameObject);
                 }
             }
 
