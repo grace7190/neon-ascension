@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 199558291645716624}
   - component: {fileID: 198378678430440406}
   m_Layer: 0
-  m_Name: Particle Emitter
+  m_Name: Cape Cyan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -900,16 +900,16 @@ ParticleSystem:
       minMaxState: 0
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 3052861174
+          rgba: 4294964224
         key1:
           serializedVersion: 2
-          rgba: 13092807
+          rgba: 4294953472
         key2:
           serializedVersion: 2
           rgba: 0
@@ -937,7 +937,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 65535
+        atime1: 64957
         atime2: 0
         atime3: 0
         atime4: 0
