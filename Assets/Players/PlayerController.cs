@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private const float AxisOnThreshold = 0.5f;
     
     private bool _canPerformAction;
+	private bool _isPushing;
     
     private Rigidbody _rigidbody;
     private Animator _anim;
@@ -40,6 +41,7 @@ public class PlayerController : MonoBehaviour
     public void Initialize()
     {
         _canPerformAction = true;
+		_isPushing = false;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
@@ -50,57 +52,48 @@ public class PlayerController : MonoBehaviour
 
     public void Move(float horizontalAxis, float verticalAxis)
     {
-        var velocity = _rigidbody.velocity;
-        var isMovingHorizontally = Mathf.Abs(horizontalAxis) > AxisOnThreshold;
-        var isMovingVertically = Mathf.Abs(verticalAxis) > AxisOnThreshold;
-        if (IsGrounded())
-        {
-            var isWalking = isMovingHorizontally || isMovingVertically;
-            if (isWalking)
-            {
-                var horizontalDirection = horizontalAxis > 0 ? Vector3.right : Vector3.left;
-                var verticalDirection = verticalAxis > 0 ? Vector3.forward : Vector3.back;
-                var dominantDirection = Mathf.Abs(horizontalAxis) > Mathf.Abs(verticalAxis)
-                    ? horizontalDirection
-                    : verticalDirection;
+		var velocity = _rigidbody.velocity;
+		var isMovingHorizontally = Mathf.Abs (horizontalAxis) > AxisOnThreshold;
+		var isMovingVertically = Mathf.Abs (verticalAxis) > AxisOnThreshold;
+		if (!_isPushing) {
+			if (IsGrounded ()) {
+				var isWalking = isMovingHorizontally || isMovingVertically;
+				if (isWalking) {
+					var horizontalDirection = horizontalAxis > 0 ? Vector3.right : Vector3.left;
+					var verticalDirection = verticalAxis > 0 ? Vector3.forward : Vector3.back;
+					var dominantDirection = Mathf.Abs (horizontalAxis) > Mathf.Abs (verticalAxis)
+                ? horizontalDirection
+                : verticalDirection;
 
-                transform.rotation = Quaternion.LookRotation(dominantDirection);
+					transform.rotation = Quaternion.LookRotation (dominantDirection);
 
-                velocity.x = dominantDirection.x * MaxHorizontalSpeed;
-            }
-            else
-            {
-                velocity.x = 0;
-            }
+					velocity.x = dominantDirection.x * MaxHorizontalSpeed;
+				} else {
+					velocity.x = 0;
+				}
 
-            _anim.SetBool(AnimationParameters.IsWalking, isWalking);
-        }
-        else
-        {
-            if (isMovingHorizontally)
-            {
-                transform.rotation = Quaternion.LookRotation(Vector3.right * Mathf.Sign(horizontalAxis));
+				_anim.SetBool (AnimationParameters.IsWalking, isWalking);
+			} else {
+				if (isMovingHorizontally) {
+					transform.rotation = Quaternion.LookRotation (Vector3.right * Mathf.Sign (horizontalAxis));
 
-                velocity.x += Mathf.Sign(horizontalAxis) * JumpHorizontalAcceleration * Time.deltaTime;
-                if (Mathf.Abs(velocity.x) > MaxHorizontalSpeed)
-                {
-                    velocity.x = Mathf.Sign(velocity.x) * MaxHorizontalSpeed;
-                }
-            }
-            else
-            {
-                var oldSign = Mathf.Sign(velocity.x);
-                velocity.x -= oldSign * JumpHorizontalAcceleration * Time.deltaTime;
-                var isHorizontalDirectionChanged = !Mathf.Approximately(oldSign, Mathf.Sign(velocity.x));
-                if (isHorizontalDirectionChanged)
-                {
-                    velocity.x = 0;
-                }
-            }
-        }
-        
-        _rigidbody.velocity = velocity;
-    }
+					velocity.x += Mathf.Sign (horizontalAxis) * JumpHorizontalAcceleration * Time.deltaTime;
+					if (Mathf.Abs (velocity.x) > MaxHorizontalSpeed) {
+						velocity.x = Mathf.Sign (velocity.x) * MaxHorizontalSpeed;
+					}
+				} else {
+					var oldSign = Mathf.Sign (velocity.x);
+					velocity.x -= oldSign * JumpHorizontalAcceleration * Time.deltaTime;
+					var isHorizontalDirectionChanged = !Mathf.Approximately (oldSign, Mathf.Sign (velocity.x));
+					if (isHorizontalDirectionChanged) {
+						velocity.x = 0;
+					}
+				}
+			}
+    
+			_rigidbody.velocity = velocity;
+		}
+	}
 
     public void Jump()
     {
@@ -248,6 +241,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator PushBlockCoroutine(GameObject block)
     {
+		_isPushing = true;
         _anim.SetBool(AnimationParameters.TriggerPushing, true);
         StartCoroutine(ActionDelayCoroutine());
 
@@ -257,6 +251,8 @@ public class PlayerController : MonoBehaviour
         var direction = transform.forward;
         BlockColumnManager.Instance.SlideBlock(block, direction);
         SFXPush.Play();
+		yield return new WaitForSeconds (0.8f);
+		_isPushing = false;
     }
 
     private IEnumerator PullBlockCoroutine(GameObject block, Vector3 direction)
