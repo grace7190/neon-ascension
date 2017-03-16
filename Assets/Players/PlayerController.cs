@@ -27,11 +27,13 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody _rigidbody;
     private Animator _anim;
+    private PlayerFacingBlockDetector _detector;
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
+        _detector =  GetComponentInChildren<PlayerFacingBlockDetector>();
         var audioSources = GetComponents<AudioSource>();
         SFXPush = audioSources[0];
         Initialize();
@@ -54,6 +56,11 @@ public class PlayerController : MonoBehaviour
         _isPulling = false;
         _rigidbody.useGravity = true;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+
+    public void PerformDeathCleanup()
+    {
+        _detector.Reset();
     }
 
     public bool IsFacing(Vector3 direction)
@@ -148,11 +155,14 @@ public class PlayerController : MonoBehaviour
     
     public void TryPushBlock()
     {
+
+        var block = GetBlockInFront();
+
         if (_canPerformAction &&
             !_isPulling &&
-            !IsOpen(transform.position + transform.forward) && IsGrounded())
+            block != null &&
+            IsGrounded())
         {
-            var block = GetBlockInFront();
             var isBlockBlocked = !IsOpen(transform.position + transform.forward * 2);
 
             if (block.GetComponent<Block>().IsLocked)
@@ -173,11 +183,13 @@ public class PlayerController : MonoBehaviour
 
     public void TryPullBlock()
     {
+        var block = GetBlockInFront();
+
         if (_canPerformAction &&
             !_isPulling &&
-            !IsOpen(transform.position + transform.forward) && IsGrounded())
+            block != null &&
+            IsGrounded())
         {
-            var block = GetBlockInFront();
             var direction = -transform.forward;
 
             if (!block.GetComponent<Block>().IsLocked)
@@ -248,11 +260,7 @@ public class PlayerController : MonoBehaviour
 
     private GameObject GetBlockInFront()
     {
-        return
-            Physics.OverlapSphere(transform.position + transform.forward,
-                                  CastRadius,
-                                  CastMask,
-                                  QueryTriggerInteraction.Ignore)[0].gameObject;
+        return _detector.HighlightedObject;
     }
 
     private void CheckIfFallingFar()
