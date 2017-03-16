@@ -102,11 +102,16 @@ public class TeamLivesManager : MonoBehaviour
 
     private IEnumerator RespawnCoroutine(GameObject playerGameObject)
     {
+        var playerController = playerGameObject.GetComponent<PlayerController>();
+        var team = playerController.Team;
+
+        playerController.PerformDeathCleanup();
+
         yield return new WaitForSeconds(RespawnDelay);
-        var team = playerGameObject.GetComponent<PlayerController>().Team;
+
         playerGameObject.transform.position = BlockColumnManager.Instance.GetRespawnPoint(team);
         playerGameObject.SetActive(true);
-        playerGameObject.GetComponent<PlayerController>().Initialize();
+        playerController.Initialize();
     }
 }
 
