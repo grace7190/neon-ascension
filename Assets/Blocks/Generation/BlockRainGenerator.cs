@@ -22,7 +22,7 @@ public class BlockRainGenerator : MonoBehaviour
 	    if (GameController.Instance.IsStarted)
 	    {
 	        _spawnCooldown -= Time.deltaTime;
-	        if (_spawnCooldown <= 0)
+	        if (BlockColumnManager.Instance.BlockRainEnabled && _spawnCooldown <= 0)
 	        {
 	            TrySpawn(BlockColumnManager.BlueTeamZIndex);
 	            TrySpawn(BlockColumnManager.PurpleTeamZIndex);
