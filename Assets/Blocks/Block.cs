@@ -79,7 +79,7 @@ public class Block : MonoBehaviour {
         StartCoroutine(AnimateDeletionCoroutine(6));
     }
 
-    protected void ChangeColor(Color targetColor, float duration, Action completion = null)
+    public void ChangeColor(Color targetColor, float duration, Action completion = null)
     {
         if (_colorChangeCoroutine != null)
         {
