@@ -104,7 +104,18 @@ public class TutorialManager : MonoBehaviour {
                 TeamLivesManager.Instance.DeathEnabled = true;
                 Debug.Log("death enabled");
                 break;
-
+            case 9:
+                Destroy(BlueTutorial1);
+                Destroy(PurpleTutorial1);
+                Destroy(BlueTutorial2);
+                Destroy(PurpleTutorial2);
+                Destroy(BlueTutorial1);
+                Destroy(BlueTutorial3a);
+                Destroy(PurpleTutorial3a);
+                Destroy(BlueTutorial3b);
+                Destroy(PurpleTutorial3b);
+                Destroy(Tutorial4);
+                break;
             default:
                 Debug.Log("uh oh bad tutorial");
                 break;
