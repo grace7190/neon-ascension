@@ -13,7 +13,7 @@ public class PlayerFacingBlockDetector : MonoBehaviour {
             var script = other.GetComponent<Block> ();
             if (gameObject.name == "Player1Child")
             {
-                script.ChangeColor (Color.yellow, Block.ChangeColorDuration);
+				script.ChangeColor (Color.blue, Block.ChangeColorDuration);
             }
             else
             {
