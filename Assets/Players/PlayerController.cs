@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -17,16 +18,22 @@ public class PlayerController : MonoBehaviour
     private const float InitialJumpVerticalSpeed = 5.0f;
     private const float JumpHorizontalAcceleration = 15;
     private const float AxisOnThreshold = 0.5f;
-    
+
+    private Vector3 _pushingDirection;
+
     private bool _canPerformAction;
-    
+    private bool _canMoveWhenPush;
+    private bool _isPulling;
+
     private Rigidbody _rigidbody;
     private Animator _anim;
+    private PlayerFacingBlockDetector _detector;
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
+        _detector =  GetComponentInChildren<PlayerFacingBlockDetector>();
         var audioSources = GetComponents<AudioSource>();
         SFXPush = audioSources[0];
         Initialize();
@@ -37,93 +44,86 @@ public class PlayerController : MonoBehaviour
         CheckIfJumpEnds();
     }
 
+    void Update()
+    {
+        CheckIfFallingFar();
+    }
+
     public void Initialize()
     {
         _canPerformAction = true;
+        _canMoveWhenPush = true;
+        _isPulling = false;
+        _rigidbody.useGravity = true;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+
+    public void PerformDeathCleanup()
+    {
+        _detector.Reset();
     }
 
     public bool IsFacing(Vector3 direction)
     {
-        var yAngle = transform.eulerAngles.y;
-        var flip = 1;
-        if (yAngle > 180)
-        {
-            yAngle -= 180;
-            flip = -1;
-        }
-        var roundRotation = Quaternion.Euler(0.0f, (flip*yAngle / 90) * 90, 0.0f);
-        return roundRotation != Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
-
-    }
-
-    public bool Turn(Vector3 direction)
-    {
-        if (IsFacing(direction))
-        {
-            transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(direction, Vector3.up));
-            return true;
-        }
-        return false;
+        return transform.forward == direction;
     }
 
     public void Move(float horizontalAxis, float verticalAxis)
     {
+        if (_isPulling) {
+            return;
+        }
+
         var velocity = _rigidbody.velocity;
-        var isMovingHorizontally = Mathf.Abs(horizontalAxis) > AxisOnThreshold;
-        var isMovingVertically = Mathf.Abs(verticalAxis) > AxisOnThreshold;
-        if (IsGrounded())
-        {
+        var isMovingHorizontally = Mathf.Abs (horizontalAxis) > AxisOnThreshold;
+        var isMovingVertically = Mathf.Abs (verticalAxis) > AxisOnThreshold;
+        if (IsGrounded ()) {
             var isWalking = isMovingHorizontally || isMovingVertically;
-            if (isWalking)
-            {
+            if (isWalking) {
                 var horizontalDirection = horizontalAxis > 0 ? Vector3.right : Vector3.left;
                 var verticalDirection = verticalAxis > 0 ? Vector3.forward : Vector3.back;
-                var dominantDirection = Mathf.Abs(horizontalAxis) > Mathf.Abs(verticalAxis)
-                    ? horizontalDirection
-                    : verticalDirection;
+                var dominantDirection = Mathf.Abs (horizontalAxis) > Mathf.Abs (verticalAxis)
+            ? horizontalDirection
+            : verticalDirection;
 
-                transform.rotation = Quaternion.LookRotation(dominantDirection);
+                transform.rotation = Quaternion.LookRotation (dominantDirection);
 
-                velocity.x = dominantDirection.x * MaxHorizontalSpeed;
-            }
-            else
-            {
+                if (!_canMoveWhenPush && horizontalDirection == _pushingDirection) {
+                    velocity.x = 0;
+                } else {
+                    velocity.x = dominantDirection.x * MaxHorizontalSpeed;
+                }
+            } else {
                 velocity.x = 0;
             }
 
-            _anim.SetBool(AnimationParameters.IsWalking, isWalking);
-        }
-        else
-        {
-            if (isMovingHorizontally)
-            {
-                transform.rotation = Quaternion.LookRotation(Vector3.right * Mathf.Sign(horizontalAxis));
+            _anim.SetBool (AnimationParameters.IsWalking, isWalking);
+        } else {
+            if (isMovingHorizontally) {
+                transform.rotation = Quaternion.LookRotation (Vector3.right * Mathf.Sign (horizontalAxis));
 
-                velocity.x += Mathf.Sign(horizontalAxis) * JumpHorizontalAcceleration * Time.deltaTime;
-                if (Mathf.Abs(velocity.x) > MaxHorizontalSpeed)
-                {
-                    velocity.x = Mathf.Sign(velocity.x) * MaxHorizontalSpeed;
+                velocity.x += Mathf.Sign (horizontalAxis) * JumpHorizontalAcceleration * Time.deltaTime;
+                if (Mathf.Abs (velocity.x) > MaxHorizontalSpeed) {
+                    velocity.x = Mathf.Sign (velocity.x) * MaxHorizontalSpeed;
                 }
-            }
-            else
-            {
-                var oldSign = Mathf.Sign(velocity.x);
+            } else {
+                var oldSign = Mathf.Sign (velocity.x);
                 velocity.x -= oldSign * JumpHorizontalAcceleration * Time.deltaTime;
-                var isHorizontalDirectionChanged = !Mathf.Approximately(oldSign, Mathf.Sign(velocity.x));
-                if (isHorizontalDirectionChanged)
-                {
+                var isHorizontalDirectionChanged = !Mathf.Approximately (oldSign, Mathf.Sign (velocity.x));
+                if (isHorizontalDirectionChanged) {
                     velocity.x = 0;
                 }
             }
         }
-        
+
         _rigidbody.velocity = velocity;
     }
 
     public void Jump()
     {
-        if(_canPerformAction && IsGrounded())
+        if(_canPerformAction &&
+            !_isPulling &&
+            IsGrounded())
         {
             _rigidbody.AddForce(Vector3.up * InitialJumpVerticalSpeed, ForceMode.Impulse);
             _anim.SetBool(AnimationParameters.TriggerJumping, true);
@@ -131,12 +131,38 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(ActionDelayCoroutine());
         }
     }
+
+    public void TryMoveBlock(float horizontalAxis, float verticalAxis)
+    {
+        if (Mathf.Abs(horizontalAxis) > 0 || Mathf.Abs(verticalAxis) > 0)
+        {
+            var horizontalDirection = horizontalAxis > 0 ? Vector3.right : Vector3.left;
+            var verticalDirection = verticalAxis > 0 ? Vector3.forward : Vector3.back;
+            var dominantDirection = Mathf.Abs(horizontalAxis) > Mathf.Abs(verticalAxis)
+                ? horizontalDirection
+                : verticalDirection;
+
+            if (IsFacing(dominantDirection))
+            {
+                TryPushBlock();
+            }
+            else if (IsFacing(-dominantDirection))
+            {
+                TryPullBlock();
+            }
+        }
+    }
     
     public void TryPushBlock()
     {
-        if (_canPerformAction && !IsOpen(transform.position + transform.forward) && IsGrounded())
+
+        var block = GetBlockInFront();
+
+        if (_canPerformAction &&
+            !_isPulling &&
+            block != null &&
+            IsGrounded())
         {
-            var block = GetBlockInFront();
             var isBlockBlocked = !IsOpen(transform.position + transform.forward * 2);
 
             if (block.GetComponent<Block>().IsLocked)
@@ -157,9 +183,13 @@ public class PlayerController : MonoBehaviour
 
     public void TryPullBlock()
     {
-        if (_canPerformAction && !IsOpen(transform.position + transform.forward) && IsGrounded())
+        var block = GetBlockInFront();
+
+        if (_canPerformAction &&
+            !_isPulling &&
+            block != null &&
+            IsGrounded())
         {
-            var block = GetBlockInFront();
             var direction = -transform.forward;
 
             if (!block.GetComponent<Block>().IsLocked)
@@ -230,11 +260,23 @@ public class PlayerController : MonoBehaviour
 
     private GameObject GetBlockInFront()
     {
-        return
-            Physics.OverlapSphere(transform.position + transform.forward,
-                                  CastRadius,
-                                  CastMask,
-                                  QueryTriggerInteraction.Ignore)[0].gameObject;
+        return _detector.HighlightedObject;
+    }
+
+    private void CheckIfFallingFar()
+    {
+        if (_rigidbody.velocity.y < -1.0f && !_anim.GetBool(AnimationParameters.IsFallingFar))
+        {
+            var zIndex = transform.position.z;
+            var blueTeamZIndexThreshold = -1.7;
+            var purpleTeamZIndexThreshold = 1.7;
+
+            if ((Team == Team.Blue && zIndex < blueTeamZIndexThreshold) ||
+                (Team == Team.Purple && zIndex > purpleTeamZIndexThreshold))
+            {
+                _anim.SetBool(AnimationParameters.IsFallingFar, true);
+            }
+        }
     }
 
     private IEnumerator ActionDelayCoroutine()
@@ -246,6 +288,14 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator PushBlockCoroutine(GameObject block)
     {
+        if (Physics.Raycast (block.transform.position, Vector3.up, 1)) {
+            _canMoveWhenPush = false;
+            if (block.transform.position.x - transform.position.x > 0.5) {
+                _pushingDirection = Vector3.right;
+            } else {
+                _pushingDirection = Vector3.left;
+            }
+        }
         _anim.SetBool(AnimationParameters.TriggerPushing, true);
         StartCoroutine(ActionDelayCoroutine());
 
@@ -255,18 +305,89 @@ public class PlayerController : MonoBehaviour
         var direction = transform.forward;
         BlockColumnManager.Instance.SlideBlock(block, direction);
         SFXPush.Play();
+        yield return new WaitForSeconds (1f);
+        _canMoveWhenPush = true;
     }
 
     private IEnumerator PullBlockCoroutine(GameObject block, Vector3 direction)
     {
-        Jump();
         StartCoroutine(ActionDelayCoroutine());
+        _isPulling = true;
 
-        // TODO:Change Jump to an acutal pulling fixed movement animation
-        //_anim.SetBool(AnimationParameters.TriggerPulling, true);
-        yield return new WaitForSeconds(0.2f);
+        _anim.SetBool(AnimationParameters.TriggerPulling, true);
+        _anim.SetBool (AnimationParameters.IsWalking, false);
+
+        // Wait for pulling animation to finish
+        while(!(_anim.IsInTransition(0) && _anim.GetNextAnimatorStateInfo(0).IsName(AnimationParameters.ClimbingName)))
+        {
+            yield return null;
+        }
 
         BlockColumnManager.Instance.SlideBlock(block, direction);
         SFXPush.Play();
+
+        // Climbing animation is now playing
+        var oldPosition = transform.position;
+        var animationTime =  0.10f;
+        var climbDelta = Vector3.up;
+
+        // yield for the player animation to perform
+        // the animation of placing their hands ontop of the block
+        yield return new WaitForSeconds(0.05f);
+
+        // Move upwards
+        _rigidbody.useGravity = false;
+        StartCoroutine(AxisMoveCoroutine(transform, Vector3.up, 1, animationTime));
+
+        yield return new WaitForSeconds(animationTime);
+
+        // Move towards pulled block
+        _rigidbody.useGravity = true;
+
+        if (IsOpenForMove(direction * -1,  Mathf.Abs(transform.position.z - oldPosition.z)))
+        {
+            var newPosition = transform.position;
+            newPosition.z = oldPosition.z;
+            transform.position = newPosition;
+        }
+        else
+        {
+            // Cause player to die, by adding a force towards a block
+            _rigidbody.AddForce(direction * -1f, ForceMode.Impulse);
+        }
+
+        _rigidbody.velocity = Vector3.zero;
+        _isPulling = false;
+    }
+
+    private IEnumerator AxisMoveCoroutine(Transform moveTransform, Vector3 axis, int distance, float animationTime, Action completion = null) {
+
+        var elapsedTime = 0.0f;
+        var oldPositionAtAxis = Vector3.Scale(moveTransform.position, axis);
+        var distanceVector = axis * distance;
+        var axisZeroVector = Vector3.one - axis;
+
+        while (elapsedTime < animationTime) {
+
+            var position = moveTransform.position;
+
+            // Zero out the position at axis
+            position = Vector3.Scale(position, axisZeroVector);
+
+            moveTransform.position = position +
+                Vector3.Lerp(oldPositionAtAxis,
+                    oldPositionAtAxis + distanceVector,
+                    elapsedTime / animationTime);
+            yield return new WaitForEndOfFrame();
+
+            elapsedTime += Time.deltaTime;
+        }
+
+        moveTransform.position = Vector3.Scale(moveTransform.position, axisZeroVector) + oldPositionAtAxis + distanceVector;
+
+        if (completion != null)
+        {
+            completion();
+        }
     }
 }

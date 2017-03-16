@@ -6,10 +6,10 @@ public class Block : MonoBehaviour {
     
     public const float ChangeColorDuration = 0.2f;
 
-    public static readonly Color NeutralColor = new Color(3f, 3f, 3f);
-    public static readonly Color BlueColor = new Color(0.132f, 6.0f, 5.272f);
-    public static readonly Color PurpleColor = new Color(6.0f, 0.132f, 5.272f);
-    public static readonly Color LockedColor = new Color(6, 0.6f, 0.0f);
+    public static readonly Color NeutralColor = new Color(0.93f, 0.93f, 0.93f);
+    public static readonly Color BlueColor = new Color(0.137f, 0.66f, 0.66f);
+    public static readonly Color PurpleColor = new Color(0.706f, 0.129f, 0.741f);
+    public static readonly Color LockedColor = new Color(0.941f, 0.129f, 0.129f);
 
     public Color BaseColor = NeutralColor;
     public bool IsLocked = false;
@@ -79,7 +79,7 @@ public class Block : MonoBehaviour {
         StartCoroutine(AnimateDeletionCoroutine(6));
     }
 
-    protected void ChangeColor(Color targetColor, float duration, Action completion = null)
+    public void ChangeColor(Color targetColor, float duration, Action completion = null)
     {
         if (_colorChangeCoroutine != null)
         {

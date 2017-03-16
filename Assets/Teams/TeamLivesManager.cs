@@ -16,7 +16,9 @@ public class TeamLivesManager : MonoBehaviour
     public GameObject blueLivesIcon;
     public GameObject purpleLivesIcon; 
 	public GameObject livesText;
-	public AudioSource SFXDeath; 
+	public AudioSource SFXDeath;
+
+    public bool DeathEnabled;  
 
     void Awake()
     {
@@ -27,6 +29,7 @@ public class TeamLivesManager : MonoBehaviour
     {
         UpdateHud();
 		SFXDeath = GetComponent<AudioSource>();
+        DeathEnabled = false;
 		//SFXDeath = audioSource;
     }
 
@@ -37,7 +40,11 @@ public class TeamLivesManager : MonoBehaviour
         switch (playerGameObject.GetComponent<PlayerController>().Team)
         {
             case Team.Blue:
-                _blueLives--;
+                if (DeathEnabled)
+                {
+                    _blueLives--;
+                }
+                
                 if (_blueLives > 0)
                 {
                     StartCoroutine(RespawnCoroutine(playerGameObject));
@@ -49,7 +56,11 @@ public class TeamLivesManager : MonoBehaviour
                 }
                 break;
             case Team.Purple:
-                _purpleLives--;
+                if (DeathEnabled)
+                {
+                    _purpleLives--;
+                }
+                
                 if (_purpleLives > 0)
                 {
                     StartCoroutine(RespawnCoroutine(playerGameObject));
@@ -102,11 +113,16 @@ public class TeamLivesManager : MonoBehaviour
 
     private IEnumerator RespawnCoroutine(GameObject playerGameObject)
     {
+        var playerController = playerGameObject.GetComponent<PlayerController>();
+        var team = playerController.Team;
+
+        playerController.PerformDeathCleanup();
+
         yield return new WaitForSeconds(RespawnDelay);
-        var team = playerGameObject.GetComponent<PlayerController>().Team;
+
         playerGameObject.transform.position = BlockColumnManager.Instance.GetRespawnPoint(team);
         playerGameObject.SetActive(true);
-        playerGameObject.GetComponent<PlayerController>().Initialize();
+        playerController.Initialize();
     }
 }
 
