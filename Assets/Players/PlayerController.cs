@@ -42,6 +42,11 @@ public class PlayerController : MonoBehaviour
         CheckIfJumpEnds();
     }
 
+    void Update()
+    {
+        CheckIfFallingFar();
+    }
+
     public void Initialize()
     {
         _canPerformAction = true;
@@ -248,6 +253,22 @@ public class PlayerController : MonoBehaviour
                                   CastRadius,
                                   CastMask,
                                   QueryTriggerInteraction.Ignore)[0].gameObject;
+    }
+
+    private void CheckIfFallingFar()
+    {
+        if (_rigidbody.velocity.y < -1.0f && !_anim.GetBool(AnimationParameters.IsFallingFar))
+        {
+            var zIndex = transform.position.z;
+            var blueTeamZIndexThreshold = -1.7;
+            var purpleTeamZIndexThreshold = 1.7;
+
+            if ((Team == Team.Blue && zIndex < blueTeamZIndexThreshold) ||
+                (Team == Team.Purple && zIndex > purpleTeamZIndexThreshold))
+            {
+                _anim.SetBool(AnimationParameters.IsFallingFar, true);
+            }
+        }
     }
 
     private IEnumerator ActionDelayCoroutine()

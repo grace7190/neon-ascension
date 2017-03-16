@@ -107,12 +107,12 @@ public class BombBlock : Block
                 if (pc.Team == Team.Purple)
                 {
                     pc.transform.rotation = Quaternion.identity;
-                    collider.GetComponent<Rigidbody>().AddForce(Vector3.forward * 100);
+                    collider.GetComponent<Rigidbody>().AddForce(Vector3.forward, ForceMode.Impulse);
                 }
                 else
                 {
                     pc.transform.rotation = Quaternion.identity;
-                    pc.GetComponent<Rigidbody>().AddForce(Vector3.back * 100);
+                    pc.GetComponent<Rigidbody>().AddForce(Vector3.back, ForceMode.Impulse);
                 }
             }
         }
