@@ -5,12 +5,12 @@ public class BlockWallGenerator : MonoBehaviour
 {
     public const int WallHeight = 15;
     public const int ConsecutiveMovableBlockMin = 5;
-    public const int ConsecutiveMovableBlockMax = 8;
+    public const int ConsecutiveMovableBlockMax = 12;
 
     public bool IsInitialized { get; private set; }
 
-    public bool BombBlockEnabled = false;
-    public bool StaticBlockEnabled = false; 
+    //public bool BombBlockEnabled = false;
+    //public bool StaticBlockEnabled = false; 
 
     private BlockColumn _blockColumn;
     private int _consecutiveMovableBlocks;
@@ -38,11 +38,11 @@ public class BlockWallGenerator : MonoBehaviour
             }
 
             GameObject newTopBlock;
-            if (BombBlockEnabled && Random.Range(1, 20) <= 2)
+            if (_blockColumn.Blocks.Count > 7 && Random.Range(1, 20) <= 2)
             {
                 newTopBlock = Instantiate(BlockColumnManager.Instance.BombBlockPrefab);
-            }
-            else if (StaticBlockEnabled && _consecutiveMovableBlocks <= _consecutiveMovableBlocksBeforeImmovableBlock)
+            } 
+            else if (_blockColumn.Blocks.Count > 7 && _consecutiveMovableBlocks > _consecutiveMovableBlocksBeforeImmovableBlock)
             {
                 newTopBlock = Instantiate(BlockColumnManager.Instance.ImmovableBlockPrefab);
                 _consecutiveMovableBlocks = 0;

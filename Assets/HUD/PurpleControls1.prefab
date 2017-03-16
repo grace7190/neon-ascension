@@ -21,8 +21,6 @@ GameObject:
   - component: {fileID: 224074012969898578}
   - component: {fileID: 222558034393042878}
   - component: {fileID: 114230036311923510}
-  - component: {fileID: 225526095196240906}
-  - component: {fileID: 114931547635318424}
   m_Layer: 5
   m_Name: PurpleControls1
   m_TagString: Untagged
@@ -57,21 +55,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114931547635318424
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1503902487021992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7786bce7be991a46aa6fa011e3f19c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FadeInTime: 1
-  FadeOutTime: 1
-  WillFadeIn: 1
-  WillFadeOut: 1
 --- !u!222 &222558034393042878
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -96,14 +79,3 @@ RectTransform:
   m_AnchoredPosition: {x: -960, y: -1080.0001}
   m_SizeDelta: {x: 960, y: 1080}
   m_Pivot: {x: 0, y: 0}
---- !u!225 &225526095196240906
-CanvasGroup:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1503902487021992}
-  m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0

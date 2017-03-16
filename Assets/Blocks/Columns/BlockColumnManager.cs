@@ -23,6 +23,11 @@ public class BlockColumnManager : MonoBehaviour
     public GameObject ImmovableBlockPrefab;
     public GameObject BombBlockPrefab;
 
+    //public bool BombBlockEnabled = false;
+    //public bool StaticBlockEnabled = false;
+    public bool BlockRainEnabled = false;
+    public bool CameraScrollEnabled = false;
+
     private BoxCollider _supportBoxCollider;
 
     void Awake()
