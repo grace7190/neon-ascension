@@ -9,6 +9,9 @@ public class BlockWallGenerator : MonoBehaviour
 
     public bool IsInitialized { get; private set; }
 
+    public bool BombBlockEnabled = false;
+    public bool StaticBlockEnabled = false; 
+
     private BlockColumn _blockColumn;
     private int _consecutiveMovableBlocks;
     private int _consecutiveMovableBlocksBeforeImmovableBlock;
@@ -35,20 +38,20 @@ public class BlockWallGenerator : MonoBehaviour
             }
 
             GameObject newTopBlock;
-            if (Random.Range(1, 20) <= 2)
+            if (BombBlockEnabled && Random.Range(1, 20) <= 2)
             {
                 newTopBlock = Instantiate(BlockColumnManager.Instance.BombBlockPrefab);
             }
-            else if (_consecutiveMovableBlocks < _consecutiveMovableBlocksBeforeImmovableBlock)
-            {
-                newTopBlock = Instantiate(BlockColumnManager.Instance.BlockPrefab);
-                _consecutiveMovableBlocks++;
-            }
-            else
+            else if (StaticBlockEnabled && _consecutiveMovableBlocks <= _consecutiveMovableBlocksBeforeImmovableBlock)
             {
                 newTopBlock = Instantiate(BlockColumnManager.Instance.ImmovableBlockPrefab);
                 _consecutiveMovableBlocks = 0;
                 _consecutiveMovableBlocksBeforeImmovableBlock = Random.Range(ConsecutiveMovableBlockMin, ConsecutiveMovableBlockMax);
+            }
+            else
+            {
+                newTopBlock = Instantiate(BlockColumnManager.Instance.BlockPrefab);
+                _consecutiveMovableBlocks++;
             }
 
             newTopBlock.transform.position = bottomBlock.transform.position + Vector3.up * WallHeight;

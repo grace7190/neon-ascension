@@ -6,6 +6,7 @@ public class BlockRainGenerator : MonoBehaviour
 {
     public GameObject BlockPrefab;
     public const float FallDelay = .3f;
+    public bool BlockRainEnabled = false; 
 
     private const float SpawnMinDelay = 1f;
     private const float SpawnMaxDelay = 2f;
@@ -22,7 +23,7 @@ public class BlockRainGenerator : MonoBehaviour
 	    if (GameController.Instance.IsStarted)
 	    {
 	        _spawnCooldown -= Time.deltaTime;
-	        if (_spawnCooldown <= 0)
+	        if (BlockRainEnabled && _spawnCooldown <= 0)
 	        {
 	            TrySpawn(BlockColumnManager.BlueTeamZIndex);
 	            TrySpawn(BlockColumnManager.PurpleTeamZIndex);
