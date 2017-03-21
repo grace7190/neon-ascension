@@ -296,16 +296,16 @@ public class PlayerController : MonoBehaviour
                 _pushingDirection = Vector3.left;
             }
         }
-        _anim.SetBool(AnimationParameters.TriggerPushing, true);
-        StartCoroutine(ActionDelayCoroutine());
 
-        // TODO: When Pushing animation is split into 2, we can remove this delay
-        yield return new WaitForSeconds(0.1f);
+        _anim.Play(AnimationParameters.PushingStartName);
 
         var direction = transform.forward;
-        BlockColumnManager.Instance.SlideBlock(block, direction);
+        BlockColumnManager.Instance.SlideBlockWithEaseIn(block, direction);
         SFXPush.Play();
+        StartCoroutine(ActionDelayCoroutine());
+
         yield return new WaitForSeconds (1f);
+
         _canMoveWhenPush = true;
     }
 
@@ -314,22 +314,17 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(ActionDelayCoroutine());
         _isPulling = true;
 
-        _anim.SetBool(AnimationParameters.TriggerPulling, true);
+        _anim.Play(AnimationParameters.ClimbingName);
         _anim.SetBool (AnimationParameters.IsWalking, false);
 
-        // Wait for pulling animation to finish
-        while(!(_anim.IsInTransition(0) && _anim.GetNextAnimatorStateInfo(0).IsName(AnimationParameters.ClimbingName)))
-        {
-            yield return null;
-        }
-
-        BlockColumnManager.Instance.SlideBlock(block, direction);
+        BlockColumnManager.Instance.SlideBlockWithEaseIn(block, direction);
         SFXPush.Play();
 
         // Climbing animation is now playing
         var oldPosition = transform.position;
         var animationTime =  0.10f;
         var climbDelta = Vector3.up;
+        climbDelta.y += 0.1f;
 
         // yield for the player animation to perform
         // the animation of placing their hands ontop of the block
@@ -337,7 +332,7 @@ public class PlayerController : MonoBehaviour
 
         // Move upwards
         _rigidbody.useGravity = false;
-        StartCoroutine(AxisMoveCoroutine(transform, Vector3.up, 1, animationTime));
+        StartCoroutine(AxisMoveCoroutine(transform, climbDelta, 1, animationTime));
 
         yield return new WaitForSeconds(animationTime);
 
@@ -357,6 +352,12 @@ public class PlayerController : MonoBehaviour
         }
 
         _rigidbody.velocity = Vector3.zero;
+        _rigidbody.angularVelocity = Vector3.zero;
+
+        // Calling sleep because for some reason in the next frame collision force is still applied
+        // this causes the player to slowly move off of the platform
+        _rigidbody.Sleep();
+
         _isPulling = false;
     }
 

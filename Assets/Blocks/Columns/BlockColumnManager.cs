@@ -97,13 +97,44 @@ public class BlockColumnManager : MonoBehaviour
     public void SlideBlock(GameObject block, Vector3 direction)
     {
         StartCoroutine(SlideBlockCoroutine(block, direction, () => {
-            //if bomb block, set active
-            var bombComponent = block.GetComponent<BombBlock>();
-            if (bombComponent != null)
-            {
-                bombComponent.SetBombActive();
-            }
+            DetonateIfBomb(block);
         }));
+    }
+
+    public void SlideBlockWithEaseIn(GameObject block, Vector3 direction)
+    {
+        var oldBlockColumn = GetBlockColumnAtLocalPosition(block.transform.parent.localPosition);
+        var newBlockColumn = GetBlockColumnAtLocalPosition(block.transform.parent.localPosition + direction);
+        var removedBlock = oldBlockColumn.Remove(block.transform.position);
+
+        var oldPosition = removedBlock.transform.position;
+
+        // Documentation for iTween: http://www.pixelplacement.com/itween/documentation.php
+        // I made modifications to iTween to accept Lambda expressions for onupdate and oncomplete parameters
+        // onupdateinline and oncompleteinline contain said lambda expressions
+        Hashtable args = 
+            iTween.Hash(
+                "from", oldPosition,
+                "to", oldPosition + direction,
+                "time", SlideBlockDuration,
+                "delay", 0,
+                "easeType", "easeInCirc",
+                "onupdateinline", (Action<object>)(updatedValue => {removedBlock.transform.position = (Vector3)updatedValue;}),
+                "oncompleteinline",(Action<object>)(
+                    completeParameters =>
+                    {
+                        removedBlock.transform.position = oldPosition + direction;
+                        removedBlock.transform.position = removedBlock.transform.position.RoundToInt();
+
+                        if (newBlockColumn != null)
+                        {
+                            newBlockColumn.Add(removedBlock);
+                        }
+
+                        DetonateIfBomb(removedBlock);
+                    }));
+
+        iTween.ValueTo(gameObject, args);
     }
 
     public void MoveSupportUp()
@@ -139,6 +170,15 @@ public class BlockColumnManager : MonoBehaviour
         if (completion != null)
         {
             completion();
+        }
+    }
+
+    private void DetonateIfBomb(GameObject block) {
+        //if bomb block, set active
+        var bombComponent = block.GetComponent<BombBlock>();
+        if (bombComponent != null)
+        {
+            bombComponent.SetBombActive();
         }
     }
 
