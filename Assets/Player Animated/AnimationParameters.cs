@@ -14,7 +14,8 @@ public class AnimationParameters {
     //public const string 
     // Animation names
     public const string PullingName = "Pulling_NoRoot";
-    public const string PushingName = "Pushing_NoRoot";
+    public const string PushingStartName = "Pushing_Start_NoRoot";
+    public const string PushingEndName = "Pushing_Push_NoRoot";
     public const string WalkingName = "Walking_NoRoot";
     public const string JumpLandingName = "Jump_Landing_NoRoot";
     public const string JumpMidairName = "Jump_Midair_NoRoot";

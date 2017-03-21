@@ -299,11 +299,15 @@ public class PlayerController : MonoBehaviour
         _anim.SetBool(AnimationParameters.TriggerPushing, true);
         StartCoroutine(ActionDelayCoroutine());
 
-        // TODO: When Pushing animation is split into 2, we can remove this delay
-        yield return new WaitForSeconds(0.1f);
+        // Wait for pushing animation to finish
+//        while(!(_anim.IsInTransition(0) && _anim.GetNextAnimatorStateInfo(0).IsName(AnimationParameters.PushingEndName)))
+//        {
+//            yield return new WaitForEndOfFrame();
+//        }
+        yield return new WaitForEndOfFrame();
 
         var direction = transform.forward;
-        BlockColumnManager.Instance.SlideBlock(block, direction);
+        BlockColumnManager.Instance.SlideBlockWithEaseIn(block, direction);
         SFXPush.Play();
         yield return new WaitForSeconds (1f);
         _canMoveWhenPush = true;
@@ -323,7 +327,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        BlockColumnManager.Instance.SlideBlock(block, direction);
+        BlockColumnManager.Instance.SlideBlockWithEaseIn(block, direction);
         SFXPush.Play();
 
         // Climbing animation is now playing
