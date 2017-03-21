@@ -107,7 +107,6 @@ public class BlockColumnManager : MonoBehaviour
         var newBlockColumn = GetBlockColumnAtLocalPosition(block.transform.parent.localPosition + direction);
         var removedBlock = oldBlockColumn.Remove(block.transform.position);
 
-        var t = 0f;
         var oldPosition = removedBlock.transform.position;
 
         // Documentation for iTween: http://www.pixelplacement.com/itween/documentation.php
@@ -124,7 +123,6 @@ public class BlockColumnManager : MonoBehaviour
                 "oncompleteinline",(Action<object>)(
                     completeParameters =>
                     {
-                        Debug.Log("called2");
                         removedBlock.transform.position = oldPosition + direction;
                         removedBlock.transform.position = removedBlock.transform.position.RoundToInt();
 
