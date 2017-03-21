@@ -345,15 +345,11 @@ public class PlayerController : MonoBehaviour
             newPosition.z = oldPosition.z;
             transform.position = newPosition;
         }
-        else
-        {
-            // Cause player to die, by adding a force towards a block
-            _rigidbody.AddForce(direction * -1f, ForceMode.Impulse);
-        }
+
+        yield return new WaitForFixedUpdate();
 
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.angularVelocity = Vector3.zero;
-
         // Calling sleep because for some reason in the next frame collision force is still applied
         // this causes the player to slowly move off of the platform
         _rigidbody.Sleep();
