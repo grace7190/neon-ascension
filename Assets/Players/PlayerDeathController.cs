@@ -7,9 +7,8 @@ public class PlayerDeathController : MonoBehaviour
         if (other.CompareTag(Tags.Block))
         {
             var collidingObject = other.gameObject;
-            var isUnderBlock = gameObject.transform.position.x - collidingObject.transform.position.x < 0.5
-                               && gameObject.transform.position.y < collidingObject.transform.position.y
-                               && other.GetComponent<Rigidbody>().velocity.y < 0;
+            var isUnderBlock = Mathf.Abs(gameObject.transform.position.x - collidingObject.transform.position.x) < 0.5
+                               && gameObject.transform.position.y < collidingObject.transform.position.y;
             if (isUnderBlock)
             {
                 TeamLivesManager.Instance.HandlePlayerDeath(gameObject.transform.parent.gameObject);
