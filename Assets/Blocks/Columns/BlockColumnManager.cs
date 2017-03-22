@@ -119,10 +119,15 @@ public class BlockColumnManager : MonoBehaviour
                 "time", SlideBlockDuration,
                 "delay", 0,
                 "easeType", "easeInCirc",
-                "onupdateinline", (Action<object>)(updatedValue => {removedBlock.transform.position = (Vector3)updatedValue;}),
+                "onupdateinline", (Action<object>)(updatedValue => {if (removedBlock != null) removedBlock.transform.position = (Vector3)updatedValue;}),
                 "oncompleteinline",(Action<object>)(
                     completeParameters =>
                     {
+                        if (removedBlock == null) 
+                        {
+                            return;
+                        }
+
                         removedBlock.transform.position = oldPosition + direction;
                         removedBlock.transform.position = removedBlock.transform.position.RoundToInt();
 
