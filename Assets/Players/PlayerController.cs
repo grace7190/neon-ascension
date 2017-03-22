@@ -260,7 +260,30 @@ public class PlayerController : MonoBehaviour
 
     private GameObject GetBlockInFront()
     {
-        return _detector.HighlightedObject;
+        var colliders = Physics.OverlapSphere(transform.position + transform.forward,
+                                         CastRadius,
+                                         CastMask,
+                                         QueryTriggerInteraction.Ignore);
+
+        // Try to select the collider of the gameobject that is highlighted
+        // The gameobject that is highlighted may not have updated in time during a rotation of the player
+        // That is why we must check what is in front and can not rely on the highlighted object
+        foreach (var collider in colliders)
+        {
+            if (collider.gameObject == _detector.HighlightedObject)
+            {
+                return collider.gameObject;
+            }
+        }
+
+        if (colliders.Length > 0)
+        {
+            return colliders[0].gameObject;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     private void CheckIfFallingFar()
