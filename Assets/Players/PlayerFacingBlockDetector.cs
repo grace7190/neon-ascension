@@ -10,14 +10,15 @@ public class PlayerFacingBlockDetector : MonoBehaviour {
     {
         if (other.tag == Tags.Block && other.gameObject.layer == Layers.Solid)
         {
-            var script = other.GetComponent<Block> ();
+            var block = other.GetComponent<Block> ();
+
             if (gameObject.name == "Player1Child")
             {
-				script.ChangeColor (Color.blue, Block.ChangeColorDuration);
+                block.ChangeColor (Color.blue, Block.ChangeColorDuration);
             }
             else
             {
-                script.ChangeColor (Color.green, Block.ChangeColorDuration);
+                block.ChangeColor (Color.green, Block.ChangeColorDuration);
             }
             HighlightedObject = other.gameObject;
         }
@@ -26,8 +27,8 @@ public class PlayerFacingBlockDetector : MonoBehaviour {
     void OnTriggerExit(Collider other)
     {
         if (other.tag == Tags.Block) {
-            var script = other.GetComponent<Block> ();
-            script.ChangeColor (script.BaseColor, Block.ChangeColorDuration);
+            var block = other.GetComponent<Block> ();
+            block.ChangeColor (block.BaseColor, Block.ChangeColorDuration);
 
             if (HighlightedObject == other.gameObject)
             {
