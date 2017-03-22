@@ -127,7 +127,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1091435691
+  randomSeed: 1553920692
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -2764,7 +2764,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -232447389
+  randomSeed: -1786402959
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3174,7 +3174,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     randomizeRotationDirection: 0
-    maxNumParticles: 7
+    maxNumParticles: 10
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -3223,8 +3223,8 @@ ParticleSystem:
     radius: 0.3
     angle: 25
     length: 5
-    boxX: 1
-    boxY: 0.1
+    boxX: 1.1
+    boxY: 1.1
     boxZ: 1
     arc: 360
     placementMode: 0
@@ -3320,11 +3320,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
       minMaxState: 0
-    cnt0: 5
+    cnt0: 10
     cnt1: 30
     cnt2: 30
     cnt3: 30
-    cntmax0: 7
+    cntmax0: 10
     cntmax1: 30
     cntmax2: 30
     cntmax3: 30
@@ -4980,15 +4980,15 @@ ParticleSystem:
       type: 0
       properties: 0
   LightsModule:
-    enabled: 0
-    ratio: 0
-    light: {fileID: 0}
+    enabled: 1
+    ratio: 1
+    light: {fileID: 108989690490023988, guid: 3aaa1805a0ae54ef9a02bf8d615fdd7b, type: 2}
     randomDistribution: 1
     color: 1
     range: 1
     intensity: 1
     rangeCurve:
-      scalar: 1
+      scalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5065,7 +5065,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
       minMaxState: 0
-    maxLights: 20
+    maxLights: 10
   TrailModule:
     enabled: 0
     ratio: 1
