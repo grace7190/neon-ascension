@@ -7,8 +7,11 @@ public class PlayerController : MonoBehaviour
     public bool IsDebug = false;
 
     public Team Team;
+
     public AudioSource SFXPush;
-    
+    public AudioSource SFXJump;
+    public AudioSource SFXMove;
+
     private const int CastMask = 1 << Layers.Solid | 1 << Layers.IgnoreColumnSupport;
     private const float CastRadius = 0.2f;
 
@@ -34,8 +37,12 @@ public class PlayerController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         _detector =  GetComponentInChildren<PlayerFacingBlockDetector>();
-        var audioSources = GetComponents<AudioSource>();
-        SFXPush = audioSources[0];
+        AudioSource[] aSources = GetComponents<AudioSource>();
+
+        SFXMove = aSources[0];
+        SFXJump = aSources[1];
+        SFXPush = aSources[2];
+
         Initialize();
     }
 
@@ -70,6 +77,7 @@ public class PlayerController : MonoBehaviour
 
     public void Move(float horizontalAxis, float verticalAxis)
     {
+        
         if (_isPulling) {
             return;
         }
@@ -125,6 +133,7 @@ public class PlayerController : MonoBehaviour
             !_isPulling &&
             IsGrounded())
         {
+            SFXJump.Play();
             _rigidbody.AddForce(Vector3.up * InitialJumpVerticalSpeed, ForceMode.Impulse);
             _anim.SetBool(AnimationParameters.TriggerJumping, true);
             _anim.SetBool(AnimationParameters.IsJumpingMidair, true);

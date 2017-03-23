@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
 	private GameObject player1;
 	private GameObject player2;
 
+    public AudioSource SFXWalk; 
+
     void Awake()
     {
         Instance = this;
@@ -25,6 +27,14 @@ public class GameController : MonoBehaviour
 		player2 = GameObject.Find ("Player 2");
 		pauseMenu.SetActive (false);
 	}
+
+
+    public void WalkingSound()
+    {
+        SFXWalk.Play();
+        Debug.Log("ASDLFKJAOWIEFNASDRK");
+    }
+    
 
     public void TogglePause()
     {
