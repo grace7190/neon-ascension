@@ -351,12 +351,21 @@ public class PlayerController : MonoBehaviour
         _anim.Play(AnimationParameters.ClimbingName);
         _anim.SetBool (AnimationParameters.IsWalking, false);
 
+        // Move upwards
+        _rigidbody.useGravity = false;
+        _rigidbody.isKinematic = true;
+
         BlockColumnManager.Instance.SlideBlockWithEaseIn(block, direction);
         SFXPush.Play();
 
         // Climbing animation is now playing
         var oldPosition = transform.position;
-        var animationTime =  0.10f;
+
+        // DO NOT CHANGE the animationTime. It must be the same lenght as SlideBlockDuration or more
+        // If any less, the player will be on the sliding block, while the block slides.
+        // The friction between the player and the block will cause the player
+        // to have a velocity on the z axis.
+        var animationTime = BlockColumnManager.SlideBlockDuration - 0.05f;
         var climbDelta = Vector3.up;
         climbDelta.y += 0.1f;
 
@@ -364,29 +373,24 @@ public class PlayerController : MonoBehaviour
         // the animation of placing their hands ontop of the block
         yield return new WaitForSeconds(0.05f);
 
-        // Move upwards
-        _rigidbody.useGravity = false;
         StartCoroutine(AxisMoveCoroutine(transform, climbDelta, 1, animationTime));
 
         yield return new WaitForSeconds(animationTime);
+        yield return new WaitForFixedUpdate();
 
-        // Move towards pulled block
         _rigidbody.useGravity = true;
+        _rigidbody.isKinematic = false;
 
         if (IsOpenForMove(direction * -1,  Mathf.Abs(transform.position.z - oldPosition.z)))
         {
             var newPosition = transform.position;
             newPosition.z = oldPosition.z;
+            newPosition.y = oldPosition.y + 1;
             transform.position = newPosition;
         }
 
-        yield return new WaitForFixedUpdate();
-
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.angularVelocity = Vector3.zero;
-        // Calling sleep because for some reason in the next frame collision force is still applied
-        // this causes the player to slowly move off of the platform
-        _rigidbody.Sleep();
 
         _isPulling = false;
     }

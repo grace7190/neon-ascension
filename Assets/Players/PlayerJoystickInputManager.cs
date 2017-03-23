@@ -6,7 +6,6 @@ public class PlayerJoystickInputManager : MonoBehaviour
     
     public int PlayerNumber;
     public bool InvertVerticalAxis;
-    public bool InvertHorizontalAxis;
 
     public KeyCode PushKeyCode;
     public KeyCode PullKeyCode;
@@ -63,11 +62,11 @@ public class PlayerJoystickInputManager : MonoBehaviour
             GameController.Instance.TogglePause();
         }
 
-        var leftHorizontalAxis = Input.GetAxis(LXAxis + PlayerNumber) * (InvertHorizontalAxis ? -1 : 1);
+        var leftHorizontalAxis = Input.GetAxis(LXAxis + PlayerNumber);
         var leftVerticalAxis = Input.GetAxis(LYAxis + PlayerNumber) * (InvertVerticalAxis ? -1 : 1);
         _controller.Move(leftHorizontalAxis, leftVerticalAxis);
 
-        var rightHorizontalAxis = Input.GetAxis(RXAxis + PlayerNumber) * (InvertHorizontalAxis ? -1 : 1);
+        var rightHorizontalAxis = Input.GetAxis(RXAxis + PlayerNumber);
         var rightVerticalAxis = Input.GetAxis(RYAxis + PlayerNumber) * (InvertVerticalAxis ? -1 : 1);
         _controller.TryMoveBlock(rightHorizontalAxis, rightVerticalAxis);
 
