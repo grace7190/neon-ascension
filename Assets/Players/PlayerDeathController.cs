@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class PlayerDeathController : MonoBehaviour
 {
@@ -10,6 +11,14 @@ public class PlayerDeathController : MonoBehaviour
     private Color _particleColorLightTeamPurple = new Color(1f, 0.670588235f, 0.960784314f);
     private Color _particleColorTeamPurple      = new Color(1f, 0.078431373f, 0.670588235f);
 
+    private CameraController _cameraController;
+    private Team _playerTeam;
+
+    void Start()
+    {
+        _cameraController = GameObject.FindGameObjectWithTag(Tags.CameraController).GetComponent<CameraController>();
+        _playerTeam = GetComponentInParent<PlayerController>().Team;
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -21,6 +30,7 @@ public class PlayerDeathController : MonoBehaviour
             if (isUnderBlock)
             {
                 SpawnDeathParticlesAtPosition(gameObject.transform.parent.position + Vector3.up);
+                ShakeCameraForTeam(_playerTeam);
                 TeamLivesManager.Instance.HandlePlayerDeath(gameObject.transform.parent.gameObject);
             }
         }
@@ -30,13 +40,19 @@ public class PlayerDeathController : MonoBehaviour
         }
     }
 
+    private void ShakeCameraForTeam(Team team)
+    {
+        var shakeParams = iTween.Hash("x", 0.15f, "y", 0.15f, "time", 0.2f);
+        iTween.ShakePosition(_cameraController.GetCameraForTeam(_playerTeam), shakeParams);
+    }
+
     private void SpawnDeathParticlesAtPosition(Vector3 position)
     {
         GameObject particleObject = Instantiate(DeathParticleSystem, position, Quaternion.identity);
         var system = particleObject.GetComponent<ParticleSystem>();
         var mainModule = particleObject.GetComponent<ParticleSystem>().main;
 
-        mainModule.startColor = MinMaxGradientForTeam(GetComponentInParent<PlayerController>().Team);
+        mainModule.startColor = MinMaxGradientForTeam(_playerTeam);
         system.Play();
 
         Destroy(particleObject, particleObject.GetComponent<ParticleSystem>().main.duration);
