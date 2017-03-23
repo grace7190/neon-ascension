@@ -134,6 +134,9 @@ public class BlockColumnManager : MonoBehaviour
                         if (newBlockColumn != null)
                         {
                             newBlockColumn.Add(removedBlock);
+                        } else
+                        {
+                            removedBlock.GetComponent<Block>().MakeFallImmediately();
                         }
 
                         DetonateIfBomb(removedBlock);

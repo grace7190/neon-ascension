@@ -1171,7 +1171,23 @@ InputManager:
     snap: 0
     invert: 0
     type: 2
-    axis: 7
+    axis: 9
+    joyNum: 1
+  - serializedVersion: 3
+    m_Name: TriggersR_MAC_1
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.3
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 2
+    axis: 5
     joyNum: 1
   - serializedVersion: 3
     m_Name: TriggersR_2
@@ -1190,6 +1206,22 @@ InputManager:
     axis: 9
     joyNum: 2
   - serializedVersion: 3
+    m_Name: TriggersR_MAC_2
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.3
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 2
+    axis: 5
+    joyNum: 2
+  - serializedVersion: 3
     m_Name: TriggersR_3
     descriptiveName: 
     descriptiveNegativeName: 
@@ -1204,6 +1236,22 @@ InputManager:
     invert: 0
     type: 2
     axis: 9
+    joyNum: 3
+  - serializedVersion: 3
+    m_Name: TriggersR_MAC_3
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.3
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 2
+    axis: 5
     joyNum: 3
   - serializedVersion: 3
     m_Name: TriggersR_4
@@ -1222,6 +1270,22 @@ InputManager:
     axis: 9
     joyNum: 4
   - serializedVersion: 3
+    m_Name: TriggersR_MAC_4
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.3
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 2
+    axis: 5
+    joyNum: 4
+  - serializedVersion: 3
     m_Name: TriggersL_1
     descriptiveName: 
     descriptiveNegativeName: 
@@ -1238,6 +1302,22 @@ InputManager:
     axis: 8
     joyNum: 1
   - serializedVersion: 3
+    m_Name: TriggersL_MAC_1
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.3
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 2
+    axis: 4
+    joyNum: 1
+  - serializedVersion: 3
     m_Name: TriggersL_2
     descriptiveName: 
     descriptiveNegativeName: 
@@ -1252,6 +1332,38 @@ InputManager:
     invert: 0
     type: 2
     axis: 8
+    joyNum: 2
+  - serializedVersion: 3
+    m_Name: TriggersL_MAC_2
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.3
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 2
+    axis: 4
+    joyNum: 2
+  - serializedVersion: 3
+    m_Name: TriggersL_MAC_3
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.3
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 2
+    axis: 4
     joyNum: 4
   - serializedVersion: 3
     m_Name: TriggersL_3
@@ -1284,6 +1396,22 @@ InputManager:
     invert: 0
     type: 2
     axis: 8
+    joyNum: 4
+  - serializedVersion: 3
+    m_Name: TriggersL_MAC_4
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.3
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 2
+    axis: 4
     joyNum: 4
   - serializedVersion: 3
     m_Name: Submit
