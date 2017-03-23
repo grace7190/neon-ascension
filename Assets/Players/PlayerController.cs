@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
         _canMoveWhenPush = true;
         _isPulling = false;
         _rigidbody.useGravity = true;
+        _rigidbody.isKinematic = false;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
