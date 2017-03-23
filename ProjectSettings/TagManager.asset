@@ -8,6 +8,7 @@ TagManager:
   - Destructor
   - LifeIcon
   - BombBlock
+  - CameraController
   layers:
   - Default
   - TransparentFX
