@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4072267038464444}
   - component: {fileID: 108989690490023988}
   m_Layer: 0
-  m_Name: Point light
+  m_Name: ParticlePointLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
