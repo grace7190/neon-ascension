@@ -20,7 +20,7 @@ public class PlayerDeathController : MonoBehaviour
                                && gameObject.transform.position.y < collidingObject.transform.position.y;
             if (isUnderBlock)
             {
-                SpawnDeathParticlesAtPosition(gameObject.transform.parent.position);
+                SpawnDeathParticlesAtPosition(gameObject.transform.parent.position + Vector3.up);
                 TeamLivesManager.Instance.HandlePlayerDeath(gameObject.transform.parent.gameObject);
             }
         }
