@@ -31,6 +31,9 @@ public class PlayerJoystickInputManager : MonoBehaviour
     private const string RXAxis = "R_XAxis_MAC_";
     private const string RYAxis = "R_XAxis_"; // Yes it's inverted
 
+    private const string TriggerL = "TriggersL_MAC_";
+    private const string TriggerR = "TriggersR_MAC_";
+
     #else
     private const string Button0 = "button 0";
     private const string Button7 = "button 7";
