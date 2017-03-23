@@ -172,7 +172,6 @@ public class PlayerController : MonoBehaviour
             block != null &&
             IsGrounded())
         {
-            SFXPush.Play();
             var isBlockBlocked = !IsOpen(transform.position + transform.forward * 2);
 
             if (block.GetComponent<Block>().IsLocked)
@@ -200,7 +199,6 @@ public class PlayerController : MonoBehaviour
             block != null &&
             IsGrounded())
         {
-            SFXPush.Play();
             var direction = -transform.forward;
 
             if (!block.GetComponent<Block>().IsLocked)
