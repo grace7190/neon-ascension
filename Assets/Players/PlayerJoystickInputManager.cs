@@ -33,8 +33,6 @@ public class PlayerJoystickInputManager : MonoBehaviour
 
     #else
     private const string Button0 = "button 0";
-    private const string Button2 = "button 2";
-    private const string Button3 = "button 3";
     private const string Button7 = "button 7";
 
     private const string LXAxis = "L_XAxis_";
@@ -42,14 +40,17 @@ public class PlayerJoystickInputManager : MonoBehaviour
 
     private const string RXAxis = "R_XAxis_";
     private const string RYAxis = "R_YAxis_";
-    #endif
+
+    private const string TriggerL = "TriggersL_";
+    private const string TriggerR = "TriggersR_";
+#endif
 
     void Start()
     {
 
         _joystickPauseKey = string.Format("joystick {0} " + Button7, PlayerNumber);
-        _joystickPushKey = string.Format("joystick {0} " + Button2, PlayerNumber);
-        _joystickPullKey = string.Format("joystick {0} " + Button3, PlayerNumber);
+        _joystickPushKey = string.Format(TriggerL + "{0}", PlayerNumber);
+        _joystickPullKey = string.Format(TriggerR + "{0}", PlayerNumber);
         _joystickJumpKey = string.Format("joystick {0} " + Button0, PlayerNumber);
 
         _controller = GetComponent<PlayerController>();
@@ -70,12 +71,12 @@ public class PlayerJoystickInputManager : MonoBehaviour
         var rightVerticalAxis = Input.GetAxis(RYAxis + PlayerNumber) * (InvertVerticalAxis ? -1 : 1);
         _controller.TryMoveBlock(rightHorizontalAxis, rightVerticalAxis);
 
-        if (Input.GetKeyDown(_joystickPushKey) || Input.GetKeyDown(PushKeyCode))
+        if (Input.GetAxis(_joystickPushKey) > 0 || Input.GetKeyDown(PushKeyCode))
         {
             _controller.TryPushBlock();
         }
 
-        if (Input.GetKeyDown(_joystickPullKey) || Input.GetKeyDown(PullKeyCode))
+        if (Input.GetAxis(_joystickPullKey) > 0 || Input.GetKeyDown(PullKeyCode))
         {
             _controller.TryPullBlock();
         }
