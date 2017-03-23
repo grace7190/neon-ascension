@@ -9,8 +9,13 @@ public class CameraController : MonoBehaviour {
 
     private static readonly Vector3 Velocity = new Vector3(0, 0.10f, 0);
 
+    private GameObject _blueTeamCamera;
+    private GameObject _purpleTeamCamera;
+
     void Start()
-    { 
+    {
+        _blueTeamCamera = transform.FindChild("Camera 1").gameObject;
+        _purpleTeamCamera = transform.FindChild("Camera 2").gameObject;
     }
 
     void Update()
@@ -31,5 +36,21 @@ public class CameraController : MonoBehaviour {
     {
         var audio = GetComponent<AudioSource>();
         audio.volume = 0.7f;
+    }
+
+    public GameObject GetCameraForTeam(Team team)
+    {
+        switch(team)
+        {
+            case Team.Blue:
+            {
+                return _blueTeamCamera;
+            }
+            case Team.Purple:
+            {
+                return _purpleTeamCamera;
+            }
+        }
+        return null;
     }
 }
