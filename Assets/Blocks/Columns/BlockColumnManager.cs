@@ -66,6 +66,7 @@ public class BlockColumnManager : MonoBehaviour
                 else
                 {
                     blockColumnComponent.BaseColor = z == BlueTeamZIndex ? Block.BlueColor : Block.PurpleColor;
+                    blockColumnComponent.LayerForNewBlocks = Layers.FloorBlocks;
                 }
 
                 var block = Instantiate(BlockPrefab);

@@ -4,4 +4,5 @@
     public const int Solid = 9;
     public const int BlockColumnSupport = 10;
     public const int IgnoreColumnSupport = 11;
+    public const int FloorBlocks = 12;
 }
