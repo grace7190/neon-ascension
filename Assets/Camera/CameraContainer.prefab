@@ -57,7 +57,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4181129456379122}
   - component: {fileID: 108813955013562522}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Wall Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4626372804538994}
   - component: {fileID: 108690376594771710}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: 'Wall Light '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4833653657641740}
   - component: {fileID: 108114480663042044}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: 'Floor Light '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4510745748570160}
   - component: {fileID: 108328437684682108}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Floor Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -482,7 +482,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294959103
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -516,7 +516,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294950911
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
