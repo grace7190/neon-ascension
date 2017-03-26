@@ -10,6 +10,9 @@ public class BlockColumn : MonoBehaviour
     /// A list of blocks in the column in ascending order by y-position. </summary>
     public readonly List<Block> Blocks = new List<Block>();
 
+    // Blocks that are added to this block column will be set to this layer
+    public int LayerForNewBlocks = Layers.Solid;
+
     public Color BaseColor;
 
     private GameObject _blockFallIndicator;
@@ -111,6 +114,7 @@ public class BlockColumn : MonoBehaviour
     public void Add(GameObject block)
     {
         var blockComponent = block.GetComponent<Block>();
+        block.layer = LayerForNewBlocks;
         blockComponent.BaseColor = BaseColor;
         blockComponent.ChangeColor(BaseColor, Block.ChangeColorDuration);
 

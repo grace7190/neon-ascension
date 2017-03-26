@@ -8,7 +8,7 @@ public class PlayerFacingBlockDetector : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == Tags.Block && other.gameObject.layer == Layers.Solid)
+        if (other.tag == Tags.Block && (other.gameObject.layer == Layers.Solid | other.gameObject.layer == Layers.FloorBlocks))
         {
             var block = other.GetComponent<Block> ();
 

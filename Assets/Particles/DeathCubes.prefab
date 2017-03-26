@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4010937714574872}
   - component: {fileID: 198528364099719094}
   - component: {fileID: 199809049343118740}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: DeathCubes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4778454834650612}
   - component: {fileID: 198437489087322732}
   - component: {fileID: 199095489123230664}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: SubsystemDeathCubes
   m_TagString: Untagged
   m_Icon: {fileID: 0}

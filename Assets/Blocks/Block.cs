@@ -13,6 +13,7 @@ public class Block : MonoBehaviour {
 
     public Color BaseColor = NeutralColor;
     public bool IsLocked = false;
+    public bool IsStatic = false;
     public bool DidMakeFall = false;
 
     protected Rigidbody _rigidbody;

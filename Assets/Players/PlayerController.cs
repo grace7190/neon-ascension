@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource SFXJump;
     public AudioSource SFXMove;
 
-    private const int CastMask = 1 << Layers.Solid | 1 << Layers.IgnoreColumnSupport;
+    private const int CastMask = 1 << Layers.Solid | 1 << Layers.IgnoreColumnSupport | 1 << Layers.FloorBlocks;
     private const float CastRadius = 0.2f;
 
     private const float ActionDelay = BlockColumnManager.SlideBlockDuration * 2;
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
         {
             var isBlockBlocked = !IsOpen(transform.position + transform.forward * 2);
 
-            if (block.GetComponent<Block>().IsLocked)
+            if (block.GetComponent<Block>().IsLocked || block.GetComponent<Block>().IsStatic)
             {
                 return;
             }
@@ -202,7 +202,7 @@ public class PlayerController : MonoBehaviour
         {
             var direction = -transform.forward;
 
-            if (!block.GetComponent<Block>().IsLocked)
+            if (!block.GetComponent<Block>().IsLocked && !block.GetComponent<Block>().IsStatic)
             {
                 StartCoroutine(PullBlockCoroutine(block, direction));
             }

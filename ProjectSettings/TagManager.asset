@@ -22,10 +22,10 @@ TagManager:
   - Solid
   - BlockColumnSupport
   - IgnoreColumnSupport
-  - 
-  - 
-  - 
-  - 
+  - FloorBlocks
+  - Camera1Lights
+  - Camera2Lights
+  - Particles
   - 
   - 
   - 
