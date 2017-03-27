@@ -11,12 +11,10 @@ public class PlayerDeathController : MonoBehaviour
     private Color _particleColorLightTeamPurple = new Color(1f, 0.670588235f, 0.960784314f);
     private Color _particleColorTeamPurple      = new Color(1f, 0.078431373f, 0.670588235f);
 
-    private CameraController _cameraController;
     private Team _playerTeam;
 
     void Start()
     {
-        _cameraController = GameObject.FindGameObjectWithTag(Tags.CameraController).GetComponent<CameraController>();
         _playerTeam = GetComponentInParent<PlayerController>().Team;
     }
 
@@ -29,21 +27,32 @@ public class PlayerDeathController : MonoBehaviour
                                && gameObject.transform.position.y < collidingObject.transform.position.y;
             if (isUnderBlock)
             {
-                SpawnDeathParticlesAtPosition(gameObject.transform.parent.position + Vector3.up);
-                ShakeCameraForTeam(_playerTeam);
-                TeamLivesManager.Instance.HandlePlayerDeath(gameObject.transform.parent.gameObject);
+                KillPlayerByCrushing();
             }
         }
         else if (other.CompareTag(Tags.Destructor))
         {
-            TeamLivesManager.Instance.HandlePlayerDeath(gameObject.transform.parent.gameObject);
+            KillPlayerByFalling();
         }
+    }
+
+    public void KillPlayerByCrushing() {
+        SpawnDeathParticlesAtPosition(gameObject.transform.parent.position + Vector3.up);
+        ShakeCameraForTeam(_playerTeam);
+        TeamLivesManager.Instance.HandlePlayerDeath(gameObject.transform.parent.gameObject);
+    }
+
+    public void KillPlayerByFalling() {
+        TeamLivesManager.Instance.HandlePlayerDeath(gameObject.transform.parent.gameObject);
     }
 
     private void ShakeCameraForTeam(Team team)
     {
-        var shakeParams = iTween.Hash("x", 0.15f, "y", 0.15f, "time", 0.2f);
-        iTween.ShakePosition(_cameraController.GetCameraForTeam(_playerTeam), shakeParams);
+        float time = 0.2f;
+        float xMove = 0.15f;
+        float yMove = 0.15f;
+
+        CameraController.Instance.ShakeCameraForTeam(team, time, xMove, yMove);
     }
 
     private void SpawnDeathParticlesAtPosition(Vector3 position)

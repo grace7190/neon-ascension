@@ -7,10 +7,17 @@ public class CameraController : MonoBehaviour {
     public float VelocityIncrease = 0.03f;
     public float VelocityIncreasePerSeconds = 60.0f;
 
+    public static CameraController Instance;
+
     private static readonly Vector3 Velocity = new Vector3(0, 0.10f, 0);
 
     private GameObject _blueTeamCamera;
     private GameObject _purpleTeamCamera;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -36,6 +43,12 @@ public class CameraController : MonoBehaviour {
     {
         var audio = GetComponent<AudioSource>();
         audio.volume = 0.7f;
+    }
+
+    public void ShakeCameraForTeam(Team team, float time, float xMove, float yMove)
+    {
+        var shakeParams = iTween.Hash("x", xMove, "y", yMove, "time", time);
+        iTween.ShakePosition(GetCameraForTeam(team), shakeParams);
     }
 
     public GameObject GetCameraForTeam(Team team)
