@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class BombBlock : Block
 {
-
     public static readonly Color TickColor = new Color(.952941176f, .545098039f, .203921569f);
+    public static readonly Color BlockDestructionColor = Color.white;
+
+    public ExplosionParticleSystemGroup ExplosionParticlesGroup;
+    public GameObject BlockDestructionParticles;
 
     public Material BombActiveMaterial;
     public const int BombTicks = 10;
     public AudioClip TicktokClip;
     public AudioClip ExplosionClip;
+
+    public Team RenderEffectsForTeam;
 
     private float _blinkTimes;
     private bool _shouldDetonate;
@@ -66,58 +71,82 @@ public class BombBlock : Block
         col = BlockColumnManager.Instance.GetBlockColumnAtLocalPosition(blockPosition);
         col.Remove(gameObject.transform.position);
 
+        // Render effects
+        ShakeCamera();
+        StartExplosionParticlesAtPosition(transform.position);
+
         // Use Physics.OverlapBox to find everything in radius of box
         Collider[] objectsInRange = Physics.OverlapBox(gameObject.transform.position, new Vector3(1.0f, 1.0f, 1.0f));
         foreach (Collider collider in objectsInRange)
         {
             if (collider.gameObject.tag == Tags.Block && collider.gameObject != gameObject)
             {
-                // Hacks to detonate blocks without parents
+                StartBlockDestructionParticlesAtPosition(collider.transform.position, collider.gameObject.GetComponent<Block>().BaseColor);
+
                 if (collider.transform.parent != null)
                 {
                     blockPosition = collider.gameObject.transform.parent.localPosition;
                     col = BlockColumnManager.Instance.GetBlockColumnAtLocalPosition(blockPosition);
-
-                    // Push blocks off
-                    collider.attachedRigidbody.isKinematic = false;
-                    if (blockPosition.z == BlockColumnManager.WallZIndex)
-                    {
-                        col.DestroyBlockAtPosition(collider.gameObject.transform.position);
-                    }
-                    else if (blockPosition.z == BlockColumnManager.PurpleTeamZIndex)
-                    {
-                        BlockColumnManager.Instance.SlideBlock(collider.gameObject, Vector3.forward);
-                    }
-                    else if (blockPosition.z == BlockColumnManager.BlueTeamZIndex)
-                    {
-                        BlockColumnManager.Instance.SlideBlock(collider.gameObject, Vector3.back);
-                    }
+                    col.DestroyBlockAtPosition(collider.gameObject.transform.position);
                 }
                 else
                 {
                     Destroy(collider.gameObject);
                 }
+
             }
 
-            // Push player off
             if (collider.gameObject.tag == Tags.Player)
             {
                 PlayerController pc = collider.gameObject.GetComponent<PlayerController>();
-
-                if (pc.Team == Team.Purple)
-                {
-                    pc.transform.rotation = Quaternion.identity;
-                    collider.GetComponent<Rigidbody>().AddForce(Vector3.forward, ForceMode.Impulse);
-                }
-                else
-                {
-                    pc.transform.rotation = Quaternion.identity;
-                    pc.GetComponent<Rigidbody>().AddForce(Vector3.back, ForceMode.Impulse);
-                }
+                collider.gameObject.GetComponentInChildren<PlayerDeathController>().KillPlayerByCrushing();
             }
         }
 
         StartCoroutine(CleanupCoroutine());
+    }
+
+    private void ShakeCamera()
+    {
+        float time = 0.2f;
+        float xMove = 0.15f;
+        float yMove = 0.15f;
+
+        CameraController.Instance.ShakeCameraForTeam(RenderEffectsForTeam, time, xMove, yMove);
+    }
+
+    private void StartExplosionParticlesAtPosition(Vector3 position)
+    {
+         Quaternion rotation;
+
+        if (RenderEffectsForTeam == Team.Purple)
+        {
+            rotation = Quaternion.AngleAxis(30, Vector3.up);
+        }
+        else 
+        {
+            rotation = Quaternion.identity;
+        }
+
+        var particleObject = Instantiate(ExplosionParticlesGroup, position, rotation);
+        particleObject.StartExplosionAndCleanup();
+    }
+
+    private void StartBlockDestructionParticlesAtPosition(Vector3 position, Color themedDestructionColor)
+    {
+        GameObject particleObject = Instantiate(BlockDestructionParticles, position, Quaternion.identity);
+        var system = particleObject.GetComponent<ParticleSystem>();
+        var mainModule = particleObject.GetComponent<ParticleSystem>().main;
+
+        mainModule.startColor = MinMaxGradientWithThemedDestructionColor(themedDestructionColor);
+        system.Play();
+
+        Destroy(particleObject, particleObject.GetComponent<ParticleSystem>().main.duration);
+    }
+
+    private ParticleSystem.MinMaxGradient MinMaxGradientWithThemedDestructionColor(Color themedColor)
+    {
+        return new ParticleSystem.MinMaxGradient(BlockDestructionColor, themedColor);
     }
 
     private IEnumerator CleanupCoroutine()
