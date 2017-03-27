@@ -98,7 +98,6 @@ public class BombBlock : Block
 
             if (collider.gameObject.tag == Tags.Player)
             {
-                PlayerController pc = collider.gameObject.GetComponent<PlayerController>();
                 collider.gameObject.GetComponentInChildren<PlayerDeathController>().KillPlayerByCrushing();
             }
         }
