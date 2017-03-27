@@ -128,7 +128,7 @@ public class BombBlock : Block
         }
 
         var particleObject = Instantiate(ExplosionParticlesGroup, position, rotation);
-        particleObject.StartExplosionAndCleanup();
+        particleObject.StartExplosionAndCleanupForTeam(RenderEffectsForTeam);
     }
 
     private void StartBlockDestructionParticlesAtPosition(Vector3 position, Color themedDestructionColor)

@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4465247483243746}
   - component: {fileID: 198656972870347640}
   - component: {fileID: 199225522147465630}
+  - component: {fileID: 114041130469579020}
   m_Layer: 15
   m_Name: Grid
   m_TagString: Untagged
@@ -133,6 +134,19 @@ Transform:
   m_Father: {fileID: 4142234908206098}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114041130469579020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1330835859996812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77f454f43a4b4e45825f70636091c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TeamBlueColor: {r: 0, g: 0.9019608, b: 0.9411765, a: 1}
+  TeamPurpleColor: {r: 1, g: 0.078431375, b: 0.67058825, a: 1}
 --- !u!114 &114263041889024986
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -151,7 +165,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1845900097043118}
   serializedVersion: 5
-  lengthInSec: 1.36
+  lengthInSec: 2.36
   speed: 1
   looping: 0
   prewarm: 0
@@ -204,7 +218,7 @@ ParticleSystem:
     serializedVersion: 3
     enabled: 1
     startLifetime:
-      scalar: 1
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2955,7 +2969,7 @@ ParticleSystem:
         m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0, g: 0.8745098, b: 1, a: 1}
       minMaxState: 0
     startSize:
       scalar: 3
@@ -3348,7 +3362,7 @@ ParticleSystem:
     cntmax3: 30
     time0: 0
     time1: 0.1
-    time2: 0.1
+    time2: 0.2
     time3: 0
     m_BurstCount: 3
   SizeModule:
@@ -5419,7 +5433,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1392334390
+  randomSeed: 1187056452
   InitialModule:
     serializedVersion: 3
     enabled: 1

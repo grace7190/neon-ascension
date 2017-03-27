@@ -187,7 +187,21 @@ public class BlockColumnManager : MonoBehaviour
         var bombComponent = block.GetComponent<BombBlock>();
         if (bombComponent != null)
         {
+            bombComponent.RenderEffectsForTeam = TeamForBlock(block);
             bombComponent.SetBombActive();
+        }
+    }
+
+    // Will return Team.Purple by default if block is in the wall
+    private Team TeamForBlock(GameObject block)
+    {
+        if (block.transform.position.z == BlueTeamZIndex - 1)
+        {
+            return Team.Blue;
+        }
+        else
+        {
+            return Team.Purple;
         }
     }
 

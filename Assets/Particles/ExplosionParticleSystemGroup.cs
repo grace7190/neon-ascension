@@ -4,24 +4,21 @@ using UnityEngine;
 
 public class ExplosionParticleSystemGroup : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-        
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    public void StartExplosionAndCleanup() {
-
+    public void StartExplosionAndCleanupForTeam(Team team)
+    {
         float longestDuration = 0;
 
         // Cycle through particle system children
         foreach (Transform child in transform)
         {
-            var system = child.GetComponent<ParticleSystem>();
+            var system               = child.GetComponent<ParticleSystem>();
+            var customizableParticle = child.GetComponent<TeamCustomizableParticle>();
+
+            if (customizableParticle != null)
+            {
+                customizableParticle.CustomizeForTeam(team);
+            }
+
             system.Play();
 
             if (longestDuration < system.main.duration) {
