@@ -206,7 +206,7 @@ MonoBehaviour:
   IsLocked: 0
   IsStatic: 0
   DidMakeFall: 0
-  ExplosionParticlesGroup: {fileID: 114263041889024986, guid: 5b49ed521657f4f1caa52e61412c928b,
+  ExplosionParticlesGroup: {fileID: 114827326496930756, guid: 5b49ed521657f4f1caa52e61412c928b,
     type: 2}
   BlockDestructionParticles: {fileID: 1216137486049222, guid: 7a1c28a041dc34fb38b96e9223de92ab,
     type: 2}

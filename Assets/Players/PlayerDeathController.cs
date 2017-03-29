@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerDeathController : MonoBehaviour
 {
     public GameObject DeathParticleSystem;
+    public ParticleSystemGroup FallingDeathParticleSystemGroup;
 
     private Color _particleColorLightTeamBlue   = new Color(0.71372549f, 0.945098039f, 0.960784314f);
     private Color _particleColorTeamBlue        = new Color(0f, 0.901960784f, 0.941176471f);
@@ -43,6 +44,8 @@ public class PlayerDeathController : MonoBehaviour
     }
 
     public void KillPlayerByFalling() {
+        SpawnFallDeathParticlesAtPosition(gameObject.transform.parent.position - Vector3.up * 4);
+        ShakeCameraForTeam(_playerTeam);
         TeamLivesManager.Instance.HandlePlayerDeath(gameObject.transform.parent.gameObject);
     }
 
@@ -65,6 +68,12 @@ public class PlayerDeathController : MonoBehaviour
         system.Play();
 
         Destroy(particleObject, particleObject.GetComponent<ParticleSystem>().main.duration);
+    }
+
+    private void SpawnFallDeathParticlesAtPosition(Vector3 position)
+    {
+        var particleObject = Instantiate(FallingDeathParticleSystemGroup, position, Quaternion.identity);
+        particleObject.StartParticleSystemAndCleanupForTeam(_playerTeam);
     }
 
     private ParticleSystem.MinMaxGradient MinMaxGradientForTeam(Team team)

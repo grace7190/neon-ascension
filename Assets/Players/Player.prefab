@@ -1599,6 +1599,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DeathParticleSystem: {fileID: 1463018749184684, guid: 9b0948d83b4854a79ab33bce3b7d7e54,
     type: 2}
+  FallingDeathParticleSystemGroup: {fileID: 114056429175311462, guid: 05e2b290eb9264fadb012a1caa4c860b,
+    type: 2}
 --- !u!114 &114595331732589560
 MonoBehaviour:
   m_ObjectHideFlags: 1

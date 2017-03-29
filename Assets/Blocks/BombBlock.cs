@@ -7,7 +7,7 @@ public class BombBlock : Block
     public static readonly Color TickColor = new Color(.952941176f, .545098039f, .203921569f);
     public static readonly Color BlockDestructionColor = Color.white;
 
-    public ExplosionParticleSystemGroup ExplosionParticlesGroup;
+    public ParticleSystemGroup ExplosionParticlesGroup;
     public GameObject BlockDestructionParticles;
 
     public Material BombActiveMaterial;
@@ -128,7 +128,7 @@ public class BombBlock : Block
         }
 
         var particleObject = Instantiate(ExplosionParticlesGroup, position, rotation);
-        particleObject.StartExplosionAndCleanupForTeam(RenderEffectsForTeam);
+        particleObject.StartParticleSystemAndCleanupForTeam(RenderEffectsForTeam);
     }
 
     private void StartBlockDestructionParticlesAtPosition(Vector3 position, Color themedDestructionColor)
