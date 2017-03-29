@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 65335935861473158}
   - component: {fileID: 23155908657307218}
   - component: {fileID: 54371983983626632}
-  - component: {fileID: 114934250219077220}
   - component: {fileID: 114852636257261924}
   - component: {fileID: 82219963657048956}
   m_Layer: 9
@@ -206,6 +205,8 @@ MonoBehaviour:
   IsLocked: 0
   IsStatic: 0
   DidMakeFall: 0
+  GlowLightPrefab: {fileID: 1581865022257066, guid: 193aaeb4ad6074d8fbbf8994f3b43cb8,
+    type: 2}
   ExplosionParticlesGroup: {fileID: 114827326496930756, guid: 5b49ed521657f4f1caa52e61412c928b,
     type: 2}
   BlockDestructionParticles: {fileID: 1216137486049222, guid: 7a1c28a041dc34fb38b96e9223de92ab,
@@ -214,18 +215,3 @@ MonoBehaviour:
   TicktokClip: {fileID: 8300000, guid: 28dc8c32e61af4362bb5cab05aaeda43, type: 3}
   ExplosionClip: {fileID: 8300000, guid: 3582c3cf324877d45925538828f42495, type: 3}
   RenderEffectsForTeam: 0
---- !u!114 &114934250219077220
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1989275176702382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9f682d7fde184758aa601046c274490, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BaseColor: {r: 3, g: 3, b: 3, a: 1}
-  IsLocked: 0
-  IsStatic: 0
-  DidMakeFall: 0
