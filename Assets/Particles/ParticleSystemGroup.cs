@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExplosionParticleSystemGroup : MonoBehaviour {
+public class ParticleSystemGroup : MonoBehaviour {
 
-    public void StartExplosionAndCleanupForTeam(Team team)
+    public void StartParticleSystemAndCleanupForTeam(Team team)
     {
         float longestDuration = 0;
 
