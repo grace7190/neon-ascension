@@ -5,6 +5,8 @@ using UnityEngine;
 public class Block : MonoBehaviour {
     
     public const float ChangeColorDuration = 0.2f;
+    public const float GlowLightDuration = 0.4f;
+    public const float GlowLightMaxIntensity = 10.0f;
 
     public static readonly Color NeutralColor = new Color(0.93f, 0.93f, 0.93f);
     public static readonly Color BlueColor = new Color(0.137f, 0.66f, 0.66f);
@@ -16,11 +18,16 @@ public class Block : MonoBehaviour {
     public bool IsStatic = false;
     public bool DidMakeFall = false;
 
+    public GameObject GlowLightPrefab;
+
     protected Rigidbody _rigidbody;
 
     private const int CastMask = 1 << Layers.Player;
     private const float CastRadius = 0.1f;
     private IEnumerator _colorChangeCoroutine;
+    private GameObject _glowLight;
+
+
 
 
     void Start ()
@@ -80,9 +87,9 @@ public class Block : MonoBehaviour {
         StartCoroutine(AnimateDeletionCoroutine(6));
     }
 
-    public void ChangeColor(Color targetColor, float duration, Action completion = null)
+    public bool ChangeColor(Color targetColor, float duration, bool passive = false, Action completion = null)
     {
-        if (_colorChangeCoroutine != null)
+        if (_colorChangeCoroutine != null && !passive)
         {
             StopCoroutine(_colorChangeCoroutine);
         }
@@ -90,7 +97,28 @@ public class Block : MonoBehaviour {
         _colorChangeCoroutine = ChangeColorCoroutine(targetColor, duration, completion);
 
         StartCoroutine(_colorChangeCoroutine);
+
+        return true;
     }
+
+    public void SetOffGlowLight()
+    {
+        if (_glowLight == null)
+        {
+            _glowLight = Instantiate(GlowLightPrefab, transform.position, Quaternion.identity);
+            _glowLight.transform.SetParent(transform);
+
+            var glowLightComponent = _glowLight.GetComponent<GlowLight>();
+            glowLightComponent.Init();
+
+            ChangeColor(Color.white, glowLightComponent.AnimationTimeIn + glowLightComponent.OnDuration, completion:() => {
+                ChangeColor(BaseColor, glowLightComponent.AnimationTimeOut + glowLightComponent.OnDuration, true, () => {});
+            });
+
+            glowLightComponent.StartAnimation();
+        }
+    }
+
 
     private IEnumerator AnimateDeletionCoroutine(int blinkTimes)
     {

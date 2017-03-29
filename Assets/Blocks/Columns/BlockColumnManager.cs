@@ -95,6 +95,12 @@ public class BlockColumnManager : MonoBehaviour
         return highestBlock.transform.position + Vector3.up;
     }
 
+    public void SlideBlockWithEaseInAndLights(GameObject block, Vector3 direction)
+    {
+        SlideBlockWithEaseIn(block, direction);
+        block.GetComponent<Block>().SetOffGlowLight();
+    }
+
     public void SlideBlock(GameObject block, Vector3 direction)
     {
         StartCoroutine(SlideBlockCoroutine(block, direction, () => {

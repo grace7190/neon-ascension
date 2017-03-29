@@ -333,7 +333,7 @@ public class PlayerController : MonoBehaviour
         _anim.Play(AnimationParameters.PushingStartName);
 
         var direction = transform.forward;
-        BlockColumnManager.Instance.SlideBlockWithEaseIn(block, direction);
+        BlockColumnManager.Instance.SlideBlockWithEaseInAndLights(block, direction);
         SFXPush.Play();
         StartCoroutine(ActionDelayCoroutine());
 
@@ -354,7 +354,7 @@ public class PlayerController : MonoBehaviour
         _rigidbody.useGravity = false;
         _rigidbody.isKinematic = true;
 
-        BlockColumnManager.Instance.SlideBlockWithEaseIn(block, direction);
+        BlockColumnManager.Instance.SlideBlockWithEaseInAndLights(block, direction);
         SFXPush.Play();
 
         // Climbing animation is now playing

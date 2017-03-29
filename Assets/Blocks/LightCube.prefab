@@ -120,4 +120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9f682d7fde184758aa601046c274490, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BaseColor: {r: 0.93, g: 0.93, b: 0.93, a: 1}
   IsLocked: 0
+  IsStatic: 0
+  DidMakeFall: 0
+  GlowLightPrefab: {fileID: 1581865022257066, guid: 193aaeb4ad6074d8fbbf8994f3b43cb8,
+    type: 2}
