@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
         {
             SFXJump.Play();
             _rigidbody.AddForce(Vector3.up * InitialJumpVerticalSpeed, ForceMode.Impulse);
-            _anim.SetBool(AnimationParameters.TriggerJumping, true);
+            _anim.Play(AnimationParameters.JumpTakeoffName);
             _anim.SetBool(AnimationParameters.IsJumpingMidair, true);
             StartCoroutine(ActionDelayCoroutine());
         }
