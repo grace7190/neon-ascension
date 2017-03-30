@@ -199,6 +199,6 @@ public class BombBlock : Block
             }
         }
 
-        ChangeColor(TickColor, changeTime, completion);
+        ChangeColor(TickColor, changeTime, completion:completion);
     }
 }
