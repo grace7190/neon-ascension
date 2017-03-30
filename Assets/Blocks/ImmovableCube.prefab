@@ -51,8 +51,8 @@ MeshRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1081042364655006}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -120,7 +120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9f682d7fde184758aa601046c274490, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseColor: {r: 3, g: 3, b: 3, a: 1}
+  FixedBaseColor: 1
+  BaseColor: {r: 1, g: 0.25882354, b: 0.25882354, a: 1}
   IsLocked: 0
   IsStatic: 1
   DidMakeFall: 0
+  GlowLightPrefab: {fileID: 0}

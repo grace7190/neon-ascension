@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private const float JumpHorizontalAcceleration = 15;
     private const float AxisOnThreshold = 0.5f;
 
+    private const float StopIconDuration = 0.2f;
+
     private Vector3 _pushingDirection;
 
     private bool _canPerformAction;
@@ -31,12 +33,15 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rigidbody;
     private Animator _anim;
     private PlayerFacingBlockDetector _detector;
+    private FeedbackIconManager _iconManager;
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         _detector =  GetComponentInChildren<PlayerFacingBlockDetector>();
+        _iconManager = GetComponentInChildren<FeedbackIconManager>();
+
         AudioSource[] aSources = GetComponents<AudioSource>();
 
         SFXMove = aSources[0];
@@ -175,19 +180,32 @@ public class PlayerController : MonoBehaviour
         {
             var isBlockBlocked = !IsOpen(transform.position + transform.forward * 2);
 
-            if (block.GetComponent<Block>().IsLocked || block.GetComponent<Block>().IsStatic)
+
+            if (block.GetComponent<Block>().IsLocked)
             {
                 return;
             }
 
-            if (isBlockBlocked)
+            if (block.GetComponent<Block>().IsStatic ||
+                isBlockBlocked)
             {
-                block.GetComponent<Block>().AnimateBlocked();
+
+                if (!_anim.GetCurrentAnimatorStateInfo(0).IsName(AnimationParameters.PushingStartName) &&
+                    !_anim.GetCurrentAnimatorStateInfo(0).IsName(AnimationParameters.PushingEndName)) {
+                       _anim.Play(AnimationParameters.PushingStartName);
+                    }
+
+                _iconManager.ShowStopIcon(true, StopIconDuration);
+
+                if (isBlockBlocked)
+                {
+                    block.GetComponent<Block>().AnimateBlocked();
+                }
+
+                return;
             }
-            else
-            {
-                StartCoroutine(PushBlockCoroutine(block));
-            }
+
+            StartCoroutine(PushBlockCoroutine(block));
         }
     }
 
@@ -205,6 +223,9 @@ public class PlayerController : MonoBehaviour
             if (!block.GetComponent<Block>().IsLocked && !block.GetComponent<Block>().IsStatic)
             {
                 StartCoroutine(PullBlockCoroutine(block, direction));
+            }
+            else if (block.GetComponent<Block>().IsStatic) {
+                _iconManager.ShowStopIcon(true, StopIconDuration);
             }
         }
     }
