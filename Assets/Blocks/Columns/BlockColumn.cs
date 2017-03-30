@@ -115,8 +115,12 @@ public class BlockColumn : MonoBehaviour
     {
         var blockComponent = block.GetComponent<Block>();
         block.layer = LayerForNewBlocks;
-        blockComponent.BaseColor = BaseColor;
-        blockComponent.ChangeColor(BaseColor, Block.ChangeColorDuration, true);
+
+        if (!blockComponent.FixedBaseColor)
+        {
+            blockComponent.BaseColor = BaseColor;
+            blockComponent.ChangeColor(BaseColor, Block.ChangeColorDuration, true);
+        }
 
         var position = block.transform.position;
         ValidateIsAlongColumn(position);

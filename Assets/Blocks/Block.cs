@@ -13,6 +13,7 @@ public class Block : MonoBehaviour {
     public static readonly Color PurpleColor = new Color(0.706f, 0.129f, 0.741f);
     public static readonly Color LockedColor = new Color(0.941f, 0.129f, 0.129f);
 
+    public bool FixedBaseColor = false;
     public Color BaseColor = NeutralColor;
     public bool IsLocked = false;
     public bool IsStatic = false;
@@ -26,9 +27,6 @@ public class Block : MonoBehaviour {
     private const float CastRadius = 0.1f;
     private IEnumerator _colorChangeCoroutine;
     private GameObject _glowLight;
-
-
-
 
     void Start ()
     {
