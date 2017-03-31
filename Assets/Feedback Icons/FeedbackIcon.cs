@@ -18,10 +18,6 @@ public class FeedbackIcon : MonoBehaviour {
 
     private string _currentTween = null;
 
-    void Start () {
-    
-    }
-
     public void ScaleIn(Action completion = null)
     {
         StopCurrentTweenIfAnimating();
@@ -74,7 +70,7 @@ public class FeedbackIcon : MonoBehaviour {
         iTween.ScaleTo(gameObject, args);
     }
 
-    public void ScaleOut(float delay, Action completion = null)
+    public void ScaleOut(float delay = 0.0f, Action completion = null)
     {
         StopCurrentTweenIfAnimating();
         Hashtable args = 

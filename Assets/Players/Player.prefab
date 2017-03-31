@@ -577,6 +577,7 @@ GameObject:
   - component: {fileID: 114347860379320702}
   - component: {fileID: 82278987784758620}
   - component: {fileID: 82774761882692470}
+  - component: {fileID: 114228573744385446}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1600,6 +1601,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HighlightedObject: {fileID: 0}
+--- !u!114 &114228573744385446
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1969443819305820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dfb8ced9e4954e0cb05c066955a8ca8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TutorialDidFinish: 0
+  CurrentTutorialIndex: 0
 --- !u!114 &114347860379320702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1643,6 +1657,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StopPrefab: {fileID: 1404357733558388, guid: 8b2456793440e4f808cf4cda929ce972, type: 2}
+  JumpTutorialPrefab: {fileID: 1507535641422230, guid: ca6266de647b94dfdaaa9342c12468b3,
+    type: 2}
+  MoveStickTutorialPrefab: {fileID: 1376517227825628, guid: 0683fb1e2edeb45a6807e7a30dc17ed8,
+    type: 2}
+  PullFromSidePrefab: {fileID: 1116023924438666, guid: 01255ff85a32b4fba8ec81a45578872f,
+    type: 2}
+  PullFromWallPrefab: {fileID: 1912203123591470, guid: 39dc91ea4dbb74d9489119fc47e65ace,
+    type: 2}
+  PushFromWallPrefab: {fileID: 1438893214658288, guid: b3a3272a2688e47c8a4312ec6b8faf1f,
+    type: 2}
 --- !u!114 &114595331732589560
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1666,6 +1690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsDebug: 0
+  DisplayTutorialOnSpawn: 1
   Team: 0
   SFXPush: {fileID: 82774761882692470}
   SFXJump: {fileID: 82278987784758620}
@@ -1703,8 +1728,8 @@ SkinnedMeshRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1518380025857266}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

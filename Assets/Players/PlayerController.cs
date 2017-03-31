@@ -6,6 +6,9 @@ public class PlayerController : MonoBehaviour
 {
     public bool IsDebug = false;
 
+    // Let the respawner handle this
+    public bool DisplayTutorialOnSpawn = true;
+
     public Team Team;
 
     public AudioSource SFXPush;
@@ -36,6 +39,7 @@ public class PlayerController : MonoBehaviour
     private Animator _anim;
     private PlayerFacingBlockDetector _detector;
     private FeedbackIconManager _iconManager;
+    private TutorialIconManager _tutorialManager;
 
     void Start()
     {
@@ -43,6 +47,7 @@ public class PlayerController : MonoBehaviour
         _anim = GetComponentInChildren<Animator>();
         _detector =  GetComponentInChildren<PlayerFacingBlockDetector>();
         _iconManager = GetComponentInChildren<FeedbackIconManager>();
+        _tutorialManager = GetComponent<TutorialIconManager>();
 
         AudioSource[] aSources = GetComponents<AudioSource>();
 
@@ -71,6 +76,10 @@ public class PlayerController : MonoBehaviour
         _rigidbody.useGravity = true;
         _rigidbody.isKinematic = false;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+        if (DisplayTutorialOnSpawn) {
+            _tutorialManager.Reset();
+        }
     }
 
     public void PerformDeathCleanup()
@@ -133,6 +142,11 @@ public class PlayerController : MonoBehaviour
         }
 
         _rigidbody.velocity = velocity;
+
+        if (velocity.x != 0 && !_tutorialManager.TutorialDidFinish)
+        {
+            _tutorialManager.DidMove();
+        }
     }
 
     public void Jump()
@@ -146,6 +160,11 @@ public class PlayerController : MonoBehaviour
             _anim.Play(AnimationParameters.JumpTakeoffName);
             _anim.SetBool(AnimationParameters.IsJumpingMidair, true);
             StartCoroutine(ActionDelayCoroutine());
+
+            if (!_tutorialManager.TutorialDidFinish)
+            {
+                _tutorialManager.DidJump();
+            }
         }
     }
 
@@ -207,6 +226,12 @@ public class PlayerController : MonoBehaviour
                 return;
             }
 
+            if (!_tutorialManager.TutorialDidFinish &&
+                block.transform.position.z + 1 == BlockColumnManager.WallZIndex)
+            {
+                _tutorialManager.DidPushWall();
+            }
+
             StartCoroutine(PushBlockCoroutine(block));
             if (Team == Team.Blue)
             {
@@ -232,6 +257,18 @@ public class PlayerController : MonoBehaviour
 
             if (!block.GetComponent<Block>().IsLocked && !block.GetComponent<Block>().IsStatic)
             {
+                if (!_tutorialManager.TutorialDidFinish)
+                {
+                    if (block.transform.position.z + 1 == BlockColumnManager.WallZIndex)
+                    {
+                        _tutorialManager.DidPullWall();
+                    }
+                    else
+                    {
+                        _tutorialManager.DidPullSideBlock();
+                    }
+                }
+
                 StartCoroutine(PullBlockCoroutine(block, direction));
                 if (Team == Team.Blue)
                 {
