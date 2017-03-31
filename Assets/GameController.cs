@@ -32,7 +32,6 @@ public class GameController : MonoBehaviour
     public void WalkingSound()
     {
         SFXWalk.Play();
-        Debug.Log("ASDLFKJAOWIEFNASDRK");
     }
     
 
