@@ -1,5 +1,10 @@
 ﻿public enum IconType
 {
-    Stop
+    Stop,
+    JumpTutorial,
+    MoveTutorial,
+    PullWallTutorial,
+    PushWallTutorial,
+    PullSideTutorial
 }
 
