@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
 
     private const float StopIconDuration = 0.2f;
 
+    private const int MoveBlockScore = 10;
+
     private Vector3 _pushingDirection;
 
     private bool _canPerformAction;
@@ -231,6 +233,14 @@ public class PlayerController : MonoBehaviour
             }
 
             StartCoroutine(PushBlockCoroutine(block));
+            if (Team == Team.Blue)
+            {
+                ScoreManager.Instance.incrementBlue(MoveBlockScore);
+            }
+            else
+            {
+                ScoreManager.Instance.incrementPurple(MoveBlockScore);
+            }
         }
     }
 
@@ -260,6 +270,14 @@ public class PlayerController : MonoBehaviour
                 }
 
                 StartCoroutine(PullBlockCoroutine(block, direction));
+                if (Team == Team.Blue)
+                {
+                    ScoreManager.Instance.incrementBlue(MoveBlockScore);
+                }
+                else
+                {
+                    ScoreManager.Instance.incrementPurple(MoveBlockScore);
+                }
             }
             else if (block.GetComponent<Block>().IsStatic) {
                 _iconManager.ShowStopIcon(true, StopIconDuration);

@@ -33,6 +33,16 @@ public class TeamLivesManager : MonoBehaviour
 		//SFXDeath = audioSource;
     }
 
+    public int numBlueLives()
+    {
+        return _blueLives; 
+    }
+
+    public int numPurpleLives()
+    {
+        return _purpleLives;
+    }
+
     public void HandlePlayerDeath(GameObject playerGameObject)
     {
         DisablePlayer(playerGameObject);

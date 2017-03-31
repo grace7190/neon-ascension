@@ -13,7 +13,16 @@ public class EndOfGameManager : MonoBehaviour
     private bool _isGameOver;
     private bool _isRestarting;
 
-	void Awake ()
+    private static readonly int livesBonus = 200;
+    private static readonly int winBonus = 1000;
+
+    public Text BlueFinalScore;
+    public Text PurpleFinalScore;
+
+    public Text BlueStats;
+    public Text PurpleStats;
+
+    void Awake ()
 	{
 	    Instance = this;
 	}
@@ -41,8 +50,22 @@ public class EndOfGameManager : MonoBehaviour
         if (!_isGameOver)
         {
             _isGameOver = true;
+            if (winningTeam == Team.Blue)
+            {
+                ScoreManager.Instance.incrementBlue(winBonus);
+                ScoreManager.Instance.incrementBlue(TeamLivesManager.Instance.numBlueLives()*livesBonus);
+                BlueStats.text = string.Format("+{0} lives left bonus\n+1000 winning bonus", TeamLivesManager.Instance.numBlueLives() * livesBonus);
+            } else
+            {
+                ScoreManager.Instance.incrementPurple(winBonus);
+                ScoreManager.Instance.incrementPurple(TeamLivesManager.Instance.numPurpleLives()* livesBonus);
+                PurpleStats.text = string.Format("+{0} lives left bonus\n+1000 winning bonus", TeamLivesManager.Instance.numPurpleLives() * livesBonus);
+            }
             transform.FindChild("WinnerText").GetComponent<Text>().text = winningTeam + " Wins";
             GetComponent<CanvasFader>().FadeIn();
+            BlueFinalScore.text = ScoreManager.Instance.blueScore.ToString();
+            PurpleFinalScore.text = ScoreManager.Instance.purpleScore.ToString();
+
         }
     }
 
