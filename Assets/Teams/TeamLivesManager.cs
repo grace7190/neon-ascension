@@ -117,6 +117,7 @@ public class TeamLivesManager : MonoBehaviour
         var team = playerController.Team;
 
         playerController.PerformDeathCleanup();
+        playerController.DisplayTutorialOnSpawn = false;
 
         yield return new WaitForSeconds(RespawnDelay);
 

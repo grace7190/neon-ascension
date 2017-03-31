@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public bool IsDebug = false;
+
+    // Let the respawner handle this
     public bool DisplayTutorialOnSpawn = true;
 
     public Team Team;
@@ -62,10 +64,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         CheckIfFallingFar();
-        if (_tutorialManager.TutorialDidFinish == false)
-        {
-            _iconManager.ShowIconForType(_tutorialManager.GetCurrentTutorialIcon());
-        }
     }
 
     public void Initialize()
@@ -80,7 +78,6 @@ public class PlayerController : MonoBehaviour
         if (DisplayTutorialOnSpawn) {
             _tutorialManager.Reset();
         }
-
     }
 
     public void PerformDeathCleanup()
@@ -146,10 +143,8 @@ public class PlayerController : MonoBehaviour
 
         if (velocity.x != 0 && !_tutorialManager.TutorialDidFinish)
         {
-            Debug.Log("ye'");
             _tutorialManager.DidMove();
         }
-        Debug.Log(_tutorialManager.TutorialDidFinish);
     }
 
     public void Jump()
@@ -229,13 +224,13 @@ public class PlayerController : MonoBehaviour
                 return;
             }
 
-            StartCoroutine(PushBlockCoroutine(block));
-
             if (!_tutorialManager.TutorialDidFinish &&
-                block.transform.position.z == BlockColumnManager.WallZIndex)
+                block.transform.position.z + 1 == BlockColumnManager.WallZIndex)
             {
                 _tutorialManager.DidPushWall();
             }
+
+            StartCoroutine(PushBlockCoroutine(block));
         }
     }
 
@@ -252,11 +247,9 @@ public class PlayerController : MonoBehaviour
 
             if (!block.GetComponent<Block>().IsLocked && !block.GetComponent<Block>().IsStatic)
             {
-                StartCoroutine(PullBlockCoroutine(block, direction));
-
                 if (!_tutorialManager.TutorialDidFinish)
                 {
-                    if (block.transform.position.z == BlockColumnManager.WallZIndex)
+                    if (block.transform.position.z + 1 == BlockColumnManager.WallZIndex)
                     {
                         _tutorialManager.DidPullWall();
                     }
@@ -265,6 +258,8 @@ public class PlayerController : MonoBehaviour
                         _tutorialManager.DidPullSideBlock();
                     }
                 }
+
+                StartCoroutine(PullBlockCoroutine(block, direction));
             }
             else if (block.GetComponent<Block>().IsStatic) {
                 _iconManager.ShowStopIcon(true, StopIconDuration);

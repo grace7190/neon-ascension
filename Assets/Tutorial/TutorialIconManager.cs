@@ -17,6 +17,21 @@ public class TutorialIconManager : MonoBehaviour {
     public bool TutorialDidFinish = false;
     public int CurrentTutorialIndex = 0;
 
+    private FeedbackIconManager _iconManager;
+
+    void Awake()
+    {
+        _iconManager = GetComponentInChildren<FeedbackIconManager>();
+    }
+
+    void Update()
+    {
+        if (TutorialDidFinish == false)
+        {
+            _iconManager.ShowIconForType(GetCurrentTutorialIcon());
+        }
+    }
+
     public void DidMove()
     {
         ContinueTutorialGivenIconType(IconType.MoveTutorial);
@@ -52,14 +67,15 @@ public class TutorialIconManager : MonoBehaviour {
         TutorialDidFinish = false;
     }
 
-    private void ContinueTutorialGivenIconType(IconType type) {
-
-        Debug.Log(TutorialIconOrder[CurrentTutorialIndex]);
+    private void ContinueTutorialGivenIconType(IconType type)
+    {
         if (TutorialIconOrder[CurrentTutorialIndex] == type)
         {
             CurrentTutorialIndex ++;
-            if (CurrentTutorialIndex >= TutorialIconOrder.Length) {
+            if (CurrentTutorialIndex >= TutorialIconOrder.Length)
+            {
                 TutorialDidFinish = true;
+                _iconManager.HideCurrentIcon();
             }
         }
     }

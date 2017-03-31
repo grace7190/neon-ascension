@@ -11,7 +11,7 @@ public class FeedbackIconManager : MonoBehaviour {
     public GameObject PullFromSidePrefab;
     public GameObject PullFromWallPrefab;
     public GameObject PushFromWallPrefab;
-
+    public bool IsAnimating = false;
 
     private FeedbackIcon _currentIcon;
 
@@ -59,14 +59,12 @@ public class FeedbackIconManager : MonoBehaviour {
     // But there is no public unity editor property for dictionaries
     public void ShowIconForType(IconType type, bool hideAutomatically = false, float hideDelay = 0.0f)
     {
-    Debug.Log("showing for type:" + type);
         switch(type)
         {
             case IconType.Stop:
                 ShowStopIcon(hideAutomatically, hideDelay);
                 break;
             case IconType.JumpTutorial:
-                Debug.Log("showing jump");
                 ShowJumpTutorialIcon(hideAutomatically, hideDelay);
                 break;
             case IconType.MoveTutorial:
@@ -87,11 +85,12 @@ public class FeedbackIconManager : MonoBehaviour {
     public void HideCurrentIcon(float delay = 0.0f, Action completion = null)
     {
         if (_currentIcon) {
-            Debug.Log("Scaling out");
+            IsAnimating = true;
             _currentIcon.ScaleOut(delay, () =>
             {
                 Destroy(_currentIcon.gameObject); 
                 _currentIcon = null;
+                IsAnimating = false;
                 if (completion != null)
                 {
                     completion();
@@ -102,6 +101,11 @@ public class FeedbackIconManager : MonoBehaviour {
 
     private void InstantiateAndShowIcon(GameObject prefab, IconType iconType, bool hideAutomatically = false, float hideDelay = 0.0f)
     {
+        if (IsAnimating)
+        {
+            return;
+        }
+
         if (_currentIcon == null)
         {
             ShowIcon(prefab, hideAutomatically, hideDelay);
@@ -116,12 +120,13 @@ public class FeedbackIconManager : MonoBehaviour {
 
     private void ShowIcon(GameObject iconPrefab, bool hideAutomatically = false, float hideDelay = 0.0f)
     {
-
+        IsAnimating = true;
         var iconGameObject = Instantiate(iconPrefab, transform.position, Quaternion.identity);
         iconGameObject.transform.SetParent(transform);
         _currentIcon = iconGameObject.GetComponent<FeedbackIcon>();
         _currentIcon.ScaleIn(() =>
         {
+            IsAnimating = false;
             if (hideAutomatically)
             {
                 HideCurrentIcon(delay: hideDelay);
