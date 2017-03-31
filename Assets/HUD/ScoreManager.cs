@@ -1,19 +1,47 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour {
 
-    public GUIText blueScore;
-    public GUIText purpleScore;
+    public static ScoreManager Instance; 
 
-	// Use this for initialization
-	void Start () {
-     
+    public Text blueText;
+    public Text purpleText;
+
+    public int blueScore;
+    public int purpleScore;
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+
+    void Start ()
+    {
+        Reset();
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	public void incrementBlue(int score)
+    {
+        blueScore += score;
+        blueText.text = blueScore.ToString();
+    }
+
+    public void incrementPurple(int score)
+    {
+        purpleScore += score;
+        purpleText.text = purpleScore.ToString();
+    }
+
+    void Reset()
+    {
+        blueScore = 0;
+        purpleScore = 0;
+        blueText.text = blueScore.ToString();
+        purpleText.text = purpleScore.ToString();
+    }
+
 }
