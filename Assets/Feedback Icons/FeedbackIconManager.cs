@@ -15,10 +15,6 @@ public class FeedbackIconManager : MonoBehaviour {
 
     private FeedbackIcon _currentIcon;
 
-    void Update()
-    {
-    }
-
     void LateUpdate()
     {
         // Billboard

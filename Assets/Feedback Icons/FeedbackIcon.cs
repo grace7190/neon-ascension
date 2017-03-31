@@ -18,14 +18,6 @@ public class FeedbackIcon : MonoBehaviour {
 
     private string _currentTween = null;
 
-    void Start () {
-    
-    }
-
-    void Update() 
-    {
-    }
-
     public void ScaleIn(Action completion = null)
     {
         StopCurrentTweenIfAnimating();
