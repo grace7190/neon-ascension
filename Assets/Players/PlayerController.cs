@@ -24,10 +24,7 @@ public class PlayerController : MonoBehaviour
     private const float InitialJumpVerticalSpeed = 5.0f;
     private const float JumpHorizontalAcceleration = 15;
     private const float AxisOnThreshold = 0.5f;
-
     private const float StopIconDuration = 0.2f;
-
-    private const int MoveBlockScore = 10;
 
     private Vector3 _pushingDirection;
 
@@ -85,6 +82,7 @@ public class PlayerController : MonoBehaviour
     public void PerformDeathCleanup()
     {
         _detector.Reset();
+        _iconManager.HideCurrentIcon();
     }
 
     public bool IsFacing(Vector3 direction)
@@ -226,21 +224,17 @@ public class PlayerController : MonoBehaviour
                 return;
             }
 
-            if (!_tutorialManager.TutorialDidFinish &&
-                block.transform.position.z + 1 == BlockColumnManager.WallZIndex)
+            if (block.transform.position.z + 1 == BlockColumnManager.WallZIndex)
             {
-                _tutorialManager.DidPushWall();
+                if (!_tutorialManager.TutorialDidFinish)
+                {
+                    _tutorialManager.DidPushWall();
+                }
+
+                ScoreManager.Instance.IncrementScoreForTeam(ScoreManager.PushWallScoreIncrement, Team);
             }
 
             StartCoroutine(PushBlockCoroutine(block));
-            if (Team == Team.Blue)
-            {
-                ScoreManager.Instance.incrementBlue(MoveBlockScore);
-            }
-            else
-            {
-                ScoreManager.Instance.incrementPurple(MoveBlockScore);
-            }
         }
     }
 
@@ -270,14 +264,6 @@ public class PlayerController : MonoBehaviour
                 }
 
                 StartCoroutine(PullBlockCoroutine(block, direction));
-                if (Team == Team.Blue)
-                {
-                    ScoreManager.Instance.incrementBlue(MoveBlockScore);
-                }
-                else
-                {
-                    ScoreManager.Instance.incrementPurple(MoveBlockScore);
-                }
             }
             else if (block.GetComponent<Block>().IsStatic) {
                 _iconManager.ShowStopIcon(true, StopIconDuration);

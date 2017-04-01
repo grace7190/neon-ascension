@@ -7,41 +7,75 @@ public class ScoreManager : MonoBehaviour {
 
     public static ScoreManager Instance; 
 
-    public Text blueText;
-    public Text purpleText;
+    public static int TimeScoreIncrement = 1;
+    public static int PushWallScoreIncrement = 10;
+    public static int KillPlayerByBombScoreIncrement = 500;
+    public static int KillPlayerByCrushScoreIncrement = 1000;
+    public static int KillPlayerByPushScoreIncrement = 1000;
+    public static int NearMissScoreIncrement = 100;
+    public static int WinBonusScoreIncrement = 5000;
+    public static int LifeBonusScoreIncrement = 500;
 
-    public int blueScore;
-    public int purpleScore;
+    public Text BlueText;
+    public Text PurpleText;
+
+    public int BlueScore;
+    public int PurpleScore;
 
     void Awake()
     {
         Instance = this;
     }
 
-
-    void Start ()
+    void Start()
     {
         Reset();
-    }
-	
-	public void incrementBlue(int score)
-    {
-        blueScore += score;
-        blueText.text = blueScore.ToString();
+        StartCoroutine(TimeScoreIncrementCoroutine());
     }
 
-    public void incrementPurple(int score)
+    public void IncrementScoreForTeam(int score, Team team)
     {
-        purpleScore += score;
-        purpleText.text = purpleScore.ToString();
+        switch(team)
+        {
+        case Team.Blue:
+            IncrementBlue(score);
+            break;
+        case Team.Purple:
+            IncrementPurple(score);
+            break;
+        }
+    }
+
+	public void IncrementBlue(int score)
+    {
+        BlueScore += score;
+        BlueText.text = BlueScore.ToString();
+    }
+
+    public void IncrementPurple(int score)
+    {
+        PurpleScore += score;
+        PurpleText.text = PurpleScore.ToString();
     }
 
     void Reset()
     {
-        blueScore = 0;
-        purpleScore = 0;
-        blueText.text = blueScore.ToString();
-        purpleText.text = purpleScore.ToString();
+        BlueScore = 0;
+        PurpleScore = 0;
+        BlueText.text = BlueScore.ToString();
+        PurpleText.text = PurpleScore.ToString();
     }
 
+    private IEnumerator TimeScoreIncrementCoroutine()
+    {
+        while(true)
+        {
+            if (!GameController.Instance.GetIsPaused())
+            {
+                IncrementBlue(TimeScoreIncrement);
+                IncrementPurple(TimeScoreIncrement);
+            }
+            yield return new WaitForSeconds(1);
+        }
+    }
 }

@@ -55,6 +55,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public bool GetIsPaused()
+    {
+        return gamePaused;
+    }
+
 	public void Restart() {
 		Time.timeScale = 1.0f;
 		SceneManager.LoadScene(Scenes.Game);
