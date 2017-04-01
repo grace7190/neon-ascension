@@ -1,53 +1,71 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PauseInputController : MonoBehaviour {
 
-	private Button resumeButton;
-	private Button restartButton;
-	private Button exitButton;
-	private Button currentButton;
+	private const int ResumeIndex = 0;
 
+    private Button[] buttons;
+    private int currentIndex;
+    private bool canNavigate;
+    private float delayAmount;
 	private float verticalVal;
-	private int repeat;
-	private int current_iteration;
-	private bool clicked;
+    private EventSystem eventSystem;
 
 	// Use this for initialization
 	void Start () {
-		resumeButton = GameObject.Find ("PauseMenuResumeButton").GetComponent<Button>();
-		restartButton = GameObject.Find ("PauseMenuRestartButton").GetComponent<Button>();
-		exitButton = GameObject.Find ("PauseMenuExitButton").GetComponent<Button>();
-		currentButton = resumeButton;
-		repeat = 10;
-		current_iteration = 10;
-		clicked = false;
-	}
+        buttons = new Button[] { GameObject.Find("PauseMenuResumeButton").GetComponent<Button>(),
+            GameObject.Find ("PauseMenuRestartButton").GetComponent<Button>(),
+            GameObject.Find ("PauseMenuExitButton").GetComponent<Button>() };
+        delayAmount = 0.2f;
+
+        eventSystem = EventSystem.current;
+    }
+
+    void OnEnable()
+    {
+        canNavigate = true;
+        currentIndex = 0;
+        // Annoying fix for Unity bug not selecting buttons well
+        StartCoroutine(SelectFirstButton());
+    }
 	
-	// Update is called once per frame
-	void Update () {
-		verticalVal = Mathf.Round (Input.GetAxis ("L_YAxis_1") + Input.GetAxis ("L_YAxis_2") + Input.GetAxis("L_YAxis_3") + Input.GetAxis("L_YAxis_4"));
-		clicked = Input.GetButton("X_1") || Input.GetButton("X_2") || Input.GetButton("X_3") || Input.GetButton("X_4");
-		if (current_iteration >= repeat) {
-			if (clicked) {
-				currentButton.onClick.Invoke ();
-			}
-			else if (verticalVal <= -1) {
-				if (currentButton.name == "PauseMenuExitButton") {
-					currentButton = restartButton;
-				} else if (currentButton.name == "PauseMenuRestartButton") {
-					currentButton = resumeButton;
-				}
-			} else if (verticalVal >= 1) {
-				if (currentButton.name == "PauseMenuResumeButton") {
-					currentButton = restartButton;
-				} else if (currentButton.name == "PauseMenuRestartButton") {
-					currentButton = exitButton;
-				}
-			}
-			current_iteration = 0;
-			currentButton.Select ();
-		}
-		current_iteration++;
-	}
+    void Update()
+    {
+        if (Input.GetButton("Submit"))
+        {
+            buttons[currentIndex].onClick.Invoke();
+        }
+        if (Input.GetButton("Cancel"))
+        {
+            buttons[ResumeIndex].onClick.Invoke();
+        }
+        if (canNavigate) {
+            verticalVal = Mathf.Round(Input.GetAxis("L_YAxis_1") + Input.GetAxis("L_YAxis_2"));
+            if (verticalVal != 0)
+            {
+                currentIndex = (currentIndex + buttons.Length + (int)verticalVal) % buttons.Length;
+                buttons[currentIndex].Select();
+                StartCoroutine(MenuDelayCoroutine());
+            }
+        }
+    }
+
+    private IEnumerator SelectFirstButton()
+    {
+        // Waits a frame before selecting first button
+        yield return null;
+        eventSystem.SetSelectedGameObject(null);
+        eventSystem.SetSelectedGameObject(buttons[ResumeIndex].gameObject);
+    }
+
+    private IEnumerator MenuDelayCoroutine()
+    {
+        canNavigate = false;
+        yield return new WaitForSecondsRealtime(delayAmount);
+        canNavigate = true;
+    }
+
 }
