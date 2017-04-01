@@ -5,4 +5,6 @@
     public const int BlockColumnSupport = 10;
     public const int IgnoreColumnSupport = 11;
     public const int FloorBlocks = 12;
+    public const int Camera1TextMesh = 16;
+    public const int Camera2TextMesh = 17;
 }

@@ -7,8 +7,6 @@ public class BombBlock : Block
     public static readonly Color TickColor = new Color(.952941176f, .545098039f, .203921569f);
     public static readonly Color BlockDestructionColor = Color.white;
 
-    public static readonly int BombBlockScore = 100; 
-
     public ParticleSystemGroup ExplosionParticlesGroup;
     public GameObject BlockDestructionParticles;
 
@@ -102,13 +100,11 @@ public class BombBlock : Block
             {
                 collider.gameObject.GetComponentInChildren<PlayerDeathController>().KillPlayerByCrushing();
                 Team team = collider.gameObject.GetComponent<PlayerController>().Team;
-                //add score to opponent when player dies to bomb
-                if (team == Team.Blue)
+
+                //add score to opponent when player dies to bomb that opponent pushed
+                if (team != LastTouchedTeam)
                 {
-                    ScoreManager.Instance.incrementPurple(BombBlockScore);
-                } else
-                {
-                    ScoreManager.Instance.incrementBlue(BombBlockScore);
+                    ScoreManager.Instance.IncrementScoreForTeamAndType(LastTouchedTeam, ScoreIncrementType.KillPlayerByBomb);
                 }
             }
         }

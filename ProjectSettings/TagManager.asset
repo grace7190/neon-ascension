@@ -26,8 +26,8 @@ TagManager:
   - Camera1Lights
   - Camera2Lights
   - Particles
-  - 
-  - 
+  - Camera1TextMesh
+  - Camera2TextMesh
   - 
   - 
   - 

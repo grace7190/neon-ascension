@@ -13,9 +13,6 @@ public class EndOfGameManager : MonoBehaviour
     private bool _isGameOver;
     private bool _isRestarting;
 
-    private static readonly int livesBonus = 200;
-    private static readonly int winBonus = 1000;
-
     public Text BlueFinalScore;
     public Text PurpleFinalScore;
 
@@ -50,21 +47,25 @@ public class EndOfGameManager : MonoBehaviour
         if (!_isGameOver)
         {
             _isGameOver = true;
+            var lifeBonus = ScoreManager.Instance.LivesBonusScorePair.score;
+            var winBonus = ScoreManager.Instance.WinBonusScorePair.score;
+
+            ScoreManager.Instance.IncrementScoreForTeamAndType(winningTeam, ScoreIncrementType.WinBonus);
+
             if (winningTeam == Team.Blue)
             {
-                ScoreManager.Instance.incrementBlue(winBonus);
-                ScoreManager.Instance.incrementBlue(TeamLivesManager.Instance.numBlueLives()*livesBonus);
-                BlueStats.text = string.Format("+{0} lives left bonus\n+1000 winning bonus", TeamLivesManager.Instance.numBlueLives() * livesBonus);
+                ScoreManager.Instance.IncrementScoreForTeamAndType(Team.Blue, ScoreIncrementType.LifeBonus, TeamLivesManager.Instance.numBlueLives());
+                BlueStats.text = string.Format("+{0} lives left bonus\n+{1} winning bonus", TeamLivesManager.Instance.numBlueLives() * lifeBonus, winBonus);
             } else
             {
-                ScoreManager.Instance.incrementPurple(winBonus);
-                ScoreManager.Instance.incrementPurple(TeamLivesManager.Instance.numPurpleLives()* livesBonus);
-                PurpleStats.text = string.Format("+{0} lives left bonus\n+1000 winning bonus", TeamLivesManager.Instance.numPurpleLives() * livesBonus);
+                ScoreManager.Instance.IncrementScoreForTeamAndType(Team.Purple, ScoreIncrementType.LifeBonus, TeamLivesManager.Instance.numBlueLives());
+
+                PurpleStats.text = string.Format("+{0} lives left bonus\n+{1} winning bonus", TeamLivesManager.Instance.numPurpleLives() * lifeBonus, winBonus);
             }
             transform.FindChild("WinnerText").GetComponent<Text>().text = winningTeam + " Wins";
             GetComponent<CanvasFader>().FadeIn();
-            BlueFinalScore.text = ScoreManager.Instance.blueScore.ToString();
-            PurpleFinalScore.text = ScoreManager.Instance.purpleScore.ToString();
+            BlueFinalScore.text = ScoreManager.Instance.BlueScore.ToString();
+            PurpleFinalScore.text = ScoreManager.Instance.PurpleScore.ToString();
 
         }
     }

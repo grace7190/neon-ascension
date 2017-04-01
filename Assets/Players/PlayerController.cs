@@ -24,10 +24,7 @@ public class PlayerController : MonoBehaviour
     private const float InitialJumpVerticalSpeed = 5.0f;
     private const float JumpHorizontalAcceleration = 15;
     private const float AxisOnThreshold = 0.5f;
-
     private const float StopIconDuration = 0.2f;
-
-    private const int MoveBlockScore = 10;
 
     private Vector3 _pushingDirection;
 
@@ -40,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private PlayerFacingBlockDetector _detector;
     private FeedbackIconManager _iconManager;
     private TutorialIconManager _tutorialManager;
+    private ScoreEmitter _scoreEmitter;
 
     void Start()
     {
@@ -48,6 +46,9 @@ public class PlayerController : MonoBehaviour
         _detector =  GetComponentInChildren<PlayerFacingBlockDetector>();
         _iconManager = GetComponentInChildren<FeedbackIconManager>();
         _tutorialManager = GetComponent<TutorialIconManager>();
+        _scoreEmitter = GetComponentInChildren<ScoreEmitter>();
+
+        ScoreManager.Instance.SetScoreEmitterForTeam(_scoreEmitter, Team);
 
         AudioSource[] aSources = GetComponents<AudioSource>();
 
@@ -85,6 +86,7 @@ public class PlayerController : MonoBehaviour
     public void PerformDeathCleanup()
     {
         _detector.Reset();
+        _iconManager.HideCurrentIcon();
     }
 
     public bool IsFacing(Vector3 direction)
@@ -200,14 +202,14 @@ public class PlayerController : MonoBehaviour
             IsGrounded())
         {
             var isBlockBlocked = !IsOpen(transform.position + transform.forward * 2);
+            var blockComponent = block.GetComponent<Block>();
 
-
-            if (block.GetComponent<Block>().IsLocked)
+            if (blockComponent.IsLocked)
             {
                 return;
             }
 
-            if (block.GetComponent<Block>().IsStatic ||
+            if (blockComponent.IsStatic ||
                 isBlockBlocked)
             {
 
@@ -226,21 +228,19 @@ public class PlayerController : MonoBehaviour
                 return;
             }
 
-            if (!_tutorialManager.TutorialDidFinish &&
-                block.transform.position.z + 1 == BlockColumnManager.WallZIndex)
+            if (block.transform.position.z + 1 == BlockColumnManager.WallZIndex)
             {
-                _tutorialManager.DidPushWall();
+                if (!_tutorialManager.TutorialDidFinish)
+                {
+                    _tutorialManager.DidPushWall();
+                }
+
+                ScoreManager.Instance.IncrementScoreForTeamAndType(Team, ScoreIncrementType.PushWall);
             }
 
+            blockComponent.LastTouchedTeam = Team;
+
             StartCoroutine(PushBlockCoroutine(block));
-            if (Team == Team.Blue)
-            {
-                ScoreManager.Instance.incrementBlue(MoveBlockScore);
-            }
-            else
-            {
-                ScoreManager.Instance.incrementPurple(MoveBlockScore);
-            }
         }
     }
 
@@ -254,8 +254,8 @@ public class PlayerController : MonoBehaviour
             IsGrounded())
         {
             var direction = -transform.forward;
-
-            if (!block.GetComponent<Block>().IsLocked && !block.GetComponent<Block>().IsStatic)
+            var blockComponent = block.GetComponent<Block>();
+            if (!blockComponent.IsLocked && !blockComponent.IsStatic)
             {
                 if (!_tutorialManager.TutorialDidFinish)
                 {
@@ -269,17 +269,11 @@ public class PlayerController : MonoBehaviour
                     }
                 }
 
+                blockComponent.LastTouchedTeam = Team;
+
                 StartCoroutine(PullBlockCoroutine(block, direction));
-                if (Team == Team.Blue)
-                {
-                    ScoreManager.Instance.incrementBlue(MoveBlockScore);
-                }
-                else
-                {
-                    ScoreManager.Instance.incrementPurple(MoveBlockScore);
-                }
             }
-            else if (block.GetComponent<Block>().IsStatic) {
+            else if (blockComponent.IsStatic) {
                 _iconManager.ShowStopIcon(true, StopIconDuration);
             }
         }
