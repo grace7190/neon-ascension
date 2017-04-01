@@ -106,6 +106,7 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded ()) {
             var isWalking = isMovingHorizontally || isMovingVertically;
 
+            //prevent player from walking off wall
             if (transform.position.x > 4.20f)
             {
                 velocity.x = 0;
@@ -146,6 +147,7 @@ public class PlayerController : MonoBehaviour
             _anim.SetBool (AnimationParameters.IsWalking, isWalking);
         } else {
             if (isMovingHorizontally) {
+                //prevent player from walking off wall
                 if (transform.position.x > 4.20f)
                 {
                     velocity.x = 0;
@@ -212,6 +214,18 @@ public class PlayerController : MonoBehaviour
             var dominantDirection = Mathf.Abs(horizontalAxis) > Mathf.Abs(verticalAxis)
                 ? horizontalDirection
                 : verticalDirection;
+
+            if (dominantDirection == verticalDirection)
+            {
+                //make player face direction
+                if (Team == Team.Blue)
+                {
+                    Move(0.0f, 1.0f);
+                } else
+                {
+                    Move(0.0f, 1.0f);
+                }
+            }
 
             if (IsFacing(dominantDirection))
             {
