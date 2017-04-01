@@ -15,6 +15,11 @@ public class FeedbackIconManager : MonoBehaviour {
 
     private FeedbackIcon _currentIcon;
 
+    void Start()
+    {
+        transform.rotation = Quaternion.identity;
+    }
+
     void LateUpdate()
     {
         // Billboard
