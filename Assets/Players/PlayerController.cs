@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private PlayerFacingBlockDetector _detector;
     private FeedbackIconManager _iconManager;
     private TutorialIconManager _tutorialManager;
+    private ScoreEmitter _scoreEmitter;
 
     void Start()
     {
@@ -45,6 +46,9 @@ public class PlayerController : MonoBehaviour
         _detector =  GetComponentInChildren<PlayerFacingBlockDetector>();
         _iconManager = GetComponentInChildren<FeedbackIconManager>();
         _tutorialManager = GetComponent<TutorialIconManager>();
+        _scoreEmitter = GetComponentInChildren<ScoreEmitter>();
+
+        ScoreManager.Instance.SetScoreEmitterForTeam(_scoreEmitter, Team);
 
         AudioSource[] aSources = GetComponents<AudioSource>();
 
@@ -198,14 +202,14 @@ public class PlayerController : MonoBehaviour
             IsGrounded())
         {
             var isBlockBlocked = !IsOpen(transform.position + transform.forward * 2);
+            var blockComponent = block.GetComponent<Block>();
 
-
-            if (block.GetComponent<Block>().IsLocked)
+            if (blockComponent.IsLocked)
             {
                 return;
             }
 
-            if (block.GetComponent<Block>().IsStatic ||
+            if (blockComponent.IsStatic ||
                 isBlockBlocked)
             {
 
@@ -231,8 +235,10 @@ public class PlayerController : MonoBehaviour
                     _tutorialManager.DidPushWall();
                 }
 
-                ScoreManager.Instance.IncrementScoreForTeam(ScoreManager.PushWallScoreIncrement, Team);
+                ScoreManager.Instance.IncrementScoreForTeamAndType(Team, ScoreIncrementType.PushWall);
             }
+
+            blockComponent.LastTouchedTeam = Team;
 
             StartCoroutine(PushBlockCoroutine(block));
         }
@@ -248,8 +254,8 @@ public class PlayerController : MonoBehaviour
             IsGrounded())
         {
             var direction = -transform.forward;
-
-            if (!block.GetComponent<Block>().IsLocked && !block.GetComponent<Block>().IsStatic)
+            var blockComponent = block.GetComponent<Block>();
+            if (!blockComponent.IsLocked && !blockComponent.IsStatic)
             {
                 if (!_tutorialManager.TutorialDidFinish)
                 {
@@ -263,9 +269,11 @@ public class PlayerController : MonoBehaviour
                     }
                 }
 
+                blockComponent.LastTouchedTeam = Team;
+
                 StartCoroutine(PullBlockCoroutine(block, direction));
             }
-            else if (block.GetComponent<Block>().IsStatic) {
+            else if (blockComponent.IsStatic) {
                 _iconManager.ShowStopIcon(true, StopIconDuration);
             }
         }

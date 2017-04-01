@@ -100,13 +100,11 @@ public class BombBlock : Block
             {
                 collider.gameObject.GetComponentInChildren<PlayerDeathController>().KillPlayerByCrushing();
                 Team team = collider.gameObject.GetComponent<PlayerController>().Team;
-                //add score to opponent when player dies to bomb
-                if (team == Team.Blue)
+
+                //add score to opponent when player dies to bomb that opponent pushed
+                if (team != LastTouchedTeam)
                 {
-                    ScoreManager.Instance.IncrementPurple(ScoreManager.KillPlayerByBombScoreIncrement);
-                } else
-                {
-                    ScoreManager.Instance.IncrementBlue(ScoreManager.KillPlayerByBombScoreIncrement);
+                    ScoreManager.Instance.IncrementScoreForTeamAndType(LastTouchedTeam, ScoreIncrementType.KillPlayerByBomb);
                 }
             }
         }

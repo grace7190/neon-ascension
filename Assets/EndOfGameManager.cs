@@ -47,18 +47,20 @@ public class EndOfGameManager : MonoBehaviour
         if (!_isGameOver)
         {
             _isGameOver = true;
-            var lifeBonus = ScoreManager.LifeBonusScoreIncrement;
-            var winBonus = ScoreManager.WinBonusScoreIncrement;
+            var lifeBonus = ScoreManager.Instance.LivesBonusScorePair.score;
+            var winBonus = ScoreManager.Instance.WinBonusScorePair.score;
+
+            ScoreManager.Instance.IncrementScoreForTeamAndType(winningTeam, ScoreIncrementType.WinBonus);
+
             if (winningTeam == Team.Blue)
             {
-                ScoreManager.Instance.IncrementBlue(winBonus);
-                ScoreManager.Instance.IncrementBlue(TeamLivesManager.Instance.numBlueLives()*lifeBonus);
-                BlueStats.text = string.Format("+{0} lives left bonus\n+1000 winning bonus", TeamLivesManager.Instance.numBlueLives() * lifeBonus);
+                ScoreManager.Instance.IncrementScoreForTeamAndType(Team.Blue, ScoreIncrementType.LifeBonus, TeamLivesManager.Instance.numBlueLives());
+                BlueStats.text = string.Format("+{0} lives left bonus\n+{1} winning bonus", TeamLivesManager.Instance.numBlueLives() * lifeBonus, winBonus);
             } else
             {
-                ScoreManager.Instance.IncrementPurple(winBonus);
-                ScoreManager.Instance.IncrementPurple(TeamLivesManager.Instance.numPurpleLives() * lifeBonus);
-                PurpleStats.text = string.Format("+{0} lives left bonus\n+1000 winning bonus", TeamLivesManager.Instance.numPurpleLives() * lifeBonus);
+                ScoreManager.Instance.IncrementScoreForTeamAndType(Team.Purple, ScoreIncrementType.LifeBonus, TeamLivesManager.Instance.numBlueLives());
+
+                PurpleStats.text = string.Format("+{0} lives left bonus\n+{1} winning bonus", TeamLivesManager.Instance.numPurpleLives() * lifeBonus, winBonus);
             }
             transform.FindChild("WinnerText").GetComponent<Text>().text = winningTeam + " Wins";
             GetComponent<CanvasFader>().FadeIn();
