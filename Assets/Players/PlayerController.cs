@@ -99,37 +99,72 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+
         var velocity = _rigidbody.velocity;
         var isMovingHorizontally = Mathf.Abs (horizontalAxis) > AxisOnThreshold;
         var isMovingVertically = Mathf.Abs (verticalAxis) > AxisOnThreshold;
         if (IsGrounded ()) {
             var isWalking = isMovingHorizontally || isMovingVertically;
-            if (isWalking) {
-                var horizontalDirection = horizontalAxis > 0 ? Vector3.right : Vector3.left;
-                var verticalDirection = verticalAxis > 0 ? Vector3.forward : Vector3.back;
-                var dominantDirection = Mathf.Abs (horizontalAxis) > Mathf.Abs (verticalAxis)
-            ? horizontalDirection
-            : verticalDirection;
 
-                transform.rotation = Quaternion.LookRotation (dominantDirection);
-
-                if (!_canMoveWhenPush && horizontalDirection == _pushingDirection) {
-                    velocity.x = 0;
-                } else {
-                    velocity.x = dominantDirection.x * MaxHorizontalSpeed;
-                }
-            } else {
+            if (transform.position.x > 4.20f)
+            {
                 velocity.x = 0;
+                transform.position = new Vector3(4.19f, transform.position.y, transform.position.z);
+            }
+            else if (transform.position.x < -5.40)
+            {
+                velocity.x = 0;
+                transform.position = new Vector3(-5.39f, transform.position.y, transform.position.z);
+            }
+            else
+            {
+                if (isWalking)
+                {
+                    var horizontalDirection = horizontalAxis > 0 ? Vector3.right : Vector3.left;
+                    var verticalDirection = verticalAxis > 0 ? Vector3.forward : Vector3.back;
+                    var dominantDirection = Mathf.Abs(horizontalAxis) > Mathf.Abs(verticalAxis)
+                ? horizontalDirection
+                : verticalDirection;
+
+                    transform.rotation = Quaternion.LookRotation(dominantDirection);
+
+                    if (!_canMoveWhenPush && horizontalDirection == _pushingDirection)
+                    {
+                        velocity.x = 0;
+                    }
+                    else
+                    {
+                        velocity.x = dominantDirection.x * MaxHorizontalSpeed;
+                    }
+                }
+                else
+                {
+                    velocity.x = 0;
+                }
             }
 
             _anim.SetBool (AnimationParameters.IsWalking, isWalking);
         } else {
             if (isMovingHorizontally) {
-                transform.rotation = Quaternion.LookRotation (Vector3.right * Mathf.Sign (horizontalAxis));
+                if (transform.position.x > 4.20f)
+                {
+                    velocity.x = 0;
+                    transform.position = new Vector3(4.19f, transform.position.y, transform.position.z);
+                }
+                else if (transform.position.x < -5.40)
+                {
+                    velocity.x = 0;
+                    transform.position = new Vector3(-5.39f, transform.position.y, transform.position.z);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.LookRotation(Vector3.right * Mathf.Sign(horizontalAxis));
 
-                velocity.x += Mathf.Sign (horizontalAxis) * JumpHorizontalAcceleration * Time.deltaTime;
-                if (Mathf.Abs (velocity.x) > MaxHorizontalSpeed) {
-                    velocity.x = Mathf.Sign (velocity.x) * MaxHorizontalSpeed;
+                    velocity.x += Mathf.Sign(horizontalAxis) * JumpHorizontalAcceleration * Time.deltaTime;
+                    if (Mathf.Abs(velocity.x) > MaxHorizontalSpeed)
+                    {
+                        velocity.x = Mathf.Sign(velocity.x) * MaxHorizontalSpeed;
+                    }
                 }
             } else {
                 var oldSign = Mathf.Sign (velocity.x);
