@@ -103,6 +103,7 @@ public class ScoreManager : MonoBehaviour {
         if (ShouldEmitScoreForType(type))
         {
             EmitScoreAndDescriptionForTeam(newScorePair, team);
+            EmphasizeScoreTextForTeam(team);
         }
     }
 
@@ -117,6 +118,20 @@ public class ScoreManager : MonoBehaviour {
             PurpleScoreEmitter.EmitScoreWithDescription(pair.score, pair.description);
             break;
         }
+    }
+
+    private void EmphasizeScoreTextForTeam(Team team)
+    {
+        switch(team)
+        {
+        case Team.Blue:
+            BlueText.GetComponent<TextAnimations>().Emphasize();
+            break;
+        case Team.Purple:
+            PurpleText.GetComponent<TextAnimations>().Emphasize();
+            break;
+        }
+
     }
 
     private void IncrementScoreForTeam(int score, Team team)
@@ -162,7 +177,6 @@ public class ScoreManager : MonoBehaviour {
             return false;
         } 
     }
-
 
     private IEnumerator TimeScoreIncrementCoroutine()
     {

@@ -100,6 +100,13 @@ public class FeedbackIconManager : MonoBehaviour {
         }
     }
 
+    public void StopCurrentIcon()
+    {
+        IsAnimating = false;
+        if (_currentIcon)
+            _currentIcon.StopCurrentTweenIfAnimating();
+    }
+
     private void InstantiateAndShowIcon(GameObject prefab, IconType iconType, bool hideAutomatically = false, float hideDelay = 0.0f)
     {
         if (IsAnimating)
