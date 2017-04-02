@@ -754,11 +754,6 @@ Prefab:
       propertyPath: m_Name
       value: PurpleScore
       objectReference: {fileID: 0}
-    - target: {fileID: 114316497605361728, guid: 3b16a36ff251425489f50151268d3d41,
-        type: 2}
-      propertyPath: m_FontData.m_Alignment
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3b16a36ff251425489f50151268d3d41, type: 2}
   m_IsPrefabParent: 0
@@ -6290,77 +6285,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 1817387235468258, guid: df8e4706d49f4d847ba9b44cbea1d5f2, type: 2}
-      propertyPath: m_Name
-      value: Foreground Light
-      objectReference: {fileID: 0}
-    - target: {fileID: 108813955013562522, guid: df8e4706d49f4d847ba9b44cbea1d5f2,
-        type: 2}
-      propertyPath: m_CullingMask.m_Bits
-      value: 4294845128
-      objectReference: {fileID: 0}
-    - target: {fileID: 1327845444070892, guid: df8e4706d49f4d847ba9b44cbea1d5f2, type: 2}
-      propertyPath: m_Name
-      value: Foreground Light
-      objectReference: {fileID: 0}
-    - target: {fileID: 108690376594771710, guid: df8e4706d49f4d847ba9b44cbea1d5f2,
-        type: 2}
-      propertyPath: m_CullingMask.m_Bits
-      value: 4294853320
-      objectReference: {fileID: 0}
-    - target: {fileID: 108410201729908482, guid: df8e4706d49f4d847ba9b44cbea1d5f2,
-        type: 2}
-      propertyPath: m_CullingMask.m_Bits
-      value: 4294901759
-      objectReference: {fileID: 0}
-    - target: {fileID: 108328437684682108, guid: df8e4706d49f4d847ba9b44cbea1d5f2,
-        type: 2}
-      propertyPath: m_CullingMask.m_Bits
-      value: 4294883784
-      objectReference: {fileID: 0}
-    - target: {fileID: 108114480663042044, guid: df8e4706d49f4d847ba9b44cbea1d5f2,
-        type: 2}
-      propertyPath: m_CullingMask.m_Bits
-      value: 4294891976
-      objectReference: {fileID: 0}
-    - target: {fileID: 108400822810120162, guid: df8e4706d49f4d847ba9b44cbea1d5f2,
-        type: 2}
-      propertyPath: m_CullingMask.m_Bits
-      value: 4294901759
-      objectReference: {fileID: 0}
-    - target: {fileID: 114467414879400940, guid: df8e4706d49f4d847ba9b44cbea1d5f2,
-        type: 2}
-      propertyPath: bloomThreshold
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4442934521892410, guid: df8e4706d49f4d847ba9b44cbea1d5f2, type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4025449523703404, guid: df8e4706d49f4d847ba9b44cbea1d5f2, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4855393435770546, guid: df8e4706d49f4d847ba9b44cbea1d5f2, type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4442934521892410, guid: df8e4706d49f4d847ba9b44cbea1d5f2, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 6.81
-      objectReference: {fileID: 0}
-    - target: {fileID: 4442934521892410, guid: df8e4706d49f4d847ba9b44cbea1d5f2, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -13.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4855393435770546, guid: df8e4706d49f4d847ba9b44cbea1d5f2, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 6.79
-      objectReference: {fileID: 0}
-    - target: {fileID: 4855393435770546, guid: df8e4706d49f4d847ba9b44cbea1d5f2, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 13.91
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: df8e4706d49f4d847ba9b44cbea1d5f2, type: 2}
   m_IsPrefabParent: 0
@@ -8170,11 +8094,6 @@ Prefab:
     - target: {fileID: 1213532345909152, guid: 50360a37a244f4e4b83b9647a6f463cc, type: 2}
       propertyPath: m_Name
       value: BlueScore
-      objectReference: {fileID: 0}
-    - target: {fileID: 114167023246126692, guid: 50360a37a244f4e4b83b9647a6f463cc,
-        type: 2}
-      propertyPath: m_FontData.m_Alignment
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 50360a37a244f4e4b83b9647a6f463cc, type: 2}
