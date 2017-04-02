@@ -16,7 +16,7 @@ public class BlockWallGenerator : MonoBehaviour
     private int _consecutiveMovableBlocks;
     private int _consecutiveMovableBlocksBeforeImmovableBlock;
 
-    private float timeToScaleDifficulty = 120.0f;
+    private float timeToScaleDifficulty = 80.0f;
 
     void Start()
     {
@@ -43,11 +43,11 @@ public class BlockWallGenerator : MonoBehaviour
 
             GameObject newTopBlock;
             var maxChance = Mathf.Max(25, Mathf.RoundToInt(timeToScaleDifficulty) - Mathf.RoundToInt(Time.time));
-            if (_blockColumn.Blocks.Count > 9 && Random.Range(1, maxChance) <= 3)
+            if (_blockColumn.Blocks.Count > 8 && Random.Range(1, maxChance) <= 3)
             {
                 newTopBlock = Instantiate(BlockColumnManager.Instance.BombBlockPrefab);
             } 
-            else if (_blockColumn.Blocks.Count > 9 && _consecutiveMovableBlocks > _consecutiveMovableBlocksBeforeImmovableBlock)
+            else if (_blockColumn.Blocks.Count > 8 && _consecutiveMovableBlocks > _consecutiveMovableBlocksBeforeImmovableBlock)
             {
                 newTopBlock = Instantiate(BlockColumnManager.Instance.ImmovableBlockPrefab);
                 _consecutiveMovableBlocks = 0;
