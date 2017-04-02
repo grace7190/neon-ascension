@@ -28,10 +28,11 @@ public class PlayerDeathController : MonoBehaviour
                                && gameObject.transform.position.y < collidingObject.transform.position.y;
             if (isUnderBlock)
             {
-                var lastTouched = other.gameObject.GetComponent<Block>().LastTouchedTeam;
-                if (lastTouched != null && lastTouched != _playerTeam)
+                var blockComponent = other.gameObject.GetComponent<Block>();
+
+                if (blockComponent.HasLastTouchedTeam && blockComponent.LastTouchedTeam != _playerTeam)
                 {
-                    ScoreManager.Instance.IncrementScoreForTeamAndType(lastTouched, ScoreIncrementType.KillPlayerByCrush);
+                    ScoreManager.Instance.IncrementScoreForTeamAndType(blockComponent.LastTouchedTeam, ScoreIncrementType.KillPlayerByCrush);
                 }
                 KillPlayerByCrushing();
             }
