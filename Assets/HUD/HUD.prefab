@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 224211560466904686}
   - component: {fileID: 222877279373867944}
   - component: {fileID: 114293659805140148}
+  - component: {fileID: 114147540751379860}
   m_Layer: 5
   m_Name: BlueScore
   m_TagString: Untagged
@@ -213,6 +214,7 @@ GameObject:
   - component: {fileID: 224533071695686192}
   - component: {fileID: 222977673769198980}
   - component: {fileID: 114383680588339058}
+  - component: {fileID: 114019452219680366}
   m_Layer: 5
   m_Name: PurpleScore
   m_TagString: Untagged
@@ -425,6 +427,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &114019452219680366
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1762720108198344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6222f39c3858438ab1b650e618d3ca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EmphasizeAnimationTime: 1
+  EmphasizeFontSizeIncrease: 6
 --- !u!114 &114033150927650060
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -535,6 +550,19 @@ MonoBehaviour:
   PurpleText: {fileID: 114383680588339058}
   BlueScore: 0
   PurpleScore: 0
+--- !u!114 &114147540751379860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1160259089001598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6222f39c3858438ab1b650e618d3ca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EmphasizeAnimationTime: 1
+  EmphasizeFontSizeIncrease: 6
 --- !u!114 &114161706791298660
 MonoBehaviour:
   m_ObjectHideFlags: 1

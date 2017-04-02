@@ -90,12 +90,15 @@ public class FeedbackIcon : MonoBehaviour {
         iTween.ScaleTo(gameObject, args);
     }
 
-    private void StopCurrentTweenIfAnimating()
+    public void StopCurrentTweenIfAnimating()
     {
         if (_currentTween != null)
         {
-            iTween.StopByName(_currentTween);
-            _currentTween = null;
+            if (GetComponent<iTween>() != null)
+            {
+                iTween.StopByName(_currentTween);
+                _currentTween = null;
+            }
         }
     }
 

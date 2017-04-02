@@ -28,10 +28,11 @@ public class PlayerDeathController : MonoBehaviour
                                && gameObject.transform.position.y < collidingObject.transform.position.y;
             if (isUnderBlock)
             {
-                var lastTouched = other.gameObject.GetComponent<Block>().LastTouchedTeam;
-                if (lastTouched != null && lastTouched != _playerTeam)
+                var blockComponent = other.gameObject.GetComponent<Block>();
+
+                if (blockComponent.HasLastTouchedTeam && blockComponent.LastTouchedTeam != _playerTeam)
                 {
-                    ScoreManager.Instance.IncrementScoreForTeamAndType(lastTouched, ScoreIncrementType.KillPlayerByCrush);
+                    ScoreManager.Instance.IncrementScoreForTeamAndType(blockComponent.LastTouchedTeam, ScoreIncrementType.KillPlayerByCrush);
                 }
                 KillPlayerByCrushing();
             }
@@ -44,23 +45,37 @@ public class PlayerDeathController : MonoBehaviour
         }
     }
 
-    public void KillPlayerByCrushing() {
+    public void KillPlayerByCrushing()
+    {
         SpawnDeathParticlesAtPosition(gameObject.transform.parent.position + Vector3.up);
         ShakeCameraForTeam(_playerTeam);
         TeamLivesManager.Instance.HandlePlayerDeath(gameObject.transform.parent.gameObject);
     }
 
-    public void KillPlayerByFalling() {
-        if (_playerTeam == Team.Blue && gameObject.transform.position.z < -1)
+    public void KillPlayerByFalling()
+    {
+        if (_playerTeam == Team.Blue && gameObject.transform.position.z < -1.5f)
         {
             ScoreManager.Instance.IncrementScoreForTeamAndType(Team.Purple, ScoreIncrementType.KillPlayerByPush);
         }
-        else if (_playerTeam == Team.Purple && gameObject.transform.position.z > 1)
+        else if (_playerTeam == Team.Purple && gameObject.transform.position.z > 1.5f)
         {
             ScoreManager.Instance.IncrementScoreForTeamAndType(Team.Blue, ScoreIncrementType.KillPlayerByPush);
         }
 
-        SpawnFallDeathParticlesAtPosition(gameObject.transform.parent.position - Vector3.up * 4);
+        Vector3 forward;
+
+        if (_playerTeam == Team.Blue)
+        {
+            forward = Vector3.back;
+        }
+        else
+        {
+            forward = Vector3.forward;
+        }
+
+        SpawnFallDeathParticlesAtPosition(gameObject.transform.position - Vector3.up * 4 + forward);
+
         ShakeCameraForTeam(_playerTeam);
         TeamLivesManager.Instance.HandlePlayerDeath(gameObject.transform.parent.gameObject);
     }
