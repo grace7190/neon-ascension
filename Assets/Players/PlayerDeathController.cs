@@ -44,13 +44,15 @@ public class PlayerDeathController : MonoBehaviour
         }
     }
 
-    public void KillPlayerByCrushing() {
+    public void KillPlayerByCrushing()
+    {
         SpawnDeathParticlesAtPosition(gameObject.transform.parent.position + Vector3.up);
         ShakeCameraForTeam(_playerTeam);
         TeamLivesManager.Instance.HandlePlayerDeath(gameObject.transform.parent.gameObject);
     }
 
-    public void KillPlayerByFalling() {
+    public void KillPlayerByFalling()
+    {
         if (_playerTeam == Team.Blue && gameObject.transform.position.z < -1.5f)
         {
             ScoreManager.Instance.IncrementScoreForTeamAndType(Team.Purple, ScoreIncrementType.KillPlayerByPush);
@@ -60,7 +62,19 @@ public class PlayerDeathController : MonoBehaviour
             ScoreManager.Instance.IncrementScoreForTeamAndType(Team.Blue, ScoreIncrementType.KillPlayerByPush);
         }
 
-        SpawnFallDeathParticlesAtPosition(gameObject.transform.parent.position - Vector3.up * 4);
+        Vector3 forward;
+
+        if (_playerTeam == Team.Blue)
+        {
+            forward = Vector3.back;
+        }
+        else
+        {
+            forward = Vector3.forward;
+        }
+
+        SpawnFallDeathParticlesAtPosition(gameObject.transform.position - Vector3.up * 4 + forward);
+
         ShakeCameraForTeam(_playerTeam);
         TeamLivesManager.Instance.HandlePlayerDeath(gameObject.transform.parent.gameObject);
     }
