@@ -7,8 +7,9 @@ public class BlockRainGenerator : MonoBehaviour
     public GameObject BlockPrefab;
     public const float FallDelay = .3f;
 
-    private const float SpawnMinDelay = 1f;
-    private const float SpawnMaxDelay = 2f;
+    private const float SpawnMinDelay = 1.5f;
+    private const float SpawnMaxDelay = 3.5f;
+    private float timeToScaleSpawnRate = 120.0f;
 
     private float _spawnCooldown;
 
@@ -59,7 +60,7 @@ public class BlockRainGenerator : MonoBehaviour
 
     private void SetupNextSpawn()
     {
-        _spawnCooldown = Random.Range(SpawnMinDelay, SpawnMaxDelay);
+        _spawnCooldown = Random.Range(SpawnMinDelay, SpawnMaxDelay) * Mathf.Max(0.4f, (timeToScaleSpawnRate * 2 - Time.time) / timeToScaleSpawnRate * 2);
     }
 
     private Vector3 GetBlockSpawnPosition(BlockColumn blockColumn)

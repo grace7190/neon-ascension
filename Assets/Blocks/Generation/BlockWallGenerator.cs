@@ -4,8 +4,8 @@
 public class BlockWallGenerator : MonoBehaviour
 {
     public const int WallHeight = 15;
-    public const int ConsecutiveMovableBlockMin = 5;
-    public const int ConsecutiveMovableBlockMax = 12;
+    private int ConsecutiveMovableBlockMin;// = 5;
+    private int ConsecutiveMovableBlockMax;// = 12;
 
     public bool IsInitialized { get; private set; }
 
@@ -16,11 +16,15 @@ public class BlockWallGenerator : MonoBehaviour
     private int _consecutiveMovableBlocks;
     private int _consecutiveMovableBlocksBeforeImmovableBlock;
 
+    private float timeToScaleDifficulty = 80.0f;
+
     void Start()
     {
         IsInitialized = false;
         _blockColumn = GetComponent<BlockColumn>();
         _consecutiveMovableBlocks = 0;
+        ConsecutiveMovableBlockMin = 10;
+        ConsecutiveMovableBlockMax = 30;
         _consecutiveMovableBlocksBeforeImmovableBlock = Random.Range (ConsecutiveMovableBlockMin, ConsecutiveMovableBlockMax);
     }
 
@@ -38,15 +42,18 @@ public class BlockWallGenerator : MonoBehaviour
             }
 
             GameObject newTopBlock;
-            if (_blockColumn.Blocks.Count > 7 && Random.Range(1, 20) <= 2)
+            var maxChance = Mathf.Max(25, Mathf.RoundToInt(timeToScaleDifficulty) - Mathf.RoundToInt(Time.time));
+            if (_blockColumn.Blocks.Count > 8 && Random.Range(1, maxChance) <= 3)
             {
                 newTopBlock = Instantiate(BlockColumnManager.Instance.BombBlockPrefab);
             } 
-            else if (_blockColumn.Blocks.Count > 7 && _consecutiveMovableBlocks > _consecutiveMovableBlocksBeforeImmovableBlock)
+            else if (_blockColumn.Blocks.Count > 8 && _consecutiveMovableBlocks > _consecutiveMovableBlocksBeforeImmovableBlock)
             {
                 newTopBlock = Instantiate(BlockColumnManager.Instance.ImmovableBlockPrefab);
                 _consecutiveMovableBlocks = 0;
                 _consecutiveMovableBlocksBeforeImmovableBlock = Random.Range(ConsecutiveMovableBlockMin, ConsecutiveMovableBlockMax);
+                //decrease over time to half of original min/max
+                _consecutiveMovableBlocksBeforeImmovableBlock *= Mathf.RoundToInt(Mathf.Max(0.5f, (timeToScaleDifficulty*2 - Time.time) / timeToScaleDifficulty*2));
             }
             else
             {
