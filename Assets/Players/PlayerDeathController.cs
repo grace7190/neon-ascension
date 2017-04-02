@@ -51,11 +51,11 @@ public class PlayerDeathController : MonoBehaviour
     }
 
     public void KillPlayerByFalling() {
-        if (_playerTeam == Team.Blue && gameObject.transform.position.z < -1)
+        if (_playerTeam == Team.Blue && gameObject.transform.position.z < -1.5f)
         {
             ScoreManager.Instance.IncrementScoreForTeamAndType(Team.Purple, ScoreIncrementType.KillPlayerByPush);
         }
-        else if (_playerTeam == Team.Purple && gameObject.transform.position.z > 1)
+        else if (_playerTeam == Team.Purple && gameObject.transform.position.z > 1.5f)
         {
             ScoreManager.Instance.IncrementScoreForTeamAndType(Team.Blue, ScoreIncrementType.KillPlayerByPush);
         }

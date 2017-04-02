@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
     public void PerformDeathCleanup()
     {
         _detector.Reset();
-        _iconManager.HideCurrentIcon();
+        _iconManager.StopCurrentIcon();
     }
 
     public bool IsFacing(Vector3 direction)
