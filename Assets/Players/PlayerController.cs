@@ -287,7 +287,7 @@ public class PlayerController : MonoBehaviour
                 ScoreManager.Instance.IncrementScoreForTeamAndType(Team, ScoreIncrementType.PushWall);
             }
 
-            blockComponent.LastTouchedTeam = Team;
+            blockComponent.SetLastTouchedTeam(Team);
 
             StartCoroutine(PushBlockCoroutine(block));
         }
@@ -318,7 +318,7 @@ public class PlayerController : MonoBehaviour
                     }
                 }
 
-                blockComponent.LastTouchedTeam = Team;
+                blockComponent.SetLastTouchedTeam(Team);
 
                 StartCoroutine(PullBlockCoroutine(block, direction));
             }
