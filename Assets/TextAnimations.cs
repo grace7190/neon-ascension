@@ -63,9 +63,45 @@ public class TextAnimations : MonoBehaviour {
             });
     }
 
+    public void FadeOut(float duration, float delay = 0, Action completion = null)
+    {
+        FadeToFrom(1.0f, 0, duration, delay, completion);
+    }
+
+    public void FadeIn(float duration, float delay = 0.0f, Action completion = null)
+    {
+        FadeToFrom(0, 1.0f, duration, delay, completion);
+    }
+
+    public void AnimateNumberTextFromTo(float fromInt, float toInt, float duration, float delay = 0.0f, Action completion = null) {
+
+        Hashtable args =
+            iTween.Hash(
+                "from", fromInt,
+                "to", toInt,
+                "time", duration,
+                "delay", delay,
+                "easeType", iTween.EaseType.easeInOutSine,
+                "onupdateinline", (Action<object>)(updatedValue =>
+                {
+                    var value = (float)updatedValue;
+                    var intValue = (int)value;
+                    _text.text = intValue.ToString();
+                }),
+                "oncompleteinline",(Action<object>)(
+                    completeParameters =>
+                    {
+                        _text.text = toInt.ToString();
+                        if (completion != null)
+                            completion();
+                    }));
+
+        iTween.ValueTo(gameObject, args);
+    }
+
     private void TweenFontSize(int fromSize, int toSize, float animationTime, Action completion = null)
     {
-        Hashtable args = 
+        Hashtable args =
             iTween.Hash(
                 "from", fromSize,
                 "to", toSize,
@@ -87,7 +123,7 @@ public class TextAnimations : MonoBehaviour {
     {
         float FloatDistance = Mathf.Abs(transform.position.y - finalY);
 
-        Hashtable args = 
+        Hashtable args =
             iTween.Hash(
                 "y", FloatDistance,
                 "time", duration,
@@ -103,12 +139,12 @@ public class TextAnimations : MonoBehaviour {
         iTween.MoveBy(gameObject, args);
     }
 
-    private void FadeOut(float duration, float delay = 0, Action completion = null)
+    private void FadeToFrom(float fromAlpha, float toAlpha, float duration, float delay = 0, Action completion = null)
     {
-        Hashtable args = 
+        Hashtable args =
             iTween.Hash(
-                "from", 1.0f,
-                "to", 0.0f,
+                "from", fromAlpha,
+                "to", toAlpha,
                 "time", duration,
                 "delay", delay,
                 "easeType", iTween.EaseType.easeInOutSine,
