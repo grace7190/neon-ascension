@@ -48,19 +48,30 @@ public class BlockColumn : MonoBehaviour
 
     private IEnumerator BlockFallCoroutine(bool repeat)
     {
-        for (var i = 1; i < Blocks.Count; i++)
+        while (repeat)
         {
-            if (Blocks[i].transform.position.y - Blocks[i - 1].transform.position.y > 1.1)
+            for (var i = 0; i < Blocks.Count; i++)
             {
-                if (!Blocks[i].DidMakeFall)
+                if (i == 0)
                 {
-                    Blocks[i].MakeFallImmediately();
+                    if (Blocks[i].transform.position.y > BlockColumnManager.Instance.SupportBlockHeight + 1.0 &&
+                        !Blocks[i].DidMakeFall)
+                        Blocks[i].MakeFallImmediately();
+                }
+                else
+                {
+                    if (Blocks[i].transform.position.y - Blocks[i - 1].transform.position.y > 1.1)
+                    {
+                        if (!Blocks[i].DidMakeFall)
+                        {
+                            Blocks[i].MakeFallImmediately();
+                        }
+                    }
                 }
             }
+
+            yield return new WaitForSeconds(0.2f);
         }
-        yield return new WaitForSeconds(0.2f);
-        if (repeat)
-            StartCoroutine(BlockFallCoroutine(true));
     }
 
     public GameObject Remove(Vector3 position)
