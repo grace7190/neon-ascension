@@ -23,6 +23,12 @@ public class Block : MonoBehaviour {
     public bool HasLastTouchedTeam = false;
     public Team LastTouchedTeam;
 
+    //SHOULD GET TEXTURE BY NAME LOL
+    //TODO: NOT THIS
+    //public Texture2D btxtr1;
+    //public Texture2D btxtr2;
+    //public Texture2D btxtr3;
+
     protected Rigidbody _rigidbody;
 
     private const int CastMask = 1 << Layers.Player;
@@ -32,6 +38,15 @@ public class Block : MonoBehaviour {
 
     void Start ()
     {
+        //Texture2D[] textures = new Texture2D[] { btxtr1, btxtr2, btxtr3};
+        //int tIndex = UnityEngine.Random.Range(1, 10); //6 textures SORRY ITS HARD CODED OK
+        //String[] rot = new String[] { "a", "b", "c", "d" };
+        //int rIndex = UnityEngine.Random.Range(0, 4); //4 directions
+        //Debug.Log("blocktxt" + tIndex.ToString() + "a");// rot[rIndex]);
+        //Texture2D texture = Resources.Load("Textures/blocktxt" + tIndex.ToString() + "a") as Texture2D;
+        //Debug.Log(texture);
+        //gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", texture);
+
         Initialize();
     }
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
@@ -49,6 +50,27 @@ public class CameraController : MonoBehaviour {
     {
         var shakeParams = iTween.Hash("x", xMove, "y", yMove, "time", time);
         iTween.ShakePosition(GetCameraForTeam(team), shakeParams);
+        StartCoroutine(CameraGlitchCoroutine(team, time));
+    }
+
+    private IEnumerator CameraGlitchCoroutine(Team team, float time)
+    {
+        var maxIntensity = 0.3f;
+        var elapsedTime = 0.0f;
+        while (elapsedTime < time)
+        {
+            GetCameraForTeam(team).GetComponent<Kino.DigitalGlitch>().intensity = maxIntensity * (elapsedTime / time);
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        elapsedTime = 0.0f;
+        while (elapsedTime < time)
+        {
+            GetCameraForTeam(team).GetComponent<Kino.DigitalGlitch>().intensity = maxIntensity * (1-(elapsedTime / time));
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        GetCameraForTeam(team).GetComponent<Kino.DigitalGlitch>().intensity = 0.0f;
     }
 
     public GameObject GetCameraForTeam(Team team)

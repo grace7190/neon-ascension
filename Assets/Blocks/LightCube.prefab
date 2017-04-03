@@ -127,3 +127,6 @@ MonoBehaviour:
   DidMakeFall: 0
   GlowLightPrefab: {fileID: 1581865022257066, guid: 193aaeb4ad6074d8fbbf8994f3b43cb8,
     type: 2}
+  HasLastTouchedTeam: 0
+  LastTouchedTeam: 0
+  blockTexture: {fileID: 2800000, guid: 352239a3929797d43866a1880543c2a2, type: 3}
