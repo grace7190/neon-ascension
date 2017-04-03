@@ -22,8 +22,9 @@ GameObject:
   - component: {fileID: 33842065091737082}
   - component: {fileID: 65976524763692514}
   - component: {fileID: 23311063430240336}
+  - component: {fileID: 114388530281503946}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: DigitallyOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,3 +93,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114388530281503946
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1470074901612114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dd317d872be0644d99d9f4828d2c436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  txtr1: {fileID: 2800000, guid: d1b3a68600bc67342b0013178240e57e, type: 3}
+  txtr2: {fileID: 2800000, guid: 402d69325e632bf4e8335b14d6485b62, type: 3}
+  txtr3: {fileID: 2800000, guid: 1039ad91c1fb868499d728f2fc6dfee0, type: 3}
+  txtr4: {fileID: 2800000, guid: e67bceb4a60cfb44fb162912ef86fd5d, type: 3}
+  txtr5: {fileID: 2800000, guid: c03d6aa4062fa0845a16cf5ed00bb485, type: 3}
