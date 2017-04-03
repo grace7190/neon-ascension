@@ -37,7 +37,7 @@ public class TiltCamera : MonoBehaviour {
         // Tilt camera only when player has at least 1 life.
         if (player != null && player.activeInHierarchy) {
             float curDiff = Mathf.Floor (player.transform.position.y - supportBoxCollider.center.y);
-            float actDiff = curDiff - initDiff;
+			float actDiff = Mathf.Max(0, curDiff - initDiff);
             float curAngle = initAngle + anglePerDiff * actDiff;
             float curOffset = movePerDiff * actDiff; // How much the camera should have been offset
             float offsetDiff = curOffset - preOffset; // The Amount we need to move
