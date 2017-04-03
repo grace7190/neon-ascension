@@ -16,6 +16,7 @@ public class EndOfGameManager : MonoBehaviour
     public Text BlueFinalScore;
     public Text PurpleFinalScore;
 
+    public GameObject ScoreStatPrefab;
     public Text BlueStats;
     public Text PurpleStats;
 
@@ -55,12 +56,25 @@ public class EndOfGameManager : MonoBehaviour
             if (winningTeam == Team.Blue)
             {
                 ScoreManager.Instance.IncrementScoreForTeamAndType(Team.Blue, ScoreIncrementType.LifeBonus, TeamLivesManager.Instance.numBlueLives());
-                BlueStats.text = string.Format("+{0} lives left bonus\n+{1} winning bonus", TeamLivesManager.Instance.numBlueLives() * lifeBonus, winBonus);
+                //BlueStats.text = string.Format("+{0} lives left bonus\n+{1} winning bonus", TeamLivesManager.Instance.numBlueLives() * lifeBonus, winBonus);
+                var lifeScoreStat = Instantiate(ScoreStatPrefab, new Vector3(450.0f, 250.0f, 0.0f), Quaternion.identity);
+                lifeScoreStat.transform.SetParent(transform);
+                lifeScoreStat.GetComponent<Text>().text = string.Format("+{0} lives left bonus", TeamLivesManager.Instance.numBlueLives() * lifeBonus);
+                //lifeScoreStat.GetComponent<TextAnimations>().FadeAndMoveUp(BlueFinalScore.transform.position.y, completion:()=>{});
+
+                var winScoreStat = Instantiate(ScoreStatPrefab, new Vector3(450.0f, 250.0f, 0.0f), Quaternion.identity);
+                winScoreStat.transform.SetParent(transform);
+                winScoreStat.GetComponent<Text>().text = string.Format("+{0} winning bonus", winBonus);
+  //              winScoreStat.GetComponent<TextAnimations>().FadeAndMoveUp(BlueFinalScore.transform.position.y, delay:0.8f ,completion:()=>{});
+
+                //Destroy(scoreStat);
             } else
             {
                 ScoreManager.Instance.IncrementScoreForTeamAndType(Team.Purple, ScoreIncrementType.LifeBonus, TeamLivesManager.Instance.numBlueLives());
-
-                PurpleStats.text = string.Format("+{0} lives left bonus\n+{1} winning bonus", TeamLivesManager.Instance.numPurpleLives() * lifeBonus, winBonus);
+                var scoreStat = Instantiate(ScoreStatPrefab, new Vector3(-385, 250, 0), Quaternion.identity);
+                scoreStat.transform.SetParent(transform);
+                scoreStat.GetComponent<TextAnimations>().FadeAndMoveUp(PurpleFinalScore.transform.position.y, completion:() =>{});
+                //PurpleStats.text = string.Format("+{0} lives left bonus\n+{1} winning bonus", TeamLivesManager.Instance.numPurpleLives() * lifeBonus, winBonus);
             }
             transform.FindChild("WinnerText").GetComponent<Text>().text = winningTeam + " Wins";
             GetComponent<CanvasFader>().FadeIn();

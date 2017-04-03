@@ -7,22 +7,34 @@ using UnityEngine;
 
 public class TextAnimations : MonoBehaviour {
 
+    public float FadeAndMoveAnimationTime = 1.0f;
     public float EmphasizeAnimationTime = 1.0f;
     public int EmphasizeFontSizeIncrease = 6;
 
     private bool _isAnimating;
     private Text _text;
 
-	// Use this for initialization
-	void Start () {
-		_isAnimating = false;
+    // Use this for initialization
+    void Start () {
+        _isAnimating = false;
         _text = GetComponent<Text>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
+    
+    // Update is called once per frame
+    void Update () {
+        
+    }
+
+    public void FadeAndMoveUp(float finalY, float delay = 0.0f, Action completion = null)
+    {
+        FloatUp(finalY, FadeAndMoveAnimationTime, delay, completion:() => 
+        {
+            if (completion != null)
+                completion();
+        });
+
+        FadeOut(FadeAndMoveAnimationTime, delay);
+    } 
 
     public void Emphasize(Action completion = null)
     {
@@ -71,4 +83,48 @@ public class TextAnimations : MonoBehaviour {
         iTween.ValueTo(gameObject, args);
     }
 
+    private void FloatUp(float finalY, float duration, float delay, Action completion = null)
+    {
+        float FloatDistance = Mathf.Abs(transform.position.y - finalY);
+
+        Hashtable args = 
+            iTween.Hash(
+                "y", FloatDistance,
+                "time", duration,
+                "delay", delay,
+                "easeType", iTween.EaseType.easeInOutSine,
+                "oncompleteinline",(Action<object>)(
+                    completeParameters =>
+                    {   
+                        if (completion != null)
+                            completion();
+                    }));
+        
+        iTween.MoveBy(gameObject, args);
+    }
+
+    private void FadeOut(float duration, float delay = 0, Action completion = null)
+    {
+        Hashtable args = 
+            iTween.Hash(
+                "from", 1.0f,
+                "to", 0.0f,
+                "time", duration,
+                "delay", delay,
+                "easeType", iTween.EaseType.easeInOutSine,
+                "onupdateinline", (Action<object>)(updatedValue =>
+                {
+                    var color = _text.color;
+                    color.a = (float)updatedValue;
+                    _text.color = color;
+                }),
+                "oncompleteinline",(Action<object>)(
+                    completeParameters =>
+                    {
+                        if (completion != null)
+                            completion();
+                    }));
+
+        iTween.ValueTo(gameObject, args);
+    }
 }
