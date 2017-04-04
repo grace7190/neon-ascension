@@ -1034,13 +1034,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6d4281e5d7cd44d8c6e38bc2c1b8d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 0
+  mode: 1
   intensity: 0.3
-  chromaticAberration: 4
-  axialAberration: 0.5
+  chromaticAberration: 5
+  axialAberration: 2
   blur: 0
   blurSpread: 0.75
-  luminanceDependency: 0.25
+  luminanceDependency: 0.05
   blurDistance: 2.5
   vignetteShader: {fileID: 4800000, guid: 627943dc7a9a74286b70a4f694a0acd5, type: 3}
   separableBlurShader: {fileID: 4800000, guid: e97c14fbb5ea04c3a902cc533d7fc5d1, type: 3}
@@ -1156,13 +1156,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6d4281e5d7cd44d8c6e38bc2c1b8d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 0
+  mode: 1
   intensity: 0.3
-  chromaticAberration: 4
-  axialAberration: 0.5
+  chromaticAberration: 5
+  axialAberration: 2
   blur: 0
   blurSpread: 0.75
-  luminanceDependency: 0.25
+  luminanceDependency: 0.05
   blurDistance: 2.5
   vignetteShader: {fileID: 4800000, guid: 627943dc7a9a74286b70a4f694a0acd5, type: 3}
   separableBlurShader: {fileID: 4800000, guid: e97c14fbb5ea04c3a902cc533d7fc5d1, type: 3}
