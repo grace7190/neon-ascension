@@ -23,6 +23,12 @@ public class Block : MonoBehaviour {
     public bool HasLastTouchedTeam = false;
     public Team LastTouchedTeam;
 
+    //SHOULD GET TEXTURE BY NAME LOL
+    //TODO: NOT THIS
+    //public Texture2D btxtr1;
+    //public Texture2D btxtr2;
+    //public Texture2D btxtr3;
+
     protected Rigidbody _rigidbody;
 
     private const int CastMask = 1 << Layers.Player;

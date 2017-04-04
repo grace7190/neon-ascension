@@ -137,11 +137,12 @@ public class EndOfGameManager : MonoBehaviour
         case Team.Blue:
             currentDisplayedScore = int.Parse(BlueFinalScore.text);
             finalScore =  currentDisplayedScore + scoreChange;
-            BlueFinalScore.GetComponent<TextAnimations>().AnimateNumberTextFromTo(currentDisplayedScore, currentDisplayedScore + scoreChange, 0.05f);
+            BlueFinalScore.GetComponent<TextAnimations>().AnimateNumberTextFromTo(currentDisplayedScore, finalScore, 0.05f);
             break;
         case Team.Purple:
             currentDisplayedScore = int.Parse(PurpleFinalScore.text);
-            PurpleFinalScore.GetComponent<TextAnimations>().AnimateNumberTextFromTo(currentDisplayedScore, currentDisplayedScore + scoreChange, 0.05f);
+            finalScore =  currentDisplayedScore + scoreChange;
+            PurpleFinalScore.GetComponent<TextAnimations>().AnimateNumberTextFromTo(currentDisplayedScore, finalScore, 0.05f);
             break;
         }
     }
