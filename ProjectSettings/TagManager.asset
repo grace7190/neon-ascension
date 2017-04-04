@@ -28,8 +28,8 @@ TagManager:
   - Particles
   - Camera1TextMesh
   - Camera2TextMesh
-  - 
-  - 
+  - Camera1Only
+  - Canear2Only
   - 
   - 
   - 

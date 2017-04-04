@@ -182,7 +182,7 @@ public class ScoreManager : MonoBehaviour {
     {
         while(true)
         {
-            if (!GameController.Instance.GetIsPaused())
+            if (!GameController.Instance.GetIsPaused() && !EndOfGameManager.Instance.IsGameOver())
             {
                 IncrementBlue(TimeScorePair.score);
                 IncrementPurple(TimeScorePair.score);

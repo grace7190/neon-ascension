@@ -98,14 +98,14 @@ public class BombBlock : Block
 
             if (collider.gameObject.tag == Tags.Player)
             {
-                collider.gameObject.GetComponentInChildren<PlayerDeathController>().KillPlayerByCrushing();
-                Team team = collider.gameObject.GetComponent<PlayerController>().Team;
-
                 //add score to opponent when player dies to bomb that opponent pushed
+                Team team = collider.gameObject.GetComponent<PlayerController>().Team;
                 if (team != LastTouchedTeam)
                 {
                     ScoreManager.Instance.IncrementScoreForTeamAndType(LastTouchedTeam, ScoreIncrementType.KillPlayerByBomb);
                 }
+
+                collider.gameObject.GetComponentInChildren<PlayerDeathController>().KillPlayerByCrushing();
             }
         }
 
