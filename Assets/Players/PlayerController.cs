@@ -225,7 +225,7 @@ public class PlayerController : MonoBehaviour
                     Move(0.0f, 1.0f);
                 } else
                 {
-                    Move(0.0f, 1.0f);
+                    Move(0.0f, -1.0f);
                 }
             }
 

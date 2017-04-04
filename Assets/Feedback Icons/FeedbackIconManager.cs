@@ -104,7 +104,8 @@ public class FeedbackIconManager : MonoBehaviour {
     {
         IsAnimating = false;
         if (_currentIcon)
-            _currentIcon.StopCurrentTweenIfAnimating();
+            //_currentIcon.StopCurrentTweenIfAnimating();
+            Destroy(_currentIcon);
     }
 
     private void InstantiateAndShowIcon(GameObject prefab, IconType iconType, bool hideAutomatically = false, float hideDelay = 0.0f)
@@ -131,6 +132,10 @@ public class FeedbackIconManager : MonoBehaviour {
         IsAnimating = true;
         var iconGameObject = Instantiate(iconPrefab, transform.position, Quaternion.identity);
         iconGameObject.transform.SetParent(transform);
+        var offsetPosition = iconGameObject.transform.position;
+        offsetPosition.y = offsetPosition.y + iconGameObject.GetComponent<FeedbackIcon>().YOffset;
+        iconGameObject.transform.position = offsetPosition;
+
         _currentIcon = iconGameObject.GetComponent<FeedbackIcon>();
         _currentIcon.ScaleIn(() =>
         {
