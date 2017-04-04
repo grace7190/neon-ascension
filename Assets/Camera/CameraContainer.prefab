@@ -864,9 +864,7 @@ MonoBehaviour:
   blockColumnManager: {fileID: 0}
   maxAngleChange: 38
   maxMovement: 11
-  maxFrameUpdate: 20
-  minScreenBaseY: 50
-  maxScreenBaseY: 120
+  maxFrameUpdate: 30
 --- !u!114 &114185458595729824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1005,11 +1003,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   blockColumnManager: {fileID: 0}
-  maxAngleChange: 15
-  maxMovement: 2
-  maxFrameUpdate: 20
-  minScreenBaseY: 50
-  maxScreenBaseY: 120
+  maxAngleChange: 38
+  maxMovement: 11
+  maxFrameUpdate: 30
 --- !u!114 &114716386577208352
 MonoBehaviour:
   m_ObjectHideFlags: 1
