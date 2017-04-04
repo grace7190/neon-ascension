@@ -19,8 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4616089710815564}
-  - component: {fileID: 212623245379862638}
   - component: {fileID: 114920089497918524}
+  - component: {fileID: 212406569609180090}
+  - component: {fileID: 95200566301350602}
   m_Layer: 0
   m_Name: MoveTutorialIcon
   m_TagString: Untagged
@@ -35,12 +36,29 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1376517227825628}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 1}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &95200566301350602
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1376517227825628}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ffb7d3ce35c234adb80a1780ccfc6292, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114920089497918524
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -56,9 +74,8 @@ MonoBehaviour:
   AnimationTimeOut: 0.12
   AnimationTimeEmphasize: 0.2
   iconType: 2
-  BillboardToCamera: {fileID: 0}
   finalScale: {x: 0.3, y: 0.3, z: 0.3}
---- !u!212 &212623245379862638
+--- !u!212 &212406569609180090
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -89,7 +106,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: fbdf435ece334481daf5c8cdde2f8cfd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5b8f54cc8f4a14f27aed12ee2d7ea974, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
