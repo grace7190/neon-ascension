@@ -13,6 +13,7 @@ public class SpotlightController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        gameObject.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
+        if (player != null)
+            gameObject.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
     }
 }
