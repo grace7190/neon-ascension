@@ -131,6 +131,10 @@ public class FeedbackIconManager : MonoBehaviour {
         IsAnimating = true;
         var iconGameObject = Instantiate(iconPrefab, transform.position, Quaternion.identity);
         iconGameObject.transform.SetParent(transform);
+        var offsetPosition = iconGameObject.transform.position;
+        offsetPosition.y = offsetPosition.y + iconGameObject.GetComponent<FeedbackIcon>().YOffset;
+        iconGameObject.transform.position = offsetPosition;
+
         _currentIcon = iconGameObject.GetComponent<FeedbackIcon>();
         _currentIcon.ScaleIn(() =>
         {

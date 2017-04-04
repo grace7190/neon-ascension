@@ -8,6 +8,7 @@ public class FeedbackIcon : MonoBehaviour {
     public float AnimationTimeIn = 0.1f;
     public float AnimationTimeOut = 0.1f;
     public float AnimationTimeEmphasize = 0.2f;
+    public float YOffset = 0.0f; //The Y offset that is used when instantiated
     public IconType iconType;
 
     public Vector3 finalScale = new Vector3(0.2f, 0.2f, 0.2f);

@@ -51,7 +51,7 @@ Animator:
   m_GameObject: {fileID: 1376517227825628}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ffb7d3ce35c234adb80a1780ccfc6292, type: 2}
+  m_Controller: {fileID: 9100000, guid: e935ac79b58134a47af6ceb9c1f99196, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -73,8 +73,9 @@ MonoBehaviour:
   AnimationTimeIn: 0.12
   AnimationTimeOut: 0.12
   AnimationTimeEmphasize: 0.2
+  YOffset: 1
   iconType: 2
-  finalScale: {x: 0.3, y: 0.3, z: 0.3}
+  finalScale: {x: 1, y: 1, z: 1}
 --- !u!212 &212406569609180090
 SpriteRenderer:
   m_ObjectHideFlags: 1
