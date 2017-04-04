@@ -65,7 +65,7 @@ Shader "XRay Shaders/ColoredOutline"
 
 			fixed4 frag (v2f i) : SV_Target
 			{
-				float NdotV = 1 - dot(i.normal, i.viewDir) * 1.5;
+				float NdotV = 1 - dot(i.normal, i.viewDir) * 0.75f;
 				return _EdgeColor * NdotV;
 			}
 

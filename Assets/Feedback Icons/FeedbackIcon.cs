@@ -102,5 +102,4 @@ public class FeedbackIcon : MonoBehaviour {
             }
         }
     }
-
 }

@@ -31,7 +31,7 @@ public class BlockColumn : MonoBehaviour
         {
             var currBlock = Blocks[i];
             var prevBlock = Blocks[i - 1];
-            if (currBlock.transform.position.y - prevBlock.transform.position.y > 1)
+            if (currBlock.transform.position.y - prevBlock.transform.position.y > 2)
             {
                 isCompacted = false;
                 _blockFallIndicator.transform.position = prevBlock.transform.position + Vector3.up;

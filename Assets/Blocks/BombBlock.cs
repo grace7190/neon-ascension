@@ -58,58 +58,102 @@ public class BombBlock : Block
 
     private void Detonate()
     {
-        
-        Vector3 blockPosition;
-        BlockColumn col;
-        blockPosition = gameObject.transform.parent.localPosition;
+        try {
+            Vector3 blockPosition;
+            BlockColumn col;
+            blockPosition = gameObject.transform.parent.localPosition;
 
-        _audio.clip = ExplosionClip;
-        _audio.Play ();
+            _audio.clip = ExplosionClip;
+            _audio.Play ();
 
-        // Remove bomb from column
-        blockPosition = gameObject.transform.parent.localPosition;
-        col = BlockColumnManager.Instance.GetBlockColumnAtLocalPosition(blockPosition);
-        col.Remove(gameObject.transform.position);
+            // Remove bomb from column
+            blockPosition = gameObject.transform.parent.localPosition;
+            col = BlockColumnManager.Instance.GetBlockColumnAtLocalPosition(blockPosition);
+            col.Remove(gameObject.transform.position);
 
-        // Render effects
-        ShakeCamera();
-        StartExplosionParticlesAtPosition(transform.position);
+            // Render effects
+            ShakeCamera();
+            StartExplosionParticlesAtPosition(transform.position);
 
-        // Use Physics.OverlapBox to find everything in radius of box
-        Collider[] objectsInRange = Physics.OverlapBox(gameObject.transform.position, new Vector3(1.0f, 1.0f, 1.0f));
-        foreach (Collider collider in objectsInRange)
-        {
-            if (collider.gameObject.tag == Tags.Block && collider.gameObject != gameObject)
+            // Use Physics.OverlapBox to find everything in radius of box
+            Collider[] objectsInRange = Physics.OverlapBox(gameObject.transform.position, new Vector3(1.0f, 1.0f, 1.0f));
+            foreach (Collider collider in objectsInRange)
             {
-                StartBlockDestructionParticlesAtPosition(collider.transform.position, collider.gameObject.GetComponent<Block>().BaseColor);
-
-                if (collider.transform.parent != null)
+                if (collider.gameObject.tag == Tags.Block && collider.gameObject != gameObject)
                 {
-                    blockPosition = collider.gameObject.transform.parent.localPosition;
-                    col = BlockColumnManager.Instance.GetBlockColumnAtLocalPosition(blockPosition);
-                    col.DestroyBlockAtPosition(collider.gameObject.transform.position);
-                }
-                else
-                {
-                    Destroy(collider.gameObject);
+                    StartBlockDestructionParticlesAtPosition(collider.transform.position, collider.gameObject.GetComponent<Block>().BaseColor);
+
+                    if (collider.transform.parent != null)
+                    {
+                        blockPosition = collider.gameObject.transform.parent.localPosition;
+                        col = BlockColumnManager.Instance.GetBlockColumnAtLocalPosition(blockPosition);
+                        col.DestroyBlockAtPosition(collider.gameObject.transform.position);
+                    }
+                    else
+                    {
+                        Destroy(collider.gameObject);
+                    }
+
                 }
 
+                if (collider.gameObject.tag == Tags.Player)
+                {
+                    //add score to opponent when player dies to bomb that opponent pushed
+                    Team team = collider.gameObject.GetComponent<PlayerController>().Team;
+                    if (team != LastTouchedTeam)
+                    {
+                        ScoreManager.Instance.IncrementScoreForTeamAndType(LastTouchedTeam, ScoreIncrementType.KillPlayerByBomb);
+                    }
+
+                    collider.gameObject.GetComponentInChildren<PlayerDeathController>().KillPlayerByCrushing();
+                }
             }
 
-            if (collider.gameObject.tag == Tags.Player)
-            {
-                //add score to opponent when player dies to bomb that opponent pushed
-                Team team = collider.gameObject.GetComponent<PlayerController>().Team;
-                if (team != LastTouchedTeam)
-                {
-                    ScoreManager.Instance.IncrementScoreForTeamAndType(LastTouchedTeam, ScoreIncrementType.KillPlayerByBomb);
-                }
-
-                collider.gameObject.GetComponentInChildren<PlayerDeathController>().KillPlayerByCrushing();
-            }
+            StartCoroutine(CleanupCoroutine());
         }
+        catch (Exception) {
+            _audio.clip = ExplosionClip;
+            _audio.Play ();
+            // Render effects
+            ShakeCamera();
+            StartExplosionParticlesAtPosition(transform.position);
 
-        StartCoroutine(CleanupCoroutine());
+            // Use Physics.OverlapBox to find everything in radius of box
+            Collider[] objectsInRange = Physics.OverlapBox(gameObject.transform.position, new Vector3(1.0f, 1.0f, 1.0f));
+            foreach (Collider collider in objectsInRange)
+            {
+                if (collider.gameObject.tag == Tags.Block && collider.gameObject != gameObject)
+                {
+                    StartBlockDestructionParticlesAtPosition(collider.transform.position, collider.gameObject.GetComponent<Block>().BaseColor);
+
+                    if (collider.transform.parent != null)
+                    {
+                        var blockPosition = collider.gameObject.transform.parent.localPosition;
+                        var col = BlockColumnManager.Instance.GetBlockColumnAtLocalPosition(blockPosition);
+                        col.DestroyBlockAtPosition(collider.gameObject.transform.position);
+                    }
+                    else
+                    {
+                        Destroy(collider.gameObject);
+                    }
+
+                }
+
+                if (collider.gameObject.tag == Tags.Player)
+                {
+                    //add score to opponent when player dies to bomb that opponent pushed
+                    Team team = collider.gameObject.GetComponent<PlayerController>().Team;
+                    if (team != LastTouchedTeam)
+                    {
+                        ScoreManager.Instance.IncrementScoreForTeamAndType(LastTouchedTeam, ScoreIncrementType.KillPlayerByBomb);
+                    }
+
+                    collider.gameObject.GetComponentInChildren<PlayerDeathController>().KillPlayerByCrushing();
+                }
+            }
+
+            StartCoroutine(CleanupCoroutine());
+        }
     }
 
     private void ShakeCamera()
