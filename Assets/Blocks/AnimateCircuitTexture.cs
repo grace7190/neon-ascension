@@ -47,4 +47,6 @@ public class AnimateCircuitTexture : MonoBehaviour {
         }
         StartCoroutine(TextureChangeCoroutine(duration));
     }
+
+    //every some seconds, spawn a new instance at +20yposition
 }

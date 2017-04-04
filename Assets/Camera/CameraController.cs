@@ -55,7 +55,7 @@ public class CameraController : MonoBehaviour {
 
     private IEnumerator CameraGlitchCoroutine(Team team, float time)
     {
-        var maxIntensity = 0.3f;
+        var maxIntensity = 0.5f;
         var elapsedTime = 0.0f;
         while (elapsedTime < time)
         {
