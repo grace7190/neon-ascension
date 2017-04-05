@@ -12,8 +12,12 @@ public class MirrorCamera : MonoBehaviour {
 	}
 
 	void OnPreCull () {
-		//cam.ResetWorldToCameraMatrix ();
-		//cam.ResetProjectionMatrix ();
+
+        if (cam == null)
+            cam = GetComponent<Camera> ();
+
+		cam.ResetWorldToCameraMatrix ();
+		cam.ResetProjectionMatrix ();
 		Vector3 v = new Vector3 (-1, 1, 1);
 		Matrix4x4 mat= Matrix4x4.Scale (v);
 		cam.projectionMatrix = cam.projectionMatrix * mat;

@@ -97,8 +97,15 @@ using UnityEngine;
                 Vector4 clipPlane = CameraSpacePlane(reflectionCamera, pos, normal, 1.0f);
                 reflectionCamera.projectionMatrix = cam.CalculateObliqueMatrix(clipPlane);
 
-                // Set custom culling matrix from the current camera
-                reflectionCamera.cullingMatrix = cam.projectionMatrix * cam.worldToCameraMatrix;
+                if (cam.gameObject.GetComponent<MirrorCamera>())
+                {
+                    // Let Mirror Camera handle the culling matrix
+                    reflectionCamera.gameObject.AddComponent<MirrorCamera>();
+                }
+                else {
+                    // Set custom culling matrix from the current camera
+                    reflectionCamera.cullingMatrix = cam.projectionMatrix * cam.worldToCameraMatrix;
+                }
 
                 reflectionCamera.cullingMask = ~(1 << 4) & reflectLayers.value; // never render water layer
                 reflectionCamera.targetTexture = m_ReflectionTexture;
@@ -124,16 +131,10 @@ using UnityEngine;
                 refractionCamera.projectionMatrix = cam.CalculateObliqueMatrix(clipPlane);
 
                 // Set custom culling matrix from the current camera
-
-                if (cam.name.Equals("Camera 2"))
+                if (cam.gameObject.GetComponent<MirrorCamera>())
                 {
-//                    Vector3 v = new Vector3 (-1, 1, 1);
-//                    Matrix4x4 mat= Matrix4x4.Scale (v);
-//                    refractionCamera.cullingMatrix = cam.projectionMatrix * mat;
+                    // Let Mirror Camera handle the culling matrix
                     refractionCamera.gameObject.AddComponent<MirrorCamera>();
-
-
-                    //cam.projectionMatrix = cam.projectionMatrix * mat;
                 }
                 else {
                     refractionCamera.cullingMatrix = cam.projectionMatrix * cam.worldToCameraMatrix;
@@ -266,11 +267,7 @@ using UnityEngine;
             dest.aspect = src.aspect;
             dest.orthographicSize = src.orthographicSize;
 
-            if (src.name.Equals("Camera 2")) {
-                Vector3 v = new Vector3 (-1, 1, 1);
-                Matrix4x4 mat= Matrix4x4.Scale (v);
-                dest.projectionMatrix = dest.projectionMatrix * mat;
-            }
+
         }
 
 
