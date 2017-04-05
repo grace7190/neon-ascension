@@ -12,6 +12,7 @@ public class FeedbackIconManager : MonoBehaviour {
     public GameObject PullFromWallPrefab;
     public GameObject PushFromWallPrefab;
     public bool IsAnimating = false;
+    public int TextCameraLayer;
 
     private FeedbackIcon _currentIcon;
 
@@ -130,6 +131,11 @@ public class FeedbackIconManager : MonoBehaviour {
     {
         IsAnimating = true;
         var iconGameObject = Instantiate(iconPrefab, transform.position, Quaternion.identity);
+
+        if (TextCameraLayer > 0) {
+            iconGameObject.layer = TextCameraLayer;
+        }
+
         iconGameObject.transform.SetParent(transform);
         var offsetPosition = iconGameObject.transform.position;
         offsetPosition.y = offsetPosition.y + iconGameObject.GetComponent<FeedbackIcon>().YOffset;
