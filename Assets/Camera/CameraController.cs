@@ -32,18 +32,6 @@ public class CameraController : MonoBehaviour {
             var numberOfIncreases = (int)(Time.timeSinceLevelLoad / VelocityIncreasePerSeconds);
             transform.position += Velocity * (1 + numberOfIncreases) * Time.deltaTime;
         }
-
-        // sorry this is hack -g
-        if (Time.time > 29.0 & Time.time < 29.1)
-        {
-            IncreaseBGMVolume();
-        }
-    }
-
-    public void IncreaseBGMVolume()
-    {
-        var audio = GetComponent<AudioSource>();
-        audio.volume = 0.7f;
     }
 
     public void ShakeCameraForTeam(Team team, float time, float xMove, float yMove)

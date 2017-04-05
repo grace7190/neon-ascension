@@ -1644,6 +1644,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TextGroupPrefab: {fileID: 1344094510643786, guid: 30016f566ba0046338966b5f712a98d1,
     type: 2}
+  TextCameraLayer: 16
 --- !u!114 &114228573744385446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1711,6 +1712,7 @@ MonoBehaviour:
   PushFromWallPrefab: {fileID: 1438893214658288, guid: b3a3272a2688e47c8a4312ec6b8faf1f,
     type: 2}
   IsAnimating: 0
+  IconCameraLayer: 16
 --- !u!114 &114595331732589560
 MonoBehaviour:
   m_ObjectHideFlags: 1

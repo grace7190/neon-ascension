@@ -86,5 +86,6 @@ public class TiltCamera : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        GameController.Instance.EnableGame();
     }
 }
