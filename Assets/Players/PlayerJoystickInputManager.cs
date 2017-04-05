@@ -58,7 +58,7 @@ public class PlayerJoystickInputManager : MonoBehaviour
 
         _controller = GetComponent<PlayerController>();
     }
-
+    
     void Update()
     {
         if (Input.GetKeyDown(PauseKeyCode) || Input.GetKeyDown(_joystickPauseKey))

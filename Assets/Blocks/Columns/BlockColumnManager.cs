@@ -6,7 +6,7 @@ using UnityEngine;
 public class BlockColumnManager : MonoBehaviour
 {
     public const int Depth = 3;
-    public const int Width = 10;
+    public const int Width = 8;
     public const int WallZIndex = 1;
     public const int BlueTeamZIndex = 0;
     public const int PurpleTeamZIndex = 2;
