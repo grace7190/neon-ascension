@@ -98,7 +98,8 @@ public class BlockColumnManager : MonoBehaviour
     public void SlideBlockWithEaseInAndLights(GameObject block, Vector3 direction)
     {
         SlideBlockWithEaseIn(block, direction);
-        block.GetComponent<Block>().SetOffGlowLight();
+        if(block != null)
+            block.GetComponent<Block>().SetOffGlowLight();
     }
 
     public void SlideBlock(GameObject block, Vector3 direction)
@@ -110,6 +111,16 @@ public class BlockColumnManager : MonoBehaviour
 
     public void SlideBlockWithEaseIn(GameObject block, Vector3 direction)
     {
+        if (block == null)
+        {
+            Debug.Log("block is null");
+        }
+
+        if (block.transform.parent == null)
+        {
+            Debug.Log("block parent is null");
+        }
+
         var oldBlockColumn = GetBlockColumnAtLocalPosition(block.transform.parent.localPosition);
         var newBlockColumn = GetBlockColumnAtLocalPosition(block.transform.parent.localPosition + direction);
         var removedBlock = oldBlockColumn.Remove(block.transform.position);
