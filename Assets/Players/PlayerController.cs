@@ -109,15 +109,15 @@ public class PlayerController : MonoBehaviour
             var isWalking = isMovingHorizontally || isMovingVertically;
 
             //prevent player from walking off wall
-            if (transform.position.x > 4.20f)
+            if (transform.position.x > 3.20f)
             {
                 velocity.x = 0;
-                transform.position = new Vector3(4.19f, transform.position.y, transform.position.z);
+                transform.position = new Vector3(3.19f, transform.position.y, transform.position.z);
             }
-            else if (transform.position.x < -5.40)
+            else if (transform.position.x < -4.40)
             {
                 velocity.x = 0;
-                transform.position = new Vector3(-5.39f, transform.position.y, transform.position.z);
+                transform.position = new Vector3(-4.39f, transform.position.y, transform.position.z);
             }
             else
             {
