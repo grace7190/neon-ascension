@@ -16,6 +16,7 @@ public class EndOfGameManager : MonoBehaviour
     private CanvasFader _screenFader;
     private bool _isGameOver;
     private bool _isRestarting;
+    private GameObject player1, player2;
 
     public Text BlueFinalScore;
     public Text PurpleFinalScore;
@@ -30,6 +31,8 @@ public class EndOfGameManager : MonoBehaviour
     void Start()
     {
         _screenFader = GameObject.Find("ScreenFader").GetComponent<CanvasFader>();
+        player1 = GameObject.Find("Player 1");
+        player2 = GameObject.Find("Player 2");
     }
 
     void Update()
@@ -50,6 +53,9 @@ public class EndOfGameManager : MonoBehaviour
         if (!_isGameOver)
         {
             _isGameOver = true;
+            player1.GetComponent<PlayerJoystickInputManager>().enabled = false;
+            player2.GetComponent<PlayerJoystickInputManager>().enabled = false;
+
             var lifeBonus = ScoreManager.Instance.LivesBonusScorePair.score;
             var winBonus = ScoreManager.Instance.WinBonusScorePair.score;
 

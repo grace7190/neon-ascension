@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour
             !_isPulling &&
             IsGrounded())
         {
-            SFXJump.Play();
+            //SFXJump.Play();
             _rigidbody.AddForce(Vector3.up * InitialJumpVerticalSpeed, ForceMode.Impulse);
             _anim.Play(AnimationParameters.JumpTakeoffName);
             _anim.SetBool(AnimationParameters.IsJumpingMidair, true);
