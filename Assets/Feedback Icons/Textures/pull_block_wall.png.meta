@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: c8e933955d7aa4d5bb3edaa7eed1743d
-timeCreated: 1491370485
+guid: 6f3a42aa7ec3f4a938503510b6d375a1
+timeCreated: 1491370164
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: a_jump_0
-    21300002: a_jump_1
+    21300000: pull_block_wall_0
+    21300002: pull_block_wall_1
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -72,7 +72,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: a_jump_0
+      name: pull_block_wall_0
       rect:
         serializedVersion: 2
         x: 0
@@ -85,7 +85,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: a_jump_1
+      name: pull_block_wall_1
       rect:
         serializedVersion: 2
         x: 600

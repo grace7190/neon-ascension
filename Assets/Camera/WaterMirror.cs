@@ -99,7 +99,6 @@ using UnityEngine;
 
                 if (cam.gameObject.GetComponent<MirrorCamera>())
                 {
-                Debug.Log("cake1");
                     // Let Mirror Camera handle the culling matrix
                     //reflectionCamera.gameObject.AddComponent<MirrorCamera>();
                     reflectionCamera.cullingMask = ~(1 << 4) & reflectLayers.value; // never render water layer
@@ -145,7 +144,6 @@ using UnityEngine;
                 // Set custom culling matrix from the current camera
                 if (cam.gameObject.GetComponent<MirrorCamera>())
                 {
-                Debug.Log("cak2e");
                     // Let Mirror Camera handle the culling matrix
                     refractionCamera.gameObject.AddComponent<MirrorCamera>();
                 }

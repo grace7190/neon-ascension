@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 8c2ec3d298369410ba37afa906e725c3
-timeCreated: 1491364089
+guid: c53a964afd48d44adbe9089526c7aef6
+timeCreated: 1491370503
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: a_jump_simple_0
-    21300002: a_jump_simple_1
+    21300000: stick_move_0
+    21300002: stick_move_1
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -61,7 +61,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
   - buildTarget: Standalone
-    maxTextureSize: 8192
+    maxTextureSize: 2048
     textureFormat: 12
     textureCompression: 1
     compressionQuality: 50
@@ -72,7 +72,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: a_jump_simple_0
+      name: stick_move_0
       rect:
         serializedVersion: 2
         x: 0
@@ -85,7 +85,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: a_jump_simple_1
+      name: stick_move_1
       rect:
         serializedVersion: 2
         x: 600

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4636668178530824}
   - component: {fileID: 212309348213568758}
   - component: {fileID: 114186329735441360}
+  - component: {fileID: 95147800255094626}
   m_Layer: 0
   m_Name: PullSideTutorialIcon
   m_TagString: Untagged
@@ -41,6 +42,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &95147800255094626
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1116023924438666}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d053fb94ec1084f12ac0ded22279e5e6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114186329735441360
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -55,9 +73,9 @@ MonoBehaviour:
   AnimationTimeIn: 0.12
   AnimationTimeOut: 0.12
   AnimationTimeEmphasize: 0.2
+  YOffset: 1.5
   iconType: 5
-  BillboardToCamera: {fileID: 0}
-  finalScale: {x: 0.3, y: 0.3, z: 0.3}
+  finalScale: {x: 0.5, y: 0.5, z: 0.5}
 --- !u!212 &212309348213568758
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -89,7 +107,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c6fbea1b1aba74c6eaaabf4d61732e81, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6605407a8171942df921608122e489e2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
