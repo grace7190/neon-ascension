@@ -29,11 +29,16 @@ public class TeamLivesManager : MonoBehaviour
 
     void Start()
     {
-        UpdateHud();
 		SFXDeath = GetComponent<AudioSource>();
         DeathEnabled = false;
 		blockRainGenerator = GameObject.Find ("BlockColumnManager").GetComponent<BlockRainGenerator> ();
 		//SFXDeath = audioSource;
+    }
+
+    public void enableHUD()
+    {
+        DeathEnabled = true;
+        UpdateHud();
     }
 
     public int numBlueLives()
@@ -86,7 +91,10 @@ public class TeamLivesManager : MonoBehaviour
                 break;
         }
 
-        UpdateHud();
+        if (DeathEnabled)
+        {
+            UpdateHud();
+        }
     }
 
     private void UpdateHud()

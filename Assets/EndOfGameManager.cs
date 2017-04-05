@@ -16,6 +16,7 @@ public class EndOfGameManager : MonoBehaviour
     private CanvasFader _screenFader;
     private bool _isGameOver;
     private bool _isRestarting;
+    private bool _canRestart;
     private GameObject player1, player2;
 
     public Text BlueFinalScore;
@@ -37,7 +38,7 @@ public class EndOfGameManager : MonoBehaviour
 
     void Update()
     {
-        if (_isGameOver && Input.GetButton("Submit"))
+        if (_isGameOver && _canRestart && Input.GetButton("Submit"))
         {
             if (!_isRestarting)
             {
@@ -94,6 +95,7 @@ public class EndOfGameManager : MonoBehaviour
 
             transform.FindChild("WinnerText").GetComponent<Text>().text = winningTeam + " Wins";
             GetComponent<CanvasFader>().FadeIn();
+            StartCoroutine(AllowRestartCoroutine(2 * (ScoreStatOnScreenDuration + ScoreStatFadeInDuration + DelayBetweenScoreStats)));
         }
     }
 
@@ -227,5 +229,11 @@ public class EndOfGameManager : MonoBehaviour
         yield return new WaitForSeconds(_screenFader.FadeInTime);
         yield return new WaitForSeconds(RestartTransitionTime);
         SceneManager.LoadScene(Scenes.Game);
+    }
+
+    private IEnumerator AllowRestartCoroutine(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        _canRestart = true;
     }
 }
