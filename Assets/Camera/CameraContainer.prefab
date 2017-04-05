@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 33142187245385278}
   - component: {fileID: 23235426060683384}
   - component: {fileID: 114702560764707566}
+  - component: {fileID: 114709720578289400}
   m_Layer: 4
   m_Name: WaterProNighttime
   m_TagString: Untagged
@@ -1098,9 +1099,30 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1286089261387206}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a3d3ef1a5bbfb4e0a910fbbe5830b1f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterMode: 2
+  disablePixelLights: 1
+  textureSize: 256
+  clipPlaneOffset: 0.07
+  reflectLayers:
+    serializedVersion: 2
+    m_Bits: 4294942719
+  refractLayers:
+    serializedVersion: 2
+    m_Bits: 4294942719
+--- !u!114 &114709720578289400
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1286089261387206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d8536df0964543feb3dbb9ec63a37f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   waterMode: 2
