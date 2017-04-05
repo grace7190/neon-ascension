@@ -54,7 +54,7 @@ public class BlockRainGenerator : MonoBehaviour
 				block.GetComponent<Block> ().MakeFallAfterDelay (FallDelay);
 				SetupNextSpawn ();
 			} else {
-				for (int i = 0; i < BlockColumnManager.Width; i++) {
+				for (int i = 0; i < openBlockColumns.Count; i++) {
 					var openBlockColumn = openBlockColumns [i];
 					var block = Instantiate (BlockPrefab);
 					block.transform.position = GetBlockSpawnPosition (openBlockColumn);
