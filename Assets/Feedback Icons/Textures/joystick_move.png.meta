@@ -1,49 +1,49 @@
 fileFormatVersion: 2
-guid: 5b8f54cc8f4a14f27aed12ee2d7ea974
-timeCreated: 1491270314
+guid: 1b96b55ae2e1d4493bb7aada6e5828dd
+timeCreated: 1491350132
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: moveStick_0
-    21300002: moveStick_1
-    21300004: moveStick_2
-    21300006: moveStick_3
-    21300008: moveStick_4
-    21300010: moveStick_5
-    21300012: moveStick_6
-    21300014: moveStick_7
-    21300016: moveStick_8
-    21300018: moveStick_9
-    21300020: moveStick_10
-    21300022: moveStick_11
-    21300024: moveStick_12
-    21300026: moveStick_13
-    21300028: moveStick_14
-    21300030: moveStick_15
-    21300032: moveStick_16
-    21300034: moveStick_17
-    21300036: moveStick_18
-    21300038: moveStick_19
-    21300040: moveStick_20
-    21300042: moveStick_21
-    21300044: moveStick_22
-    21300046: moveStick_23
-    21300048: moveStick_24
-    21300050: moveStick_25
-    21300052: moveStick_26
-    21300054: moveStick_27
-    21300056: moveStick_28
-    21300058: moveStick_29
-    21300060: moveStick_30
-    21300062: moveStick_31
-    21300064: moveStick_32
-    21300066: moveStick_33
-    21300068: moveStick_34
-    21300070: moveStick_35
-    21300072: moveStick_36
-    21300074: moveStick_37
-    21300076: moveStick_38
-    21300078: moveStick_39
+    21300000: joystick_move_0
+    21300002: joystick_move_1
+    21300004: joystick_move_2
+    21300006: joystick_move_3
+    21300008: joystick_move_4
+    21300010: joystick_move_5
+    21300012: joystick_move_6
+    21300014: joystick_move_7
+    21300016: joystick_move_8
+    21300018: joystick_move_9
+    21300020: joystick_move_10
+    21300022: joystick_move_11
+    21300024: joystick_move_12
+    21300026: joystick_move_13
+    21300028: joystick_move_14
+    21300030: joystick_move_15
+    21300032: joystick_move_16
+    21300034: joystick_move_17
+    21300036: joystick_move_18
+    21300038: joystick_move_19
+    21300040: joystick_move_20
+    21300042: joystick_move_21
+    21300044: joystick_move_22
+    21300046: joystick_move_23
+    21300048: joystick_move_24
+    21300050: joystick_move_25
+    21300052: joystick_move_26
+    21300054: joystick_move_27
+    21300056: joystick_move_28
+    21300058: joystick_move_29
+    21300060: joystick_move_30
+    21300062: joystick_move_31
+    21300064: joystick_move_32
+    21300066: joystick_move_33
+    21300068: joystick_move_34
+    21300070: joystick_move_35
+    21300072: joystick_move_36
+    21300074: joystick_move_37
+    21300076: joystick_move_38
+    21300078: joystick_move_39
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -80,7 +80,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 250
+  spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -110,520 +110,520 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: moveStick_0
+      name: joystick_move_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 1176
-        width: 392
-        height: 392
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_1
+      name: joystick_move_1
       rect:
         serializedVersion: 2
-        x: 392
-        y: 1176
-        width: 392
-        height: 392
+        x: 600
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_2
+      name: joystick_move_2
       rect:
         serializedVersion: 2
-        x: 784
-        y: 1176
-        width: 392
-        height: 392
+        x: 1200
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_3
+      name: joystick_move_3
       rect:
         serializedVersion: 2
-        x: 1176
-        y: 1176
-        width: 392
-        height: 392
+        x: 1800
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_4
+      name: joystick_move_4
       rect:
         serializedVersion: 2
-        x: 1568
-        y: 1176
-        width: 392
-        height: 392
+        x: 2400
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_5
+      name: joystick_move_5
       rect:
         serializedVersion: 2
-        x: 1960
-        y: 1176
-        width: 392
-        height: 392
+        x: 3000
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_6
+      name: joystick_move_6
       rect:
         serializedVersion: 2
-        x: 2352
-        y: 1176
-        width: 392
-        height: 392
+        x: 3600
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_7
+      name: joystick_move_7
       rect:
         serializedVersion: 2
-        x: 2744
-        y: 1176
-        width: 392
-        height: 392
+        x: 4200
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_8
+      name: joystick_move_8
       rect:
         serializedVersion: 2
-        x: 3136
-        y: 1176
-        width: 392
-        height: 392
+        x: 4800
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_9
+      name: joystick_move_9
       rect:
         serializedVersion: 2
-        x: 3528
-        y: 1176
-        width: 392
-        height: 392
+        x: 5400
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_10
+      name: joystick_move_10
       rect:
         serializedVersion: 2
-        x: 0
-        y: 784
-        width: 392
-        height: 392
+        x: 6000
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_11
+      name: joystick_move_11
       rect:
         serializedVersion: 2
-        x: 392
-        y: 784
-        width: 392
-        height: 392
+        x: 6600
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_12
+      name: joystick_move_12
       rect:
         serializedVersion: 2
-        x: 784
-        y: 784
-        width: 392
-        height: 392
+        x: 7200
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_13
+      name: joystick_move_13
       rect:
         serializedVersion: 2
-        x: 1176
-        y: 784
-        width: 392
-        height: 392
+        x: 7800
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_14
+      name: joystick_move_14
       rect:
         serializedVersion: 2
-        x: 1568
-        y: 784
-        width: 392
-        height: 392
+        x: 8400
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_15
+      name: joystick_move_15
       rect:
         serializedVersion: 2
-        x: 1960
-        y: 784
-        width: 392
-        height: 392
+        x: 9000
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_16
+      name: joystick_move_16
       rect:
         serializedVersion: 2
-        x: 2352
-        y: 784
-        width: 392
-        height: 392
+        x: 9600
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_17
+      name: joystick_move_17
       rect:
         serializedVersion: 2
-        x: 2744
-        y: 784
-        width: 392
-        height: 392
+        x: 10200
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_18
+      name: joystick_move_18
       rect:
         serializedVersion: 2
-        x: 3136
-        y: 784
-        width: 392
-        height: 392
+        x: 10800
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_19
+      name: joystick_move_19
       rect:
         serializedVersion: 2
-        x: 3528
-        y: 784
-        width: 392
-        height: 392
+        x: 11400
+        y: 600
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_20
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 392
-        width: 392
-        height: 392
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: moveStick_21
-      rect:
-        serializedVersion: 2
-        x: 392
-        y: 392
-        width: 392
-        height: 392
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: moveStick_22
-      rect:
-        serializedVersion: 2
-        x: 784
-        y: 392
-        width: 392
-        height: 392
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: moveStick_23
-      rect:
-        serializedVersion: 2
-        x: 1176
-        y: 392
-        width: 392
-        height: 392
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: moveStick_24
-      rect:
-        serializedVersion: 2
-        x: 1568
-        y: 392
-        width: 392
-        height: 392
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: moveStick_25
-      rect:
-        serializedVersion: 2
-        x: 1960
-        y: 392
-        width: 392
-        height: 392
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: moveStick_26
-      rect:
-        serializedVersion: 2
-        x: 2352
-        y: 392
-        width: 392
-        height: 392
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: moveStick_27
-      rect:
-        serializedVersion: 2
-        x: 2744
-        y: 392
-        width: 392
-        height: 392
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: moveStick_28
-      rect:
-        serializedVersion: 2
-        x: 3136
-        y: 392
-        width: 392
-        height: 392
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: moveStick_29
-      rect:
-        serializedVersion: 2
-        x: 3528
-        y: 392
-        width: 392
-        height: 392
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: moveStick_30
+      name: joystick_move_20
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 392
-        height: 392
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_31
+      name: joystick_move_21
       rect:
         serializedVersion: 2
-        x: 392
+        x: 600
         y: 0
-        width: 392
-        height: 392
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_32
+      name: joystick_move_22
       rect:
         serializedVersion: 2
-        x: 784
+        x: 1200
         y: 0
-        width: 392
-        height: 392
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_33
+      name: joystick_move_23
       rect:
         serializedVersion: 2
-        x: 1176
+        x: 1800
         y: 0
-        width: 392
-        height: 392
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_34
+      name: joystick_move_24
       rect:
         serializedVersion: 2
-        x: 1568
+        x: 2400
         y: 0
-        width: 392
-        height: 392
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_35
+      name: joystick_move_25
       rect:
         serializedVersion: 2
-        x: 1960
+        x: 3000
         y: 0
-        width: 392
-        height: 392
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_36
+      name: joystick_move_26
       rect:
         serializedVersion: 2
-        x: 2352
+        x: 3600
         y: 0
-        width: 392
-        height: 392
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_37
+      name: joystick_move_27
       rect:
         serializedVersion: 2
-        x: 2744
+        x: 4200
         y: 0
-        width: 392
-        height: 392
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_38
+      name: joystick_move_28
       rect:
         serializedVersion: 2
-        x: 3136
+        x: 4800
         y: 0
-        width: 392
-        height: 392
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: moveStick_39
+      name: joystick_move_29
       rect:
         serializedVersion: 2
-        x: 3528
+        x: 5400
         y: 0
-        width: 392
-        height: 392
+        width: 600
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: joystick_move_30
+      rect:
+        serializedVersion: 2
+        x: 6000
+        y: 0
+        width: 600
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: joystick_move_31
+      rect:
+        serializedVersion: 2
+        x: 6600
+        y: 0
+        width: 600
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: joystick_move_32
+      rect:
+        serializedVersion: 2
+        x: 7200
+        y: 0
+        width: 600
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: joystick_move_33
+      rect:
+        serializedVersion: 2
+        x: 7800
+        y: 0
+        width: 600
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: joystick_move_34
+      rect:
+        serializedVersion: 2
+        x: 8400
+        y: 0
+        width: 600
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: joystick_move_35
+      rect:
+        serializedVersion: 2
+        x: 9000
+        y: 0
+        width: 600
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: joystick_move_36
+      rect:
+        serializedVersion: 2
+        x: 9600
+        y: 0
+        width: 600
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: joystick_move_37
+      rect:
+        serializedVersion: 2
+        x: 10200
+        y: 0
+        width: 600
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: joystick_move_38
+      rect:
+        serializedVersion: 2
+        x: 10800
+        y: 0
+        width: 600
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: joystick_move_39
+      rect:
+        serializedVersion: 2
+        x: 11400
+        y: 0
+        width: 600
+        height: 600
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
