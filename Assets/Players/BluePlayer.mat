@@ -124,7 +124,7 @@ Material:
       second: {r: 0, g: 1, b: 1, a: 1}
     - first:
         name: _EdgeColor
-      second: {r: 0, g: 0.67058825, b: 1, a: 1}
+      second: {r: 0, g: 0.8774848, b: 1, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
