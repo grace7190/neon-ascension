@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4934828181876870}
   - component: {fileID: 212789051411288320}
   - component: {fileID: 114148676934545918}
-  - component: {fileID: 95663110165286956}
+  - component: {fileID: 95768471391747274}
   m_Layer: 0
   m_Name: JumpTutorialIcon
   m_TagString: Untagged
@@ -42,7 +42,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &95663110165286956
+--- !u!95 &95768471391747274
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -51,7 +51,7 @@ Animator:
   m_GameObject: {fileID: 1507535641422230}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 09f9b5453a9244f3987c6a37bf6b2c30, type: 2}
+  m_Controller: {fileID: 9100000, guid: dcae8a5bf82af4eb09160075be3cb84e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
