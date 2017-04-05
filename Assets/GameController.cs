@@ -84,6 +84,6 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(delay);
         BlockColumnManager.Instance.CameraScrollEnabled = true;
         BlockColumnManager.Instance.BlockRainEnabled = true;
-        TeamLivesManager.Instance.DeathEnabled = true;
+        TeamLivesManager.Instance.enableHUD();
     }
 }
