@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class GameController : MonoBehaviour
 {
     public static GameController Instance;
 
+    public float EnableDelay = 10.0f;
     public bool IsStarted = false;
 	public KeyCode pauseKey;
 
@@ -68,4 +70,20 @@ public class GameController : MonoBehaviour
 	public void Exit() {
 		Application.Quit ();
 	}
+
+    public void EnableGame() {
+
+        TutorialIconManager.CanPerformTutorial = true;
+
+        StartCoroutine(EnableAfterDelay(EnableDelay));
+
+    }
+
+    IEnumerator EnableAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        BlockColumnManager.Instance.CameraScrollEnabled = true;
+        BlockColumnManager.Instance.BlockRainEnabled = true;
+        TeamLivesManager.Instance.DeathEnabled = true;
+    }
 }

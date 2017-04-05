@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TutorialIconManager : MonoBehaviour {
 
+    public static bool CanPerformTutorial = false;
+
     public static IconType[] TutorialIconOrder = 
         new IconType[5] 
             {
@@ -26,7 +28,7 @@ public class TutorialIconManager : MonoBehaviour {
 
     void Update()
     {
-        if (TutorialDidFinish == false)
+        if (TutorialDidFinish == false && CanPerformTutorial != false)
         {
             _iconManager.ShowIconForType(GetCurrentTutorialIcon());
         }
