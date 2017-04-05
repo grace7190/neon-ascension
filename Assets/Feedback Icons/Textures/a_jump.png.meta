@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: e04194043056744bb9e253ae61087f84
-timeCreated: 1491351897
+guid: d9c4396e0e7ae4e3ab111f6320619975
+timeCreated: 1491363468
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -11,39 +11,6 @@ TextureImporter:
     21300008: a_jump_4
     21300010: a_jump_5
     21300012: a_jump_6
-    21300014: a_jump_7
-    21300016: a_jump_8
-    21300018: a_jump_9
-    21300020: a_jump_10
-    21300022: a_jump_11
-    21300024: a_jump_12
-    21300026: a_jump_13
-    21300028: a_jump_14
-    21300030: a_jump_15
-    21300032: a_jump_16
-    21300034: a_jump_17
-    21300036: a_jump_18
-    21300038: a_jump_19
-    21300040: a_jump_20
-    21300042: a_jump_21
-    21300044: a_jump_22
-    21300046: a_jump_23
-    21300048: a_jump_24
-    21300050: a_jump_25
-    21300052: a_jump_26
-    21300054: a_jump_27
-    21300056: a_jump_28
-    21300058: a_jump_29
-    21300060: a_jump_30
-    21300062: a_jump_31
-    21300064: a_jump_32
-    21300066: a_jump_33
-    21300068: a_jump_34
-    21300070: a_jump_35
-    21300072: a_jump_36
-    21300074: a_jump_37
-    21300076: a_jump_38
-    21300078: a_jump_39
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -114,7 +81,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 600
+        y: 0
         width: 600
         height: 600
       alignment: 0
@@ -127,7 +94,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 600
-        y: 600
+        y: 0
         width: 600
         height: 600
       alignment: 0
@@ -140,7 +107,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1200
-        y: 600
+        y: 0
         width: 600
         height: 600
       alignment: 0
@@ -153,7 +120,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1800
-        y: 600
+        y: 0
         width: 600
         height: 600
       alignment: 0
@@ -166,7 +133,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2400
-        y: 600
+        y: 0
         width: 600
         height: 600
       alignment: 0
@@ -179,7 +146,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3000
-        y: 600
+        y: 0
         width: 600
         height: 600
       alignment: 0
@@ -192,435 +159,6 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 3600
-        y: 600
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_7
-      rect:
-        serializedVersion: 2
-        x: 4200
-        y: 600
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_8
-      rect:
-        serializedVersion: 2
-        x: 4800
-        y: 600
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_9
-      rect:
-        serializedVersion: 2
-        x: 5400
-        y: 600
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_10
-      rect:
-        serializedVersion: 2
-        x: 6000
-        y: 600
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_11
-      rect:
-        serializedVersion: 2
-        x: 6600
-        y: 600
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_12
-      rect:
-        serializedVersion: 2
-        x: 7200
-        y: 600
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_13
-      rect:
-        serializedVersion: 2
-        x: 7800
-        y: 600
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_14
-      rect:
-        serializedVersion: 2
-        x: 8400
-        y: 600
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_15
-      rect:
-        serializedVersion: 2
-        x: 9000
-        y: 600
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_16
-      rect:
-        serializedVersion: 2
-        x: 9600
-        y: 600
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_17
-      rect:
-        serializedVersion: 2
-        x: 10200
-        y: 600
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_18
-      rect:
-        serializedVersion: 2
-        x: 10800
-        y: 600
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_19
-      rect:
-        serializedVersion: 2
-        x: 11400
-        y: 600
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_20
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_21
-      rect:
-        serializedVersion: 2
-        x: 600
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_22
-      rect:
-        serializedVersion: 2
-        x: 1200
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_23
-      rect:
-        serializedVersion: 2
-        x: 1800
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_24
-      rect:
-        serializedVersion: 2
-        x: 2400
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_25
-      rect:
-        serializedVersion: 2
-        x: 3000
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_26
-      rect:
-        serializedVersion: 2
-        x: 3600
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_27
-      rect:
-        serializedVersion: 2
-        x: 4200
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_28
-      rect:
-        serializedVersion: 2
-        x: 4800
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_29
-      rect:
-        serializedVersion: 2
-        x: 5400
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_30
-      rect:
-        serializedVersion: 2
-        x: 6000
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_31
-      rect:
-        serializedVersion: 2
-        x: 6600
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_32
-      rect:
-        serializedVersion: 2
-        x: 7200
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_33
-      rect:
-        serializedVersion: 2
-        x: 7800
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_34
-      rect:
-        serializedVersion: 2
-        x: 8400
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_35
-      rect:
-        serializedVersion: 2
-        x: 9000
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_36
-      rect:
-        serializedVersion: 2
-        x: 9600
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_37
-      rect:
-        serializedVersion: 2
-        x: 10200
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_38
-      rect:
-        serializedVersion: 2
-        x: 10800
-        y: 0
-        width: 600
-        height: 600
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: a_jump_39
-      rect:
-        serializedVersion: 2
-        x: 11400
         y: 0
         width: 600
         height: 600
