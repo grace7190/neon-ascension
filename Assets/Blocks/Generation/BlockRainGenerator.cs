@@ -31,31 +31,39 @@ public class BlockRainGenerator : MonoBehaviour
 	    }
 	}
 
-    private void TrySpawn(int zIndex)
-    {
-        var openBlockColumns = new List<BlockColumn>();
-        for (var x = 0; x < BlockColumnManager.Width; x++)
-        {
-            var blockColumn = BlockColumnManager.Instance.BlockColumns[x, zIndex];
-            var isColumnTopOpen = blockColumn.Blocks.Count == 0 ||
-                GetBlockSpawnPosition(blockColumn).y - blockColumn.Blocks[blockColumn.Blocks.Count - 1].transform.position.y >= 1;
-            if (isColumnTopOpen)
-            {
-                openBlockColumns.Add(blockColumn);
-            }
-        }
+	public void TrySpawn(int zIndex, bool isRow = false)
+	{
+		var openBlockColumns = new List<BlockColumn> ();
+		for (var x = 0; x < BlockColumnManager.Width; x++) {
+			var blockColumn = BlockColumnManager.Instance.BlockColumns [x, zIndex];
+			var isColumnTopOpen = blockColumn.Blocks.Count == 0 ||
+			                      GetBlockSpawnPosition (blockColumn).y - blockColumn.Blocks [blockColumn.Blocks.Count - 1].transform.position.y >= 1;
+			if (isColumnTopOpen) {
+				openBlockColumns.Add (blockColumn);
+			}
+		}
 
-        if (openBlockColumns.Count > 0)
-        {
-            var i = Random.Range(0, openBlockColumns.Count);
-            var openBlockColumn = openBlockColumns[i];
-            var block = Instantiate(BlockPrefab);
-            block.transform.position = GetBlockSpawnPosition(openBlockColumn);
-            block.transform.position = block.transform.position.RoundToInt();
-            openBlockColumn.Add(block);
-            block.GetComponent<Block>().MakeFallAfterDelay(FallDelay);
-            SetupNextSpawn();
-        }
+		if (openBlockColumns.Count > 0) {
+			if (!isRow) {
+				var i = Random.Range (0, openBlockColumns.Count);
+				var openBlockColumn = openBlockColumns [i];
+				var block = Instantiate (BlockPrefab);
+				block.transform.position = GetBlockSpawnPosition (openBlockColumn);
+				block.transform.position = block.transform.position.RoundToInt ();
+				openBlockColumn.Add (block);
+				block.GetComponent<Block> ().MakeFallAfterDelay (FallDelay);
+				SetupNextSpawn ();
+			} else {
+				for (int i = 0; i < openBlockColumns.Count; i++) {
+					var openBlockColumn = openBlockColumns [i];
+					var block = Instantiate (BlockPrefab);
+					block.transform.position = GetBlockSpawnPosition (openBlockColumn);
+					block.transform.position = block.transform.position.RoundToInt ();
+					openBlockColumn.Add (block);
+					block.GetComponent<Block> ().MakeFallAfterDelay (FallDelay);
+				}
+			}
+		}
     }
 
     private void SetupNextSpawn()

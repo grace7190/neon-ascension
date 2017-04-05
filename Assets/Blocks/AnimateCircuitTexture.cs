@@ -28,7 +28,6 @@ public class AnimateCircuitTexture : MonoBehaviour {
 
     private IEnumerator TextureChangeCoroutine(float duration)
     {
-        //maybe this should call itself.............
         var mat = gameObject.GetComponent<Renderer>().material;
 
         currTxtrIdx = newTxtrIdx;
@@ -47,6 +46,5 @@ public class AnimateCircuitTexture : MonoBehaviour {
         }
         StartCoroutine(TextureChangeCoroutine(duration));
     }
-
-    //every some seconds, spawn a new instance at +20yposition
+    
 }
