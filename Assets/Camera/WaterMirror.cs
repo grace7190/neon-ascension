@@ -99,25 +99,37 @@ using UnityEngine;
 
                 if (cam.gameObject.GetComponent<MirrorCamera>())
                 {
+                Debug.Log("cake1");
                     // Let Mirror Camera handle the culling matrix
-                    reflectionCamera.gameObject.AddComponent<MirrorCamera>();
+                    //reflectionCamera.gameObject.AddComponent<MirrorCamera>();
+                    reflectionCamera.cullingMask = ~(1 << 4) & reflectLayers.value; // never render water layer
+                    reflectionCamera.targetTexture = m_ReflectionTexture;
+                    reflectionCamera.transform.position = newpos;
+                    Vector3 euler = cam.transform.eulerAngles;
+                    reflectionCamera.transform.eulerAngles = new Vector3(-euler.x, euler.y, euler.z);
+                    reflectionCamera.Render();
+                    reflectionCamera.transform.position = oldpos;
+                    GetComponent<Renderer>().sharedMaterial.SetTexture("_ReflectionTex", m_ReflectionTexture);
+
                 }
                 else {
                     // Set custom culling matrix from the current camera
                     reflectionCamera.cullingMatrix = cam.projectionMatrix * cam.worldToCameraMatrix;
+
+                    reflectionCamera.cullingMask = ~(1 << 4) & reflectLayers.value; // never render water layer
+                    reflectionCamera.targetTexture = m_ReflectionTexture;
+                    bool oldCulling = GL.invertCulling;
+                    GL.invertCulling = !oldCulling;
+                    reflectionCamera.transform.position = newpos;
+                    Vector3 euler = cam.transform.eulerAngles;
+                    reflectionCamera.transform.eulerAngles = new Vector3(-euler.x, euler.y, euler.z);
+                    reflectionCamera.Render();
+                    reflectionCamera.transform.position = oldpos;
+                    GL.invertCulling = oldCulling;
+                    GetComponent<Renderer>().sharedMaterial.SetTexture("_ReflectionTex", m_ReflectionTexture);
                 }
 
-                reflectionCamera.cullingMask = ~(1 << 4) & reflectLayers.value; // never render water layer
-                reflectionCamera.targetTexture = m_ReflectionTexture;
-                bool oldCulling = GL.invertCulling;
-                GL.invertCulling = !oldCulling;
-                reflectionCamera.transform.position = newpos;
-                Vector3 euler = cam.transform.eulerAngles;
-                reflectionCamera.transform.eulerAngles = new Vector3(-euler.x, euler.y, euler.z);
-                reflectionCamera.Render();
-                reflectionCamera.transform.position = oldpos;
-                GL.invertCulling = oldCulling;
-                GetComponent<Renderer>().sharedMaterial.SetTexture("_ReflectionTex", m_ReflectionTexture);
+               
             }
 
             // Render refraction
@@ -133,6 +145,7 @@ using UnityEngine;
                 // Set custom culling matrix from the current camera
                 if (cam.gameObject.GetComponent<MirrorCamera>())
                 {
+                Debug.Log("cak2e");
                     // Let Mirror Camera handle the culling matrix
                     refractionCamera.gameObject.AddComponent<MirrorCamera>();
                 }
