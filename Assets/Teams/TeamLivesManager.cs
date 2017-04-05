@@ -13,6 +13,8 @@ public class TeamLivesManager : MonoBehaviour
     private int _blueLives = MaxLives;
     private int _purpleLives = MaxLives;
 
+	private BlockRainGenerator blockRainGenerator;
+
     public GameObject blueLivesIcon;
     public GameObject purpleLivesIcon; 
 	public GameObject livesText;
@@ -30,6 +32,7 @@ public class TeamLivesManager : MonoBehaviour
         UpdateHud();
 		SFXDeath = GetComponent<AudioSource>();
         DeathEnabled = false;
+		blockRainGenerator = GameObject.Find ("BlockColumnManager").GetComponent<BlockRainGenerator> ();
 		//SFXDeath = audioSource;
     }
 
@@ -124,10 +127,17 @@ public class TeamLivesManager : MonoBehaviour
     private IEnumerator RespawnCoroutine(GameObject playerGameObject)
     {
         var playerController = playerGameObject.GetComponent<PlayerController>();
+		int playerNumber = playerGameObject.GetComponent<PlayerJoystickInputManager> ().PlayerNumber;
         var team = playerController.Team;
 
         playerController.PerformDeathCleanup();
         playerController.DisplayTutorialOnSpawn = false;
+
+		if (playerNumber == 1) {
+			blockRainGenerator.TrySpawn (0, true);
+		} else {
+			blockRainGenerator.TrySpawn (2, true);
+		}
 
         yield return new WaitForSeconds(RespawnDelay);
 
